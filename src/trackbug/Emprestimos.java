@@ -10,8 +10,7 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import static trackbug.TrackBug.buscarEquipamentoPorCodigo;
-import static trackbug.TrackBug.buscarFuncionarioPorCodigo;
+
 
 
 public class Emprestimos{
@@ -105,7 +104,7 @@ public class Emprestimos{
     }
     
     
-     public static void carregarEmprestimos(List<Emprestimos> listaEmprestimos) {
+     public static void carregarEmprestimos(List<Emprestimos> listaEmprestimos, List<Funcionario> listafuncionarios, List<Equipamento> listaequipamentos) {
     //listaEmprestimos = new ArrayList<>();
 
     try (BufferedReader reader = new BufferedReader(new FileReader("emprestimos_ativos.txt"))) {
@@ -125,8 +124,8 @@ public class Emprestimos{
                 LocalDateTime dataRetornoPrevista = LocalDateTime.parse(dataRetornoPrevistaLinha.substring(26).trim());
                 String observacoes = observacoesLinha.substring(13).trim(); 
 
-                Funcionario funcionario = buscarFuncionarioPorCodigo(funcionarioCodigo);
-                Equipamento equipamento = buscarEquipamentoPorCodigo(equipamentoCodigo);
+                Funcionario funcionario = Funcionario.buscarFuncionarioPorCodigo(linha, List<Funcionario> listafuncionarios);
+                Equipamento equipamento = Equipamento.buscarEquipamentoPorCodigo(linha, listaEquipamentos);
 
                 if (funcionario != null && equipamento != null) {
                     Emprestimos emprestimo = new Emprestimos(funcionario, equipamento, dataSaida, dataRetornoPrevista, observacoes);
@@ -150,7 +149,7 @@ public class Emprestimos{
       public static void registrarEmprestimo(List<Emprestimos> listaEmprestimos, List<Funcionario> listafuncionarios, List<Equipamento> listaEquipamentos, Scanner scanner) {
     System.out.println("Digite o codigo do funcionario: ");
     String codigoFuncionario = scanner.nextLine();
-    Funcionario funcionario = buscarFuncionarioPorCodigo(codigoFuncionario);
+    Funcionario funcionario = Funcionario.buscarFuncionarioPorCodigo(codigoFuncionario, listafuncionarios);
     if (funcionario == null) {
         System.out.println("Funcionario nao encontrado!");
         return;
@@ -158,7 +157,7 @@ public class Emprestimos{
     
     System.out.println("Digite o codigo do equipamento a ser emprestado: ");
     String codigoEquipamento = scanner.nextLine();
-    Equipamento equipamento = buscarEquipamentoPorCodigo(codigoEquipamento);
+    Equipamento equipamento = Equipamento.buscarEquipamentoPorCodigo(codigoEquipamento, listaEquipamentos);
     if (equipamento == null) {
         System.out.println("Equipamento nao encontrado!");
         return;
