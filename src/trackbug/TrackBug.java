@@ -22,7 +22,9 @@ public class TrackBug {
         public static void main(String[] args) {
             carregarFuncionarios();
             carregarEquipamentos();
-            carregarEmprestimos();
+            Emprestimos.carregarEmprestimos(listaEmprestimos);
+            System.out.println("Emprestimos ativos carregados: " + listaEmprestimos.size());
+
             exibirmenu();
         }
     public static void carregarFuncionarios() {
@@ -46,7 +48,7 @@ public class TrackBug {
                 reader.readLine();
             }
         }
-        System.out.println("Funcionários carregados com sucesso!");
+        System.out.println("Funcionarios carregados com sucesso!");
     } catch (IOException e) {
         System.out.println("Erro ao carregar os funcionários: " + e.getMessage());
     }
@@ -84,47 +86,7 @@ public class TrackBug {
     }
 }
 
-    public static void carregarEmprestimos() {
-    listaEmprestimos = new ArrayList<>();
-
-    try (BufferedReader reader = new BufferedReader(new FileReader("emprestimos.txt"))) {
-        String linha;
-
-        while ((linha = reader.readLine()) != null) {
-            if (linha.startsWith("Emprestimos Ativos:")) {
-                String funcionarioLinha = reader.readLine();
-                String equipamentoLinha = reader.readLine();
-                String dataSaidaLinha = reader.readLine();
-                String dataRetornoPrevistaLinha = reader.readLine();
-                String observacoesLinha = reader.readLine();
-
-                String funcionarioCodigo = funcionarioLinha.substring(12, funcionarioLinha.indexOf(" - ")).trim(); 
-                String equipamentoCodigo = equipamentoLinha.substring(12, equipamentoLinha.indexOf(" - ")).trim(); 
-                LocalDateTime dataSaida = LocalDateTime.parse(dataSaidaLinha.substring(15).trim()); 
-                LocalDateTime dataRetornoPrevista = LocalDateTime.parse(dataRetornoPrevistaLinha.substring(26).trim());
-                String observacoes = observacoesLinha.substring(13).trim(); 
-
-                Funcionario funcionario = buscarFuncionarioPorCodigo(funcionarioCodigo);
-                Equipamento equipamento = buscarEquipamentoPorCodigo(equipamentoCodigo);
-
-                if (funcionario != null && equipamento != null) {
-                    Emprestimos emprestimo = new Emprestimos(funcionario, equipamento, dataSaida, dataRetornoPrevista, observacoes);
-                    listaEmprestimos.add(emprestimo);
-                }
-
-                // Lê a linha de separador "================"
-                reader.readLine();
-            }
-        }
-
-        System.out.println("Empréstimos carregados com sucesso!");
-
-    } catch (IOException e) {
-        System.out.println("Erro ao carregar os empréstimos: " + e.getMessage());
-    } catch (DateTimeParseException e) {
-        System.out.println("Erro ao analisar a data: " + e.getParsedString());
-    }
-}
+   
 
 
 
@@ -148,13 +110,13 @@ public class TrackBug {
             
             switch(opcao){
                 case 1:
-                    registrarEmprestimo();
+                    Emprestimos.registrarEmprestimo(listaEmprestimos, listafuncionarios, listaEquipamentos, scanner);
                     break;
                 case 2:
-                    registrarDevolucao();
+                    Emprestimos.registrarDevolucao(listaEmprestimos, scanner);
                     break;
                 case 3:
-                    listarEmprestimosAtivos();
+                    Emprestimos.listarEmprestimosAtivos(listaEmprestimos);
                     break;
                 case 4:
                     System.out.println("Opcao em desenvolvimento!!");
@@ -192,126 +154,20 @@ public class TrackBug {
         System.out.println("==================");
     }
 }
-    public static void listarEmprestimosAtivos() {
-    System.out.println("Emprstimos Ativos:");
-
-    for (Emprestimos emprestimo : listaEmprestimos) {
-        if (emprestimo.getDataRetornoEfetiva() == null) {
-            System.out.println("Equipamento: " + emprestimo.getequipamento().getcodigo() + " - " + emprestimo.getequipamento().getdescricao());
-            System.out.println("Funcionario: " + emprestimo.getfuncionario().getcodigo()+ " - " + emprestimo.getfuncionario().getnome());
-            System.out.println("Data de Saida: " + emprestimo.getDataSaida());
-            System.out.println("Data Prevista de Retorno: " + emprestimo.getDataRetornoPrevista());
-            System.out.println("Observacoes: " + emprestimo.getobservacoes());
-            System.out.println("--------------------------------------------------");
-        }
-    }
-}
-
-
- public static void registrarEmprestimo() {
-    System.out.println("Digite o codigo do funcionario: ");
-    String codigoFuncionario = scanner.nextLine();
-    Funcionario funcionario = buscarFuncionarioPorCodigo(codigoFuncionario);
-    if (funcionario == null) {
-        System.out.println("Funcionario nao encontrado!");
-        return;
-    }
-    
-    System.out.println("Digite o codigo do equipamento a ser emprestado: ");
-    String codigoEquipamento = scanner.nextLine();
-    Equipamento equipamento = buscarEquipamentoPorCodigo(codigoEquipamento);
-    if (equipamento == null) {
-        System.out.println("Equipamento nao encontrado!");
-        return;
-    }
-    
-    System.out.println("Digite o numero de dias de emprestimo: ");
-    int diasDeEmprestimo = scanner.nextInt();
-    scanner.nextLine();  // Limpar o buffer do scanner
-    
-    System.out.println("Digite observacoes sobre o emprestismo (motivo do emprestimo...): ");
-    String observacoes = scanner.nextLine();
-    
-    // Calcular as datas de saída e retorno previstas
-    LocalDateTime dataSaida = LocalDateTime.now();
-    LocalDateTime dataRetornoPrevista = dataSaida.plusDays(diasDeEmprestimo);
-    
-    // Criar o objeto Emprestimos usando os objetos Funcionario e Equipamento
-    Emprestimos novoEmprestimo = new Emprestimos(funcionario, equipamento, dataSaida, dataRetornoPrevista, observacoes);
-    listaEmprestimos.add(novoEmprestimo);
-    
-    System.out.println("Empréstimo registrado com sucesso!");
-    System.out.println("Equipamento: " + novoEmprestimo.getequipamento().getcodigo() + " - " + novoEmprestimo.getequipamento().getdescricao());
-    System.out.println("Funcionário: " + novoEmprestimo.getfuncionario().getnome());
-    System.out.println("Data de saída: " + novoEmprestimo.getDataSaida());
-    System.out.println("Data prevista de retorno: " + novoEmprestimo.getDataRetornoPrevista());
-    
-    // Registrar apenas o novo empréstimo no arquivo
-    registrarEmprestimoEmArquivo(novoEmprestimo);
-}
-
-
-
-    
-  public static void registrarEmprestimoEmArquivo(Emprestimos emprestimo) {
-    try (BufferedWriter writer = new BufferedWriter(new FileWriter("emprestimos.txt", true))) {
-        writer.write("Emprestimos Ativos: ");
-        writer.newLine();
-        writer.write("Funcionario: " + emprestimo.getfuncionario().getcodigo() + " - " + emprestimo.getfuncionario().getnome());
-        writer.newLine();
-        writer.write("Equipamento: " + emprestimo.getequipamento().getcodigo() + " - " + emprestimo.getequipamento().getdescricao());
-        writer.newLine();
-        writer.write("Data de saída: " + emprestimo.getDataSaida());
-        writer.newLine();
-        writer.write("Data prevista de retorno: " + emprestimo.getDataRetornoPrevista());
-        writer.newLine();
-        writer.write("Observações: " + emprestimo.getobservacoes());
-        writer.newLine();
-        writer.write("================================================");
-        writer.newLine();
-    } catch (IOException e) {
-        System.out.println("Erro ao registrar o empréstimo no arquivo: " + e.getMessage());
-    }
-}
   
-  public static void registrarDevolucao() {
-    System.out.println("Digite o código do funcionário: ");
-    String codigoFuncionario = scanner.nextLine();
-    Funcionario funcionario = buscarFuncionarioPorCodigo(codigoFuncionario);
-    if (funcionario == null) {
-        System.out.println("Funcionário não encontrado!");
-        return;
-    }
 
-    System.out.println("Digite o código do equipamento: ");
-    String codigoEquipamento = scanner.nextLine();
-    Equipamento equipamento = buscarEquipamentoPorCodigo(codigoEquipamento);
-    if (equipamento == null) {
-        System.out.println("Equipamento não encontrado!");
-        return;
-    }
 
-    // Verifica se existe um empréstimo ativo para esse equipamento
-    Emprestimos emprestimo = listaEmprestimos.stream()
-        .filter(e -> e.getequipamento().getcodigo().equals(codigoEquipamento) && e.getDataRetornoEfetiva() == null)
-        .findFirst()
-        .orElse(null);
 
-    if (emprestimo == null) {
-        System.out.println("Nenhum empréstimo ativo encontrado para este equipamento.");
-        return;
-    }
 
-    // Registra a devolução com a data atual do sistema
-    LocalDateTime dataAtual = LocalDateTime.now();
-    emprestimo.registrarDevolucao(dataAtual, "Devolução realizada.");
 
-    System.out.println("Devolução registrada com sucesso!");
-    System.out.println("Data da devolução: " + dataAtual);
+    
+  
+  
+  
 
-    // Atualiza o arquivo de empréstimos após registrar a devolução
-    registrarEmprestimoEmArquivo(emprestimo);
-}
+  
+
+
 
 
 

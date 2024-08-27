@@ -74,4 +74,15 @@ public class Equipamento {
     public void setestadoConservacao(String estadoConservacao){
         this.estadoConservacao=estadoConservacao;
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }
