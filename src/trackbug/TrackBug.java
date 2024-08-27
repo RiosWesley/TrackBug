@@ -9,6 +9,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.Scanner;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 
 
@@ -52,32 +53,25 @@ public class TrackBug {
     }
    public static void carregarEquipamentos() {
     listaEquipamentos = new ArrayList<>();
-
+    
     try (BufferedReader reader = new BufferedReader(new FileReader("equipamentos.txt"))) {
         String linha;
-        Equipamento equipamento = null;
-
+        
         while ((linha = reader.readLine()) != null) {
-            // Verifica se a linha começa com "Codigo: "
             if (linha.startsWith("Codigo: ")) {
                 String codigo = linha.substring(8);
                 String descricao = reader.readLine().substring(11);
-
-                String dataCompraStr = reader.readLine().substring(16);
-                LocalDate dataCompra = LocalDate.parse(dataCompraStr);
-
+                LocalDate dataCompra = LocalDate.parse(reader.readLine().substring(16));
                 double peso = Double.parseDouble(reader.readLine().substring(6));
                 double largura = Double.parseDouble(reader.readLine().substring(9));
-                double comprimento = Double.parseDouble(reader.readLine().substring(12));  // Esta linha deve existir e seguir a ordem correta
-
-                String historicoManutencao = reader.readLine().substring(25);
+                double comprimento = Double.parseDouble(reader.readLine().substring(12));
+                String historicoManutencao = reader.readLine();
                 String estadoConservacao = reader.readLine().substring(23);
 
-                equipamento = new Equipamento(codigo, descricao, dataCompra, peso, largura, comprimento, historicoManutencao, estadoConservacao);
+                Equipamento equipamento = new Equipamento(codigo, descricao, dataCompra, peso, largura, comprimento, historicoManutencao, estadoConservacao);
                 listaEquipamentos.add(equipamento);
-
-                // Leitura da linha separadora (================)
-                reader.readLine();
+                
+                reader.readLine(); // Lê a linha de separador "================"
             }
         }
         System.out.println("Equipamentos carregados com sucesso!");
@@ -89,6 +83,50 @@ public class TrackBug {
         System.out.println("Erro ao analisar a data: " + e.getParsedString());
     }
 }
+
+    public static void carregarEmprestimos() {
+    listaEmprestimos = new ArrayList<>();
+
+    try (BufferedReader reader = new BufferedReader(new FileReader("emprestimos.txt"))) {
+        String linha;
+
+        while ((linha = reader.readLine()) != null) {
+            if (linha.startsWith("Emprestimos Ativos:")) {
+                String funcionarioLinha = reader.readLine();
+                String equipamentoLinha = reader.readLine();
+                String dataSaidaLinha = reader.readLine();
+                String dataRetornoPrevistaLinha = reader.readLine();
+                String observacoesLinha = reader.readLine();
+
+                String funcionarioCodigo = funcionarioLinha.substring(12, funcionarioLinha.indexOf(" - ")).trim(); 
+                String equipamentoCodigo = equipamentoLinha.substring(12, equipamentoLinha.indexOf(" - ")).trim(); 
+                LocalDateTime dataSaida = LocalDateTime.parse(dataSaidaLinha.substring(15).trim()); 
+                LocalDateTime dataRetornoPrevista = LocalDateTime.parse(dataRetornoPrevistaLinha.substring(26).trim());
+                String observacoes = observacoesLinha.substring(13).trim(); 
+
+                Funcionario funcionario = buscarFuncionarioPorCodigo(funcionarioCodigo);
+                Equipamento equipamento = buscarEquipamentoPorCodigo(equipamentoCodigo);
+
+                if (funcionario != null && equipamento != null) {
+                    Emprestimos emprestimo = new Emprestimos(funcionario, equipamento, dataSaida, dataRetornoPrevista, observacoes);
+                    listaEmprestimos.add(emprestimo);
+                }
+
+                // Lê a linha de separador "================"
+                reader.readLine();
+            }
+        }
+
+        System.out.println("Empréstimos carregados com sucesso!");
+
+    } catch (IOException e) {
+        System.out.println("Erro ao carregar os empréstimos: " + e.getMessage());
+    } catch (DateTimeParseException e) {
+        System.out.println("Erro ao analisar a data: " + e.getParsedString());
+    }
+}
+
+
 
 
 
@@ -113,10 +151,10 @@ public class TrackBug {
                     registrarEmprestimo();
                     break;
                 case 2:
-                    System.out.println("Opcao em desenvolvimento!!");
+                    registrarDevolucao();
                     break;
                 case 3:
-                    System.out.println("Opcao em desenvolvimento!!");
+                    listarEmprestimosAtivos();
                     break;
                 case 4:
                     System.out.println("Opcao em desenvolvimento!!");
@@ -142,9 +180,7 @@ public class TrackBug {
             }
         }
     }
-    //public static void carregarEmprestimos(){
-      //  try (BufferedReader reader = new BufferedReader(new FileReader("Empres")))
-    //}
+   
     public static void listarfuncionarios(){
 
     System.out.println("Funcionarios cadastrados: \n");
@@ -156,53 +192,130 @@ public class TrackBug {
         System.out.println("==================");
     }
 }
+    public static void listarEmprestimosAtivos() {
+    System.out.println("Emprstimos Ativos:");
 
-    public static void registrarEmprestimo(){
-        System.out.println("Digite o codigo do funcionario: ");
-        String codigoFuncionario = scanner.nextLine();
-        Funcionario funcionario = buscarFuncionarioPorCodigo(codigoFuncionario);
-        if (funcionario == null) {
-            System.out.println("Funcionario nao encontrado!");
-            return;
+    for (Emprestimos emprestimo : listaEmprestimos) {
+        if (emprestimo.getDataRetornoEfetiva() == null) {
+            System.out.println("Equipamento: " + emprestimo.getequipamento().getcodigo() + " - " + emprestimo.getequipamento().getdescricao());
+            System.out.println("Funcionario: " + emprestimo.getfuncionario().getcodigo()+ " - " + emprestimo.getfuncionario().getnome());
+            System.out.println("Data de Saida: " + emprestimo.getDataSaida());
+            System.out.println("Data Prevista de Retorno: " + emprestimo.getDataRetornoPrevista());
+            System.out.println("Observacoes: " + emprestimo.getobservacoes());
+            System.out.println("--------------------------------------------------");
         }
-        
-        System.out.println("Digite o codigo do equipamento a ser emprestado: ");
-        String codigoEquipamento = scanner.nextLine();
-        Equipamento equipamento = buscarEquipamentoPorCodigo(codigoEquipamento);
-        if (equipamento == null) {
-            System.out.println("Equipamento nao encontrado!");
-            return;
-        }
-        
-        System.out.println("Digite o numero de dias de emprestimo: ");
-        int diasDeEmprestimo = scanner.nextInt();
-        scanner.nextLine();
-        System.out.println("Digite observacoes sobre o emprestismo (motivo do emprestimo...)");
-        String observacoes = scanner.nextLine();
-        
-        emprestimoAtual = Emprestimos.registrarEmprestimo(funcionario, equipamento, diasDeEmprestimo, observacoes);
-        System.out.println("Empréstimo registrado com sucesso!");
-        System.out.println("Equipamento: " + emprestimoAtual.getequipamento().getcodigo() + emprestimoAtual.getequipamento().getdescricao());
-        System.out.println("Funcionário: " + emprestimoAtual.getfuncionario().getnome());
-        System.out.println("Data de saída: " + emprestimoAtual.getDataSaida());
-        System.out.println("Data prevista de retorno: " + emprestimoAtual.getDataRetornoPrevista());
-        
-        registrarEmprestimoEmArquivo(emprestimoAtual);
-    }
-    
-    private static void registrarEmprestimoEmArquivo(Emprestimos emprestimo) {
-    try (BufferedWriter writer = new BufferedWriter(new FileWriter("emprestimos.txt", true))) {
-        writer.write("Empréstimo registrado:\n");
-        writer.write("Funcionário: " + emprestimo.getfuncionario().getnome() + "\n");
-        writer.write("Equipamento: " + emprestimo.getequipamento().getdescricao() + "\n");
-        writer.write("Data de saída: " + emprestimo.getDataSaida() + "\n");
-        writer.write("Data prevista de retorno: " + emprestimo.getDataRetornoPrevista() + "\n");
-        writer.write("Observações: " + emprestimo.getobservacoes() + "\n");
-        writer.write("================\n");
-    } catch (IOException e) {
-        System.out.println("Erro ao gravar o empréstimo no arquivo: " + e.getMessage());
     }
 }
+
+
+ public static void registrarEmprestimo() {
+    System.out.println("Digite o codigo do funcionario: ");
+    String codigoFuncionario = scanner.nextLine();
+    Funcionario funcionario = buscarFuncionarioPorCodigo(codigoFuncionario);
+    if (funcionario == null) {
+        System.out.println("Funcionario nao encontrado!");
+        return;
+    }
+    
+    System.out.println("Digite o codigo do equipamento a ser emprestado: ");
+    String codigoEquipamento = scanner.nextLine();
+    Equipamento equipamento = buscarEquipamentoPorCodigo(codigoEquipamento);
+    if (equipamento == null) {
+        System.out.println("Equipamento nao encontrado!");
+        return;
+    }
+    
+    System.out.println("Digite o numero de dias de emprestimo: ");
+    int diasDeEmprestimo = scanner.nextInt();
+    scanner.nextLine();  // Limpar o buffer do scanner
+    
+    System.out.println("Digite observacoes sobre o emprestismo (motivo do emprestimo...): ");
+    String observacoes = scanner.nextLine();
+    
+    // Calcular as datas de saída e retorno previstas
+    LocalDateTime dataSaida = LocalDateTime.now();
+    LocalDateTime dataRetornoPrevista = dataSaida.plusDays(diasDeEmprestimo);
+    
+    // Criar o objeto Emprestimos usando os objetos Funcionario e Equipamento
+    Emprestimos novoEmprestimo = new Emprestimos(funcionario, equipamento, dataSaida, dataRetornoPrevista, observacoes);
+    listaEmprestimos.add(novoEmprestimo);
+    
+    System.out.println("Empréstimo registrado com sucesso!");
+    System.out.println("Equipamento: " + novoEmprestimo.getequipamento().getcodigo() + " - " + novoEmprestimo.getequipamento().getdescricao());
+    System.out.println("Funcionário: " + novoEmprestimo.getfuncionario().getnome());
+    System.out.println("Data de saída: " + novoEmprestimo.getDataSaida());
+    System.out.println("Data prevista de retorno: " + novoEmprestimo.getDataRetornoPrevista());
+    
+    // Registrar apenas o novo empréstimo no arquivo
+    registrarEmprestimoEmArquivo(novoEmprestimo);
+}
+
+
+
+    
+  public static void registrarEmprestimoEmArquivo(Emprestimos emprestimo) {
+    try (BufferedWriter writer = new BufferedWriter(new FileWriter("emprestimos.txt", true))) {
+        writer.write("Emprestimos Ativos: ");
+        writer.newLine();
+        writer.write("Funcionario: " + emprestimo.getfuncionario().getcodigo() + " - " + emprestimo.getfuncionario().getnome());
+        writer.newLine();
+        writer.write("Equipamento: " + emprestimo.getequipamento().getcodigo() + " - " + emprestimo.getequipamento().getdescricao());
+        writer.newLine();
+        writer.write("Data de saída: " + emprestimo.getDataSaida());
+        writer.newLine();
+        writer.write("Data prevista de retorno: " + emprestimo.getDataRetornoPrevista());
+        writer.newLine();
+        writer.write("Observações: " + emprestimo.getobservacoes());
+        writer.newLine();
+        writer.write("================================================");
+        writer.newLine();
+    } catch (IOException e) {
+        System.out.println("Erro ao registrar o empréstimo no arquivo: " + e.getMessage());
+    }
+}
+  
+  public static void registrarDevolucao() {
+    System.out.println("Digite o código do funcionário: ");
+    String codigoFuncionario = scanner.nextLine();
+    Funcionario funcionario = buscarFuncionarioPorCodigo(codigoFuncionario);
+    if (funcionario == null) {
+        System.out.println("Funcionário não encontrado!");
+        return;
+    }
+
+    System.out.println("Digite o código do equipamento: ");
+    String codigoEquipamento = scanner.nextLine();
+    Equipamento equipamento = buscarEquipamentoPorCodigo(codigoEquipamento);
+    if (equipamento == null) {
+        System.out.println("Equipamento não encontrado!");
+        return;
+    }
+
+    // Verifica se existe um empréstimo ativo para esse equipamento
+    Emprestimos emprestimo = listaEmprestimos.stream()
+        .filter(e -> e.getequipamento().getcodigo().equals(codigoEquipamento) && e.getDataRetornoEfetiva() == null)
+        .findFirst()
+        .orElse(null);
+
+    if (emprestimo == null) {
+        System.out.println("Nenhum empréstimo ativo encontrado para este equipamento.");
+        return;
+    }
+
+    // Registra a devolução com a data atual do sistema
+    LocalDateTime dataAtual = LocalDateTime.now();
+    emprestimo.registrarDevolucao(dataAtual, "Devolução realizada.");
+
+    System.out.println("Devolução registrada com sucesso!");
+    System.out.println("Data da devolução: " + dataAtual);
+
+    // Atualiza o arquivo de empréstimos após registrar a devolução
+    registrarEmprestimoEmArquivo(emprestimo);
+}
+
+
+
+
     public static void registrarFuncionario() {
     System.out.println("Digite o código do funcionário: ");
     String codigoFuncionario = scanner.nextLine();
@@ -259,6 +372,7 @@ public class TrackBug {
         writer.write("Data da compra: "+ novoEquipamento.getdataCompra()+ "\n");
         writer.write("Peso: "+ novoEquipamento.getpeso()+"\n");
         writer.write("Largura: "+ novoEquipamento.getlargura()+"\n");
+        writer.write("Comprimento: " + novoEquipamento.getcomprimento()+ "\n");
         writer.write("Historico de manutencao: "+ novoEquipamento.gethistoricoManutencao()+"\n");
         writer.write("Estado de conservacao: "+ novoEquipamento.getestadoConservacao()+"\n");
         writer.write("================================================\n");
@@ -277,6 +391,7 @@ public class TrackBug {
             System.out.println("Data da compra: "+e.getdataCompra());
             System.out.println("Peso: "+e.getpeso());
             System.out.println("Largura: "+e.getlargura());
+            System.out.println("Comprimento: "+e.getcomprimento());
             System.out.println("Historico de manutencao: "+e.gethistoricoManutencao());
             System.out.println("Estado de conservacao: "+e.getestadoConservacao());
             System.out.println("========================================");

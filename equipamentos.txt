@@ -1,0 +1,10 @@
+
+Codigo: E001
+Descricao: Iphone 15 Pro
+Data da compra: 2023-02-23
+Peso: 230.0
+Largura: 7.0
+Comprimento: 17.0
+Historico de manutencao: Nao
+Estado de conservacao: Bom
+================================================

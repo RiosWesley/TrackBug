@@ -7,9 +7,8 @@ import java.time.LocalDateTime;
 
 public class Emprestimos{
 
-    static Emprestimos registrarEmprestimo(Funcionario funcionario, Equipamento equipamento, int diasDeEmprestimo, String observacoes) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+    
+    
     private Funcionario funcionario;
     private Equipamento equipamento;
     private LocalDateTime dataSaida;
@@ -25,6 +24,7 @@ public class Emprestimos{
         this.funcionario=funcionario;
         this.equipamento=equipamento;
     }
+
 
     
     public LocalDateTime getDataSaida() {
@@ -71,13 +71,14 @@ public class Emprestimos{
     public void setfuncionario(Funcionario funcionario){
         this.funcionario=funcionario;
     }
-    public static void registrarEmprestimo(){
-        System.out.println("Sei la lek");
-    }
+
+    
     public void registrarDevolucao(LocalDateTime dataRetornoEfetiva, String observacoes){
         this.dataRetornoEfetiva=dataRetornoEfetiva;
         this.observacoes=observacoes;
     }
+    
+    
     
     public boolean Atrasado(){
         if (dataRetornoEfetiva != null){
@@ -86,18 +87,7 @@ public class Emprestimos{
             return LocalDateTime.now().isAfter(dataRetornoPrevista);
         }
     }
-    public void salvarEmArquivo(){
-        try(BufferedWriter writer = new BufferedWriter(new FileWriter("RegistroEmprestimos.txt", true))){
-           writer.write("Funcionario: " + funcionario.getnome());
-           writer.write(", Equipamento: " + equipamento.getdescricao());
-           writer.write(", Data de Saída: " + dataSaida);
-           writer.write(", Data de Retorno Prevista: " + dataRetornoPrevista);
-           writer.write(", Observacoes: " + observacoes);
-           writer.newLine();
-        } catch (IOException e) {
-            System.out.println("Erro ao salvar o emprestimo no arquivo: " + e.getMessage());
-        }
-    }
+    
     
     
 
