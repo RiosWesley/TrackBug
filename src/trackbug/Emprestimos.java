@@ -7,7 +7,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -124,8 +123,9 @@ public class Emprestimos{
                 LocalDateTime dataRetornoPrevista = LocalDateTime.parse(dataRetornoPrevistaLinha.substring(26).trim());
                 String observacoes = observacoesLinha.substring(13).trim(); 
 
-                Funcionario funcionario = Funcionario.buscarFuncionarioPorCodigo(linha, List<Funcionario> listafuncionarios);
-                Equipamento equipamento = Equipamento.buscarEquipamentoPorCodigo(linha, listaEquipamentos);
+                Funcionario funcionario = Funcionario.buscarFuncionarioPorCodigo(funcionarioCodigo, listafuncionarios);
+                Equipamento equipamento = Equipamento.buscarEquipamentoPorCodigo(equipamentoCodigo, listaequipamentos);
+                
 
                 if (funcionario != null && equipamento != null) {
                     Emprestimos emprestimo = new Emprestimos(funcionario, equipamento, dataSaida, dataRetornoPrevista, observacoes);
@@ -223,7 +223,7 @@ public class Emprestimos{
 }
     
     public static void listarEmprestimosAtivos(List<Emprestimos> listaEmprestimos) {
-    System.out.println("Emprstimos Ativos:");
+    System.out.println("Emprestimos Ativos:");
 
     for (Emprestimos emprestimo : listaEmprestimos) {
         if (emprestimo.getDataRetornoEfetiva() == null) {

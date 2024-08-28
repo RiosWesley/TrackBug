@@ -2,15 +2,7 @@ package trackbug;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.BufferedWriter;
-import java.io.IOException;
 import java.util.Scanner;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeParseException;
 
 
 public class TrackBug {
@@ -24,18 +16,11 @@ public class TrackBug {
             System.out.println("Funcionarios Carregados: "+ listafuncionarios.size());
             Equipamento.carregarEquipamentos(listaEquipamentos);
             System.out.println("Equipamentos Carregados: " + listaEquipamentos.size());
-            Emprestimos.carregarEmprestimos(listaEmprestimos);
+            Emprestimos.carregarEmprestimos(listaEmprestimos, listafuncionarios, listaEquipamentos);
             System.out.println("Emprestimos ativos carregados: " + listaEmprestimos.size());
 
             exibirmenu();
         }
-   
-   
-
-   
-
-
-
 
 
     public static void exibirmenu(){
@@ -89,41 +74,6 @@ public class TrackBug {
         }
     }
    
-    
-    
-
-
-
-
-
-    
-  
-  
-  
-
-  
-
-
-
-
-
-
-    
-    
-    
-    
-   
-    
-    
-       // Funcionario funcionario = new Funcionario("123", "Joao", "Técnico", "2022-01-01");
-        //Equipamento equipamento = new Equipamento("E001", "Smartphone", LocalDate.now(), 7, 20, 20, "Nenhuma Manutencao", "Bom");
-
-       // Emprestimos novoEmprestimo = Emprestimos.registrarEmprestimo(funcionario, equipamento, 7, "Empréstimo para trabalho remoto");
-       // System.out.println("Emprestimo registrado para o equipamento: " + novoEmprestimo.getequipamento().getdescricao());
-       // System.out.println("Funcionario responsavel: " + novoEmprestimo.getfuncionario().getnome());
-        //System.out.println("Data de saida: " + novoEmprestimo.getDataSaida());
-        //System.out.println("Data prevista de retorno: " + novoEmprestimo.getDataRetornoPrevista());
-    //}
 
     
     }
