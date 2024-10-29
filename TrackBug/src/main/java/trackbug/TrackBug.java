@@ -9,7 +9,7 @@ public class TrackBug {
     public static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
-        // Chama o metodo que estabelece conexao com o banco de dados
+        // Chama o metodo que estabelece conexao com o banco de dadosasdadasd
         getConnection();
 
         // Exibe o menu principal do sistema
