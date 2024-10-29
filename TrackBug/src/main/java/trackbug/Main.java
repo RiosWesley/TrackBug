@@ -16,6 +16,15 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+        // Exibe a tela de login
+        LoginForm loginForm = new LoginForm();
+        Scene loginScene = new Scene(loginForm, 1000, 900);
+        primaryStage.setScene(loginScene);
+        primaryStage.setTitle("Login - TrackBug");
+        primaryStage.show();
+    }
+
+    public void carregarTelaPrincipal(Stage primaryStage) {
         // Layout principal
         BorderPane root = new BorderPane();
         root.setStyle("-fx-background-color: #f4f4f4;");
@@ -177,11 +186,11 @@ public class Main extends Application {
         root.setCenter(scrollPane);
 
         // Configuração da janela
-        Scene scene = new Scene(root, 1200, 800);
+        Scene mainScene = new Scene(root, 1200, 800);
+        primaryStage.setScene(mainScene);
         primaryStage.setTitle("TrackBug - Sistema de Gerenciamento");
         primaryStage.setMinWidth(1000);
         primaryStage.setMinHeight(600);
-        primaryStage.setScene(scene);
         primaryStage.show();
     }
 
