@@ -1,5 +1,6 @@
 package trackbug;
 
+import trackbug.model.NivelAcesso;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -13,6 +14,25 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
     private VBox areaPrincipal;
+
+    // Declaração das labels de seção
+    private Label labelEmprestimos;
+    private Label labelEquipamentos;
+    private Label labelFuncionarios;
+    private Label labelRelatorios;
+    private Label labelAdministracao;
+
+    // Declaração dos botões
+    private Button btnEmprestimos;
+    private Button btnDevolucao;
+    private Button btnListarAtivos;
+    private Button btnListarAtrasos;
+    private Button btnRegistrarEquip;
+    private Button btnListarEquip;
+    private Button btnCadastrarFunc;
+    private Button btnListarFunc;
+    private Button btnHistorico;
+    private Button btnGerenciarUsuarios;
 
     @Override
     public void start(Stage primaryStage) {
@@ -60,25 +80,24 @@ public class Main extends Application {
 
         headerBox.getChildren().addAll(titulo, subtitulo);
 
-        // Seções do menu
-        Label labelEmprestimos = criarLabelSecao("EMPRÉSTIMOS");
-        Label labelEquipamentos = criarLabelSecao("EQUIPAMENTOS");
-        Label labelFuncionarios = criarLabelSecao("FUNCIONÁRIOS");
-        Label labelRelatorios = criarLabelSecao("RELATÓRIOS");
+        // Inicialização das labels de seção
+        labelEmprestimos = criarLabelSecao("EMPRÉSTIMOS");
+        labelEquipamentos = criarLabelSecao("EQUIPAMENTOS");
+        labelFuncionarios = criarLabelSecao("FUNCIONÁRIOS");
+        labelRelatorios = criarLabelSecao("RELATÓRIOS");
+        labelAdministracao = criarLabelSecao("ADMINISTRAÇÃO");
 
-        // Botões
-        Button btnEmprestimos = criarBotaoMenu("Registrar Empréstimo", "📋");
-        Button btnDevolucao = criarBotaoMenu("Registrar Devolução", "↩");
-        Button btnListarAtivos = criarBotaoMenu("Empréstimos Ativos", "📊");
-        Button btnListarAtrasos = criarBotaoMenu("Empréstimos em Atraso", "⚠");
-
-        Button btnRegistrarEquip = criarBotaoMenu("Registrar Equipamento", "📦");
-        Button btnListarEquip = criarBotaoMenu("Listar Equipamentos", "📋");
-
-        Button btnCadastrarFunc = criarBotaoMenu("Cadastrar Funcionários", "👤");
-        Button btnListarFunc = criarBotaoMenu("Listar Funcionários", "👥");
-
-        Button btnHistorico = criarBotaoMenu("Histórico", "📅");
+        // Inicialização dos botões
+        btnEmprestimos = criarBotaoMenu("Registrar Empréstimo", "📋");
+        btnDevolucao = criarBotaoMenu("Registrar Devolução", "↩");
+        btnListarAtivos = criarBotaoMenu("Empréstimos Ativos", "📊");
+        btnListarAtrasos = criarBotaoMenu("Empréstimos em Atraso", "⚠");
+        btnRegistrarEquip = criarBotaoMenu("Registrar Equipamento", "📦");
+        btnListarEquip = criarBotaoMenu("Listar Equipamentos", "📋");
+        btnCadastrarFunc = criarBotaoMenu("Cadastrar Funcionários", "👤");
+        btnListarFunc = criarBotaoMenu("Listar Funcionários", "👥");
+        btnHistorico = criarBotaoMenu("Histórico", "📅");
+        btnGerenciarUsuarios = criarBotaoMenu("Gerenciar Usuários", "👥");
 
         // Área principal
         areaPrincipal = new VBox(20);
@@ -132,10 +151,31 @@ public class Main extends Application {
                 btnCadastrarFunc,
                 btnListarFunc,
                 labelRelatorios,
-                btnHistorico
+                btnHistorico,
+                labelAdministracao,
+                btnGerenciarUsuarios
         );
 
         // Event handlers dos botões
+        configurarEventHandlers();
+
+        // Verificar permissões
+        verificarPermissoes();
+
+        // Layout final
+        root.setLeft(menuLateral);
+        root.setCenter(scrollPane);
+
+        // Configuração da janela
+        Scene scene = new Scene(root, 1200, 800);
+        primaryStage.setScene(scene);
+        primaryStage.setTitle("TrackBug - Sistema de Gerenciamento");
+        primaryStage.setMinWidth(1000);
+        primaryStage.setMinHeight(600);
+        primaryStage.show();
+    }
+
+    private void configurarEventHandlers() {
         btnEmprestimos.setOnAction(e -> {
             areaPrincipal.getChildren().clear();
             areaPrincipal.getChildren().add(new EmprestimoForm());
@@ -181,17 +221,16 @@ public class Main extends Application {
             areaPrincipal.getChildren().add(new HistoricoEmprestimosForm());
         });
 
-        // Layout final
-        root.setLeft(menuLateral);
-        root.setCenter(scrollPane);
+        btnGerenciarUsuarios.setOnAction(e -> {
+            areaPrincipal.getChildren().clear();
+            areaPrincipal.getChildren().add(new GerenciamentoPermissoesForm());
+        });
+    }
 
-        // Configuração da janela
-        Scene mainScene = new Scene(root, 1200, 800);
-        primaryStage.setScene(mainScene);
-        primaryStage.setTitle("TrackBug - Sistema de Gerenciamento");
-        primaryStage.setMinWidth(1000);
-        primaryStage.setMinHeight(600);
-        primaryStage.show();
+    private void verificarPermissoes() {
+        boolean isAdmin = SessionManager.getUsuarioLogado().getNivelAcesso() == NivelAcesso.ADMIN.getNivel();
+        labelAdministracao.setVisible(isAdmin);
+        btnGerenciarUsuarios.setVisible(isAdmin);
     }
 
     private Label criarLabelSecao(String texto) {
