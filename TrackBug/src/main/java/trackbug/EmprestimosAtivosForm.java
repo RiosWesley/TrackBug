@@ -156,6 +156,9 @@ public class EmprestimosAtivosForm extends VBox {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
+        Connection connEquip = null;
+        PreparedStatement stmtEquip = null;
+        ResultSet rsEquip = null;
 
         try {
             conn = ConnectionFactory.getConnection();
@@ -163,18 +166,31 @@ public class EmprestimosAtivosForm extends VBox {
             stmt = conn.prepareStatement(sql);
             rs = stmt.executeQuery();
 
-            while (rs.next()) {
-                Emprestimos emprestimo = new Emprestimos();
-                emprestimo.setId(rs.getInt("id"));
-                emprestimo.setIdFuncionario(rs.getString("idFuncionario"));
-                emprestimo.setIdEquipamento(rs.getString("idEquipamento"));
-                emprestimo.setDataSaida(rs.getTimestamp("dataSaida").toLocalDateTime());
-                emprestimo.setDataRetornoPrevista(rs.getTimestamp("dataRetornoPrevista").toLocalDateTime());
-                emprestimo.setObservacoes(rs.getString("observacoes"));
-                emprestimo.setQuantidadeEmprestimo(rs.getInt("quantidadeEmprestimo"));
-                emprestimo.setAtivo(rs.getBoolean("ativo"));
+            connEquip = ConnectionFactory.getConnection();
+            String emprestaveis = "SELECT tipo FROM equipamentos WHERE id = ?";
+            stmtEquip = connEquip.prepareStatement(emprestaveis);
 
-                emprestimos.add(emprestimo);
+
+            while (rs.next()) {
+
+                stmtEquip.setString(1, rs.getString("idEquipamento"));
+                rsEquip = stmtEquip.executeQuery();
+                while(rsEquip.next()){
+                    Emprestimos emprestimo = new Emprestimos();
+                    if(rsEquip.getBoolean("tipo") == false) {
+                        emprestimo.setId(rs.getInt("id"));
+                        emprestimo.setIdFuncionario(rs.getString("idFuncionario"));
+                        emprestimo.setIdEquipamento(rs.getString("idEquipamento"));
+                        emprestimo.setDataSaida(rs.getTimestamp("dataSaida").toLocalDateTime());
+                        emprestimo.setDataRetornoPrevista(rs.getTimestamp("dataRetornoPrevista").toLocalDateTime());
+                        emprestimo.setObservacoes(rs.getString("observacoes"));
+                        emprestimo.setQuantidadeEmprestimo(rs.getInt("quantidadeEmprestimo"));
+                        emprestimo.setAtivo(rs.getBoolean("ativo"));
+
+                        emprestimos.add(emprestimo);
+                    }
+                }
+
             }
 
             tabelaEmprestimos.setItems(emprestimos);

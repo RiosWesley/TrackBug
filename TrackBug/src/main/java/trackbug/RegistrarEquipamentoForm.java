@@ -114,7 +114,6 @@ public class RegistrarEquipamentoForm extends VBox {
         botoesBox.getChildren().addAll(btnSalvar, btnLimpar);
 
         // Eventos
-        campoTipo.setOnAction(e -> atualizarCamposQuantidade());
         btnSalvar.setOnAction(e -> salvarEquipamento());
         btnLimpar.setOnAction(e -> limparFormulario());
 
@@ -165,14 +164,6 @@ public class RegistrarEquipamentoForm extends VBox {
         grid.add(labelNode, 0, linha);
         grid.add(campo, 1, linha);
         GridPane.setHgrow(campo, Priority.ALWAYS);
-    }
-
-    private void atualizarCamposQuantidade() {
-        boolean isConsumivel = "Consumível".equals(campoTipo.getValue());
-        campoQuantidadeMinima.setDisable(!isConsumivel);
-        if (!isConsumivel) {
-            campoQuantidadeMinima.clear();
-        }
     }
 
     private void salvarEquipamento() {
@@ -301,6 +292,5 @@ public class RegistrarEquipamentoForm extends VBox {
         campoQuantidadeInicial.clear();
         campoQuantidadeMinima.clear();
         campoObservacoes.clear();
-        atualizarCamposQuantidade();
     }
 }

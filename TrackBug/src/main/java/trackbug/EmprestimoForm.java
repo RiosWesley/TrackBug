@@ -268,7 +268,6 @@ public class EmprestimoForm extends VBox {
 
             String funcionarioId = funcionarioIds.get(funcionarioCombo.getValue());
             String equipamentoId = equipamentoIds.get(equipamentoCombo.getValue());
-
             stmt.setString(1, funcionarioId);
             stmt.setString(2, equipamentoId);
             stmt.setDate(3, java.sql.Date.valueOf(dataDevolucao.getValue()));
@@ -324,7 +323,6 @@ public class EmprestimoForm extends VBox {
     private boolean validarCampos() {
         if (funcionarioCombo.getValue() == null ||
                 equipamentoCombo.getValue() == null ||
-                dataDevolucao.getValue() == null ||
                 quantidadeField.getText().isEmpty()) {
 
             mostrarAlerta("Campos obrigatórios", "Por favor, preencha todos os campos obrigatórios.");
@@ -338,13 +336,26 @@ public class EmprestimoForm extends VBox {
         int quantAtual = 0;
         String equipamentoSelecionado = equipamentoCombo.getValue();
         try{
-            String sql = "SELECT quantidadeAtual FROM equipamentos WHERE id = ?";
+            String sql = "SELECT quantidadeAtual, tipo FROM equipamentos WHERE id = ?";
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, equipamentoIds.get(equipamentoSelecionado));
             rs = stmt.executeQuery();
             if (rs.next()) {
                 quantAtual = rs.getInt("quantidadeAtual");
+                if(rs.getBoolean("tipo") == false) {
+                    if (dataDevolucao.getValue() == null) {
+                        mostrarAlerta("Campos obrigatórios", "Como é um item emprestável, é necessário uma data de retorno.");
+                        return false;
+                    }
+                    if (dataDevolucao.getValue().isBefore(LocalDate.now())) {
+                        mostrarAlerta("Data inválida", "A data de devolução não pode ser anterior à data atual.");
+                        return false;
+                    }
+                }else {
+                    dataDevolucao.setValue(LocalDate.now());
+                }
             }
+
         } catch (SQLException e) {
             mostrarAlerta("ERRO", "NAQUILO MERMO");
             return false;
@@ -363,11 +374,6 @@ public class EmprestimoForm extends VBox {
             }
         } catch (NumberFormatException e) {
             mostrarAlerta("Quantidade inválida", "Por favor, insira um número válido para a quantidade.");
-            return false;
-        }
-
-        if (dataDevolucao.getValue().isBefore(LocalDate.now())) {
-            mostrarAlerta("Data inválida", "A data de devolução não pode ser anterior à data atual.");
             return false;
         }
 
@@ -408,6 +414,7 @@ public class EmprestimoForm extends VBox {
 
     private void atualizarInfoEquipamento() {
         String equipamentoSelecionado = equipamentoCombo.getValue();
+        String equipamentoId = equipamentoIds.get(equipamentoSelecionado);
         if (equipamentoSelecionado != null) {
             Connection conn = null;
             PreparedStatement stmt = null;
@@ -415,17 +422,19 @@ public class EmprestimoForm extends VBox {
 
             try {
                 conn = ConnectionFactory.getConnection();
-                String sql = "SELECT quantidadeAtual, quantidadeEstoque FROM equipamentos WHERE id = ?";
+                String sql = "SELECT tipo, quantidadeAtual, quantidadeEstoque FROM equipamentos WHERE id = ?";
                 stmt = conn.prepareStatement(sql);
-                stmt.setString(1, equipamentoIds.get(equipamentoSelecionado));
+                stmt.setString(1, equipamentoId);
                 rs = stmt.executeQuery();
 
                 if (rs.next()) {
                     int quantAtual = rs.getInt("quantidadeAtual");
                     int quantTotal = rs.getInt("quantidadeEstoque");
-                    equipamentoInfoLabel.setText(
-                            String.format("Disponível: %d unidades (Total: %d)", quantAtual, quantTotal)
-                    );
+                    equipamentoInfoLabel.setText(String.format("Disponível: %d unidades (Total: %d)", quantAtual, quantTotal));
+                    dataDevolucao.setDisable(rs.getBoolean("tipo"));
+                    if(rs.getBoolean("tipo") == true){
+                        dataDevolucao.setValue(null);
+                    }
                 }
             } catch (SQLException e) {
                 equipamentoInfoLabel.setText("Erro ao carregar informações do equipamento");
@@ -433,5 +442,6 @@ public class EmprestimoForm extends VBox {
                 ConnectionFactory.closeConnection(conn, stmt, rs);
             }
         }
+
     }
 }
