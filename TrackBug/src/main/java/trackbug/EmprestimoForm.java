@@ -4,7 +4,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -272,17 +271,47 @@ public class EmprestimoForm extends VBox {
 
             stmt.setString(1, funcionarioId);
             stmt.setString(2, equipamentoId);
-            stmt.setDate(3, Date.valueOf(dataDevolucao.getValue()));
+            stmt.setDate(3, java.sql.Date.valueOf(dataDevolucao.getValue()));
             stmt.setString(4, observacoes.getText());
             stmt.setInt(5, Integer.parseInt(quantidadeField.getText()));
 
             stmt.executeUpdate();
 
             // Atualizar o status do equipamento
-            sql = "UPDATE equipamentos SET status = 'Emprestado', " +
-                    "quantidadeAtual = quantidadeAtual - ? WHERE id = ?";
+            sql = "SELECT tipo, quantidadeAtual FROM equipamentos WHERE id = ?";
             stmt = conn.prepareStatement(sql);
-            stmt.setInt(1, Integer.parseInt(quantidadeField.getText()));
+            stmt.setString(1, equipamentoId);
+            ResultSet rs = stmt.executeQuery();
+            String opcao = "";
+            int quantidadeAtual = 0;
+
+            while(rs.next()){
+                if(rs.getBoolean("tipo") == false && rs.getInt("quantidadeAtual") == 0) {
+                    quantidadeAtual = rs.getInt("quantidadeAtual") - Integer.parseInt(quantidadeField.getText());
+                    opcao = "UPDATE equipamentos SET status = 'Emprestado', " +
+                            "quantidadeAtual = ? WHERE id = ?";
+
+                }else if (rs.getBoolean("tipo") == true && rs.getInt("quantidadeAtual") == 0){
+                    quantidadeAtual = rs.getInt("quantidadeAtual") - Integer.parseInt(quantidadeField.getText());
+                    opcao = "UPDATE equipamentos SET status = 'Emprestado', " +
+                            "quantidadeAtual = ?, quantidadeEstoque = quantidadeAtual WHERE id = ?";
+
+                }
+                else if (rs.getBoolean("tipo") == false && rs.getInt("quantidadeAtual") > 0){
+                    quantidadeAtual = rs.getInt("quantidadeAtual") - Integer.parseInt(quantidadeField.getText());
+                    opcao = "UPDATE equipamentos SET status = 'Disponível', " +
+                            "quantidadeAtual = ?, quantidadeEstoque = quantidadeAtual WHERE id = ?";
+
+                }
+                else if (rs.getBoolean("tipo") == true && rs.getInt("quantidadeAtual") > 0){
+                    quantidadeAtual = rs.getInt("quantidadeAtual") - Integer.parseInt(quantidadeField.getText());
+                    opcao = "UPDATE equipamentos SET status = 'Disponível', " +
+                            "quantidadeAtual = ?, quantidadeEstoque = quantidadeAtual WHERE id = ?";
+
+                }
+            }
+            stmt = conn.prepareStatement(opcao);
+            stmt.setInt(1, quantidadeAtual);
             stmt.setString(2, equipamentoId);
             stmt.executeUpdate();
 
@@ -356,6 +385,7 @@ public class EmprestimoForm extends VBox {
         alert.setContentText(mensagem);
         alert.showAndWait();
     }
+
     private void atualizarInfoEquipamento() {
         String equipamentoSelecionado = equipamentoCombo.getValue();
         if (equipamentoSelecionado != null) {

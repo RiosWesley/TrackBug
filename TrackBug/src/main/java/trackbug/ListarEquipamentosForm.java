@@ -129,6 +129,12 @@ public class ListarEquipamentosForm extends VBox {
                         String.valueOf(cellData.getValue().getQuantidadeEstoque())));
         colunaQuantidadeEstoque.setStyle("-fx-alignment: CENTER;");
 
+        TableColumn<Equipamento, String> colunaQuantidadeMinima = new TableColumn<>("Qtd. Mínima");
+        colunaQuantidadeMinima.setCellValueFactory(cellData ->
+                new javafx.beans.property.SimpleStringProperty(
+                        String.valueOf(cellData.getValue().getQuantidadeMinima())));
+        colunaQuantidadeMinima.setStyle("-fx-alignment: CENTER;");
+
         TableColumn<Equipamento, String> colunaTipo = new TableColumn<>("Tipo");
         colunaTipo.setCellValueFactory(cellData ->
                 new javafx.beans.property.SimpleStringProperty(
@@ -141,13 +147,15 @@ public class ListarEquipamentosForm extends VBox {
             if (eq.isTipo()) { // Consumível
                 if (eq.getQuantidadeAtual() == 0) {
                     status = "Estoque baixo";
-                } else if (eq.getQuantidadeAtual() < eq.getQuantidadeEstoque() * 0.2) {
+                } else if (eq.getQuantidadeAtual() < eq.getQuantidadeMinima()) {
                     status = "Estoque baixo";
                 } else {
                     status = "Disponível";
                 }
             } else { // Emprestável
-                if (eq.getQuantidadeAtual() == eq.getQuantidadeEstoque()) {
+                if (eq.getQuantidadeAtual() < eq.getQuantidadeMinima()) {
+                    status = "Estoque baixo";
+                } else if (eq.getQuantidadeAtual() == eq.getQuantidadeEstoque()) {
                     status = "Disponível";
                 } else if (eq.getQuantidadeAtual() == 0) {
                     status = "Em uso";
@@ -234,6 +242,7 @@ public class ListarEquipamentosForm extends VBox {
                 colunaDimensoes,
                 colunaQuantidadeAtual,
                 colunaQuantidadeEstoque,
+                colunaQuantidadeMinima,
                 colunaTipo,
                 colunaStatus,
                 colunaAcoes
@@ -278,6 +287,7 @@ public class ListarEquipamentosForm extends VBox {
                 equipamento.setComprimento(rs.getDouble("comprimento"));
                 equipamento.setQuantidadeAtual(rs.getInt("quantidadeAtual"));
                 equipamento.setQuantidadeEstoque(rs.getInt("quantidadeEstoque"));
+                equipamento.setQuantidadeMinima(rs.getInt(("quantidadeMinima")));
                 equipamento.setTipo(rs.getBoolean("tipo"));
 
                 equipamentos.add(equipamento);
@@ -343,6 +353,7 @@ public class ListarEquipamentosForm extends VBox {
 
         tabelaEquipamentos.setItems(dadosFiltrados);
     }
+
     private void editarEquipamento(Equipamento equipamento) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Editar Equipamento");

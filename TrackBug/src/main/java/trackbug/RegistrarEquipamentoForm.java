@@ -186,8 +186,8 @@ public class RegistrarEquipamentoForm extends VBox {
         try {
             conn = ConnectionFactory.getConnection();
             String sql = "INSERT INTO equipamentos (id, descricao, dataCompra, peso, largura, " +
-                    "comprimento, quantidadeAtual, quantidadeEstoque, tipo) " +
-                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    "comprimento, quantidadeAtual, quantidadeEstoque, tipo, quantidadeMinima) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, campoId.getText());
@@ -196,12 +196,12 @@ public class RegistrarEquipamentoForm extends VBox {
             stmt.setDouble(4, Double.parseDouble(campoPeso.getText()));
             stmt.setDouble(5, Double.parseDouble(campoLargura.getText()));
             stmt.setDouble(6, Double.parseDouble(campoComprimento.getText()));
-
+            int quantidadeMinima = Integer.parseInt(campoQuantidadeMinima.getText());
             int quantidadeInicial = Integer.parseInt(campoQuantidadeInicial.getText());
             stmt.setInt(7, quantidadeInicial); // quantidadeAtual
             stmt.setInt(8, quantidadeInicial); // quantidadeEstoque
             stmt.setBoolean(9, "Consumível".equals(campoTipo.getValue()));
-
+            stmt.setInt(10, quantidadeMinima); // quantidadeMinima
             stmt.executeUpdate();
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);

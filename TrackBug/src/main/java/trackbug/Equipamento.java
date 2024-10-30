@@ -1,8 +1,12 @@
 package trackbug;
 
-import java.sql.*;
 import java.time.LocalDate;
 import java.util.Scanner;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.ResultSet;
+import java.sql.Date;
 
 public class Equipamento {
 
@@ -15,6 +19,7 @@ public class Equipamento {
     private int quantidadeAtual;
     private boolean tipo;
     private int quantidadeEstoque;
+    private int quantidadeMinima;
 
     // Getters
     public String getId() {
@@ -53,11 +58,15 @@ public class Equipamento {
         return tipo;
     }
 
+    public int getQuantidadeMinima() {
+        return quantidadeMinima;
+    }
+
     // Setters
     public void setId(String id) {
         this.id = id;
     }
-    
+
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
@@ -88,5 +97,9 @@ public class Equipamento {
 
     public void setTipo(boolean tipo) {
         this.tipo = tipo;
+    }
+
+    public void setQuantidadeMinima(int quantidadeMinima) {
+        this.quantidadeMinima = quantidadeMinima;
     }
 }
