@@ -43,6 +43,7 @@ public class ListarEquipamentosForm extends VBox {
         toolBar.setStyle("-fx-background-color: #f8f9fa; -fx-background-radius: 5px;");
 
         campoBusca = new TextField();
+        campoBusca.textProperty().addListener((obs, oldValue, newValue) -> filtrarEquipamentos());
         campoBusca.setPromptText("Buscar equipamento...");
         campoBusca.setPrefWidth(300);
         campoBusca.setStyle(
@@ -54,6 +55,7 @@ public class ListarEquipamentosForm extends VBox {
         );
 
         filtroTipo = new ComboBox<>();
+        filtroTipo.setOnAction(e -> filtrarEquipamentos());
         filtroTipo.setItems(FXCollections.observableArrayList(
                 "Todos",
                 "Emprestáveis",
@@ -63,6 +65,7 @@ public class ListarEquipamentosForm extends VBox {
         filtroTipo.setStyle("-fx-font-family: 'Segoe UI'; -fx-font-size: 14px;");
 
         filtroStatus = new ComboBox<>();
+        filtroStatus.setOnAction(e -> filtrarEquipamentos());
         filtroStatus.setItems(FXCollections.observableArrayList(
                 "Todos",
                 "Disponível",
@@ -294,10 +297,19 @@ public class ListarEquipamentosForm extends VBox {
     }
 
     private void filtrarEquipamentos() {
+        // Se a tabela ainda não foi inicializada, retorne
         if (tabelaEquipamentos.getItems() == null) return;
 
-        FilteredList<Equipamento> dadosFiltrados = new FilteredList<>(tabelaEquipamentos.getItems());
+        // Obtém todos os equipamentos novamente se não houver filtros ativos
+        if (campoBusca.getText().isEmpty() &&
+                filtroTipo.getValue().equals("Todos") &&
+                filtroStatus.getValue().equals("Todos")) {
+            carregarEquipamentos();
+            return;
+        }
 
+        // Caso contrário, aplica os filtros na lista atual
+        FilteredList<Equipamento> dadosFiltrados = new FilteredList<>(tabelaEquipamentos.getItems());
         dadosFiltrados.setPredicate(equipamento -> {
             boolean matchBusca = campoBusca.getText().isEmpty() ||
                     equipamento.getDescricao().toLowerCase().contains(campoBusca.getText().toLowerCase()) ||
