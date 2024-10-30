@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" spacing="15" style="-fx-background-color: linear-gradient(to bottom right, #1a237e, #0d47a1);"
+      xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="trackbug.controller.LoginController">
+    <padding>
+        <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+    </padding>
+    <children>
+        <VBox alignment="CENTER" spacing="5">
+            <Label text="Bem-vindo ao TrackBug" textFill="WHITE">
+                <font>
+                    <Font name="Segoe UI Bold" size="24.0" />
+                </font>
+            </Label>
+            <Label text="Faça login para continuar" textFill="#90caf9">
+                <font>
+                    <Font name="Segoe UI" size="14.0" />
+                </font>
+            </Label>
+        </VBox>
+
+        <Label fx:id="mensagemErro" textFill="#ff1744" visible="false">
+            <font>
+                <Font name="Segoe UI" size="12.0" />
+            </font>
+        </Label>
+
+        <TextField fx:id="usernameField" maxWidth="300" promptText="Usuário" styleClass="login-field">
+            <font>
+                <Font name="Segoe UI" size="14.0" />
+            </font>
+        </TextField>
+
+        <PasswordField fx:id="passwordField" maxWidth="300" promptText="Senha" styleClass="login-field">
+            <font>
+                <Font name="Segoe UI" size="14.0" />
+            </font>
+        </PasswordField>
+
+        <Button fx:id="loginButton" maxWidth="300" mnemonicParsing="false" onAction="#realizarLogin"
+                styleClass="login-button" text="Entrar">
+            <font>
+                <Font name="Segoe UI Bold" size="14.0" />
+            </font>
+        </Button>
+    </children>
+</VBox>

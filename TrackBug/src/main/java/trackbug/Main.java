@@ -1,285 +1,41 @@
 package trackbug;
 
-import trackbug.model.NivelAcesso;
 import javafx.application.Application;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-    private VBox areaPrincipal;
-
-    // Declaração das labels de seção
-    private Label labelEmprestimos;
-    private Label labelEquipamentos;
-    private Label labelFuncionarios;
-    private Label labelRelatorios;
-    private Label labelAdministracao;
-
-    // Declaração dos botões
-    private Button btnEmprestimos;
-    private Button btnDevolucao;
-    private Button btnListarAtivos;
-    private Button btnListarAtrasos;
-    private Button btnRegistrarEquip;
-    private Button btnListarEquip;
-    private Button btnCadastrarFunc;
-    private Button btnListarFunc;
-    private Button btnHistorico;
-    private Button btnGerenciarUsuarios;
-
     @Override
-    public void start(Stage primaryStage) {
-        // Exibe a tela de login
-        LoginForm loginForm = new LoginForm();
-        Scene loginScene = new Scene(loginForm, 1000, 900);
-        primaryStage.setScene(loginScene);
+    public void start(Stage primaryStage) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/login.fxml"));
+        Scene scene = new Scene(root, 1000, 900);
+
+        // Carrega os estilos
+        scene.getStylesheets().add(getClass().getResource("/styles/styles.css").toExternalForm());
+
         primaryStage.setTitle("Login - TrackBug");
-        primaryStage.show();
-    }
-
-    public void carregarTelaPrincipal(Stage primaryStage) {
-        // Layout principal
-        BorderPane root = new BorderPane();
-        root.setStyle("-fx-background-color: #f4f4f4;");
-
-        // Menu lateral com gradiente e sombra
-        VBox menuLateral = new VBox(5);
-        menuLateral.setPadding(new Insets(15));
-        menuLateral.setStyle(
-                "-fx-background-color: linear-gradient(to bottom right, #1a237e, #0d47a1);" +
-                        "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 10, 0, 0, 0);"
-        );
-        menuLateral.setPrefWidth(250);
-
-        // Título do sistema com ícone
-        VBox headerBox = new VBox(10);
-        headerBox.setAlignment(Pos.CENTER);
-        headerBox.setPadding(new Insets(0, 0, 20, 0));
-
-        Label titulo = new Label("TrackBug");
-        titulo.setStyle(
-                "-fx-text-fill: white;" +
-                        "-fx-font-size: 28px;" +
-                        "-fx-font-weight: bold;" +
-                        "-fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;"
-        );
-
-        Label subtitulo = new Label("Sistema de Gerenciamento");
-        subtitulo.setStyle(
-                "-fx-text-fill: #90caf9;" +
-                        "-fx-font-size: 14px;" +
-                        "-fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;"
-        );
-
-        headerBox.getChildren().addAll(titulo, subtitulo);
-
-        // Inicialização das labels de seção
-        labelEmprestimos = criarLabelSecao("EMPRÉSTIMOS");
-        labelEquipamentos = criarLabelSecao("EQUIPAMENTOS");
-        labelFuncionarios = criarLabelSecao("FUNCIONÁRIOS");
-        labelRelatorios = criarLabelSecao("RELATÓRIOS");
-        labelAdministracao = criarLabelSecao("ADMINISTRAÇÃO");
-
-        // Inicialização dos botões
-        btnEmprestimos = criarBotaoMenu("Registrar Empréstimo", "📋");
-        btnDevolucao = criarBotaoMenu("Registrar Devolução", "↩");
-        btnListarAtivos = criarBotaoMenu("Empréstimos Ativos", "📊");
-        btnListarAtrasos = criarBotaoMenu("Empréstimos em Atraso", "⚠");
-        btnRegistrarEquip = criarBotaoMenu("Registrar Equipamento", "📦");
-        btnListarEquip = criarBotaoMenu("Listar Equipamentos", "📋");
-        btnCadastrarFunc = criarBotaoMenu("Cadastrar Funcionários", "👤");
-        btnListarFunc = criarBotaoMenu("Listar Funcionários", "👥");
-        btnHistorico = criarBotaoMenu("Histórico", "📅");
-        btnGerenciarUsuarios = criarBotaoMenu("Gerenciar Usuários", "👥");
-
-        // Área principal
-        areaPrincipal = new VBox(20);
-        areaPrincipal.setAlignment(Pos.CENTER);
-        areaPrincipal.setStyle(
-                "-fx-background-color: white;" +
-                        "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0);"
-        );
-        areaPrincipal.setPadding(new Insets(30));
-
-        // Bem-vindo inicial
-        VBox welcomeBox = new VBox(15);
-        welcomeBox.setAlignment(Pos.CENTER);
-
-        Label bemVindo = new Label("Bem-vindo ao Sistema de Gerenciamento");
-        bemVindo.setStyle(
-                "-fx-font-size: 24px;" +
-                        "-fx-font-weight: bold;" +
-                        "-fx-text-fill: #1a237e;" +
-                        "-fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;"
-        );
-
-        Label instrucoes = new Label("Selecione uma opção no menu lateral para começar");
-        instrucoes.setStyle(
-                "-fx-font-size: 16px;" +
-                        "-fx-text-fill: #757575;" +
-                        "-fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;"
-        );
-
-        welcomeBox.getChildren().addAll(bemVindo, instrucoes);
-        areaPrincipal.getChildren().add(welcomeBox);
-
-        // ScrollPane para a área principal
-        ScrollPane scrollPane = new ScrollPane(areaPrincipal);
-        scrollPane.setFitToWidth(true);
-        scrollPane.setFitToHeight(true);
-        scrollPane.setStyle("-fx-background-color: #f4f4f4;");
-
-        // Adiciona todos os elementos ao menu lateral
-        menuLateral.getChildren().addAll(
-                headerBox,
-                labelEmprestimos,
-                btnEmprestimos,
-                btnDevolucao,
-                btnListarAtivos,
-                btnListarAtrasos,
-                labelEquipamentos,
-                btnRegistrarEquip,
-                btnListarEquip,
-                labelFuncionarios,
-                btnCadastrarFunc,
-                btnListarFunc,
-                labelRelatorios,
-                btnHistorico,
-                labelAdministracao,
-                btnGerenciarUsuarios
-        );
-
-        // Event handlers dos botões
-        configurarEventHandlers();
-
-        // Verificar permissões
-        verificarPermissoes();
-
-        // Layout final
-        root.setLeft(menuLateral);
-        root.setCenter(scrollPane);
-
-        // Configuração da janela
-        Scene scene = new Scene(root, 1200, 800);
         primaryStage.setScene(scene);
-        primaryStage.setTitle("TrackBug - Sistema de Gerenciamento");
-        primaryStage.setMinWidth(1000);
-        primaryStage.setMinHeight(600);
         primaryStage.show();
     }
 
-    private void configurarEventHandlers() {
-        btnEmprestimos.setOnAction(e -> {
-            areaPrincipal.getChildren().clear();
-            areaPrincipal.getChildren().add(new EmprestimoForm());
-        });
+    public static void carregarTelaPrincipal(Stage stage) {
+        try {
+            Parent root = FXMLLoader.load(Main.class.getResource("/fxml/main.fxml"));
+            Scene scene = new Scene(root, 1200, 800);
 
-        btnDevolucao.setOnAction(e -> {
-            areaPrincipal.getChildren().clear();
-            areaPrincipal.getChildren().add(new DevolucaoForm());
-        });
+            // Carrega os estilos
+            scene.getStylesheets().add(Main.class.getResource("/styles/styles.css").toExternalForm());
 
-        btnListarAtivos.setOnAction(e -> {
-            areaPrincipal.getChildren().clear();
-            areaPrincipal.getChildren().add(new EmprestimosAtivosForm());
-        });
-
-        btnListarAtrasos.setOnAction(e -> {
-            areaPrincipal.getChildren().clear();
-            areaPrincipal.getChildren().add(new EmprestimosAtrasoForm());
-        });
-
-        btnRegistrarEquip.setOnAction(e -> {
-            areaPrincipal.getChildren().clear();
-            areaPrincipal.getChildren().add(new RegistrarEquipamentoForm());
-        });
-
-        btnListarEquip.setOnAction(e -> {
-            areaPrincipal.getChildren().clear();
-            areaPrincipal.getChildren().add(new ListarEquipamentosForm());
-        });
-
-        btnCadastrarFunc.setOnAction(e -> {
-            areaPrincipal.getChildren().clear();
-            areaPrincipal.getChildren().add(new CadastrarFuncionarioForm());
-        });
-
-        btnListarFunc.setOnAction(e -> {
-            areaPrincipal.getChildren().clear();
-            areaPrincipal.getChildren().add(new ListarFuncionariosForm());
-        });
-
-        btnHistorico.setOnAction(e -> {
-            areaPrincipal.getChildren().clear();
-            areaPrincipal.getChildren().add(new HistoricoEmprestimosForm());
-        });
-
-        btnGerenciarUsuarios.setOnAction(e -> {
-            areaPrincipal.getChildren().clear();
-            areaPrincipal.getChildren().add(new GerenciamentoPermissoesForm());
-        });
-    }
-
-    private void verificarPermissoes() {
-        boolean isAdmin = SessionManager.getUsuarioLogado().getNivelAcesso() == NivelAcesso.ADMIN.getNivel();
-        labelAdministracao.setVisible(isAdmin);
-        btnGerenciarUsuarios.setVisible(isAdmin);
-    }
-
-    private Label criarLabelSecao(String texto) {
-        Label label = new Label(texto);
-        label.setStyle(
-                "-fx-text-fill: #90caf9;" +
-                        "-fx-font-size: 12px;" +
-                        "-fx-font-weight: bold;" +
-                        "-fx-padding: 15 0 5 0;" +
-                        "-fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;"
-        );
-        return label;
-    }
-
-    private Button criarBotaoMenu(String texto, String icone) {
-        Button btn = new Button(icone + " " + texto);
-        btn.setMaxWidth(Double.MAX_VALUE);
-        btn.setStyle(
-                "-fx-background-color: transparent;" +
-                        "-fx-text-fill: white;" +
-                        "-fx-font-size: 14px;" +
-                        "-fx-alignment: CENTER_LEFT;" +
-                        "-fx-padding: 10px;" +
-                        "-fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;" +
-                        "-fx-cursor: hand;"
-        );
-
-        // Efeito hover
-        btn.setOnMouseEntered(e -> btn.setStyle(
-                "-fx-background-color: rgba(255,255,255,0.1);" +
-                        "-fx-text-fill: white;" +
-                        "-fx-font-size: 14px;" +
-                        "-fx-alignment: CENTER_LEFT;" +
-                        "-fx-padding: 10px;" +
-                        "-fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;" +
-                        "-fx-cursor: hand;"
-        ));
-
-        btn.setOnMouseExited(e -> btn.setStyle(
-                "-fx-background-color: transparent;" +
-                        "-fx-text-fill: white;" +
-                        "-fx-font-size: 14px;" +
-                        "-fx-alignment: CENTER_LEFT;" +
-                        "-fx-padding: 10px;" +
-                        "-fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;" +
-                        "-fx-cursor: hand;"
-        ));
-
-        return btn;
+            stage.setTitle("TrackBug - Sistema de Gerenciamento");
+            stage.setScene(scene);
+            stage.setMinWidth(1000);
+            stage.setMinHeight(600);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args) {
