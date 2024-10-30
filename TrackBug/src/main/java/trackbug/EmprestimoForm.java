@@ -286,28 +286,24 @@ public class EmprestimoForm extends VBox {
             int quantidadeAtual = 0;
 
             while(rs.next()){
-                if(rs.getBoolean("tipo") == false && rs.getInt("quantidadeAtual") == 0) {
+                if(rs.getBoolean("tipo") == false && rs.getInt("quantidadeAtual") == Integer.parseInt(quantidadeField.getText())) {
                     quantidadeAtual = rs.getInt("quantidadeAtual") - Integer.parseInt(quantidadeField.getText());
                     opcao = "UPDATE equipamentos SET status = 'Emprestado', " +
                             "quantidadeAtual = ? WHERE id = ?";
-
-                }else if (rs.getBoolean("tipo") == true && rs.getInt("quantidadeAtual") == 0){
+                }else if (rs.getBoolean("tipo") == true && rs.getInt("quantidadeAtual") == Integer.parseInt(quantidadeField.getText())){
                     quantidadeAtual = rs.getInt("quantidadeAtual") - Integer.parseInt(quantidadeField.getText());
                     opcao = "UPDATE equipamentos SET status = 'Emprestado', " +
                             "quantidadeAtual = ?, quantidadeEstoque = quantidadeAtual WHERE id = ?";
-
                 }
                 else if (rs.getBoolean("tipo") == false && rs.getInt("quantidadeAtual") > 0){
                     quantidadeAtual = rs.getInt("quantidadeAtual") - Integer.parseInt(quantidadeField.getText());
                     opcao = "UPDATE equipamentos SET status = 'Disponível', " +
                             "quantidadeAtual = ?, quantidadeEstoque = quantidadeAtual WHERE id = ?";
-
                 }
                 else if (rs.getBoolean("tipo") == true && rs.getInt("quantidadeAtual") > 0){
                     quantidadeAtual = rs.getInt("quantidadeAtual") - Integer.parseInt(quantidadeField.getText());
                     opcao = "UPDATE equipamentos SET status = 'Disponível', " +
                             "quantidadeAtual = ?, quantidadeEstoque = quantidadeAtual WHERE id = ?";
-
                 }
             }
             stmt = conn.prepareStatement(opcao);
@@ -335,10 +331,34 @@ public class EmprestimoForm extends VBox {
             return false;
         }
 
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        conn = ConnectionFactory.getConnection();
+        int quantAtual = 0;
+        String equipamentoSelecionado = equipamentoCombo.getValue();
+        try{
+            String sql = "SELECT quantidadeAtual FROM equipamentos WHERE id = ?";
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, equipamentoIds.get(equipamentoSelecionado));
+            rs = stmt.executeQuery();
+            if (rs.next()) {
+                quantAtual = rs.getInt("quantidadeAtual");
+            }
+        } catch (SQLException e) {
+            mostrarAlerta("ERRO", "NAQUILO MERMO");
+            return false;
+        } finally {
+                ConnectionFactory.closeConnection(conn, stmt, rs);
+        }
+
         try {
             int quantidade = Integer.parseInt(quantidadeField.getText());
             if (quantidade <= 0) {
                 mostrarAlerta("Quantidade inválida", "A quantidade deve ser maior que zero.");
+                return false;
+            }else if(quantidade > quantAtual){
+                mostrarAlerta("Quantidade inválida", "A quantidade deve ser menor ou igual a disponível.");
                 return false;
             }
         } catch (NumberFormatException e) {
