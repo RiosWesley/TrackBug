@@ -376,20 +376,13 @@ public class ListarEquipamentosForm extends VBox {
             return;
         }
 
-        // Verifica avarias
-        if (verificarAvariasExistentes(equipamento)) {
-            mostrarAlerta("Não é possível excluir",
-                    "Este equipamento possui registros de avarias. Resolva todas as avarias antes de excluí-lo.");
-            return;
-        }
-
         Alert confirmacao = new Alert(Alert.AlertType.CONFIRMATION);
         confirmacao.setTitle("Confirmar Exclusão");
         confirmacao.setHeaderText("Deseja realmente excluir o equipamento?");
         confirmacao.setContentText(
                 "Equipamento: " + equipamento.getDescricao() + "\n" +
                         "Código: " + equipamento.getId() + "\n\n" +
-                        "Esta ação não poderá ser desfeita e todo o histórico relacionado será mantido."
+                        "Esta ação não poderá ser desfeita e todos os registros relacionados (avarias, logs) serão removidos."
         );
 
         Button btnSim = (Button) confirmacao.getDialogPane().lookupButton(ButtonType.OK);
@@ -432,34 +425,7 @@ public class ListarEquipamentosForm extends VBox {
             conn = ConnectionFactory.getConnection();
             conn.setAutoCommit(false);
 
-            // Atualiza histórico de empréstimos
-            String sqlHistorico = "UPDATE emprestimos " +
-                    "SET observacoes = CONCAT(IFNULL(observacoes, ''), ' [Equipamento excluído em: " +
-                    LocalDateTime.now().format(formatadorDataHora) +
-                    "]') WHERE idEquipamento = ?";
-            stmt = conn.prepareStatement(sqlHistorico);
-            stmt.setString(1, equipamento.getId());
-            stmt.executeUpdate();
-
-            // Registra no histórico de avarias (se houver tabela de histórico de avarias)
-            String sqlHistoricoAvarias = "UPDATE avarias " +
-                    "SET descricao = CONCAT(IFNULL(descricao, ''), ' [Equipamento excluído em: " +
-                    LocalDateTime.now().format(formatadorDataHora) +
-                    "]') WHERE id_equipamento = ?";
-            stmt = conn.prepareStatement(sqlHistoricoAvarias);
-            stmt.setString(1, equipamento.getId());
-            stmt.executeUpdate();
-
-            // Registra log
-            String sqlLog = "INSERT INTO log_equipamentos (id_equipamento, descricao, acao, data_acao, detalhes) " +
-                    "VALUES (?, ?, 'EXCLUSAO', NOW(), ?)";
-            stmt = conn.prepareStatement(sqlLog);
-            stmt.setString(1, equipamento.getId());
-            stmt.setString(2, equipamento.getDescricao());
-            stmt.setString(3, "Excluído por: " + SessionManager.getUsuarioLogado().getNome());
-            stmt.executeUpdate();
-
-            // Deleta equipamento
+            // Deleta o equipamento (as deleções em cascata ocorrerão automaticamente)
             String sqlDelete = "DELETE FROM equipamentos WHERE id = ?";
             stmt = conn.prepareStatement(sqlDelete);
             stmt.setString(1, equipamento.getId());
