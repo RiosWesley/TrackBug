@@ -22,6 +22,8 @@ public class RegistrarEquipamentoForm extends VBox {
     private TextField campoQuantidadeInicial;
     private TextField campoQuantidadeMinima;
     private TextArea campoObservacoes;
+    private ComboBox<String> campoTipoUso;
+    private CheckBox checkBoxMedidas;
 
     public RegistrarEquipamentoForm() {
         setSpacing(30);
@@ -59,6 +61,15 @@ public class RegistrarEquipamentoForm extends VBox {
         campoTipo.setValue("Emprestável");
         estilizarComboBox(campoTipo);
 
+        campoTipoUso = new ComboBox<>();
+        campoTipoUso.getItems().addAll("Reutilizável", "Uso Único");
+        campoTipoUso.setValue("Reutilizável");
+        estilizarComboBox(campoTipoUso);
+
+        checkBoxMedidas = new CheckBox("Incluir peso e dimensões");
+        checkBoxMedidas.setSelected(false);
+        checkBoxMedidas.setStyle("-fx-font-family: 'Segoe UI'; -fx-font-size: 14px;");
+
         campoQuantidadeInicial = criarCampoTexto("Quantidade inicial");
         campoQuantidadeMinima = criarCampoTexto("Quantidade mínima");
 
@@ -67,6 +78,16 @@ public class RegistrarEquipamentoForm extends VBox {
         campoObservacoes.setPrefRowCount(3);
         estilizarTextArea(campoObservacoes);
 
+        // Container para campos de medidas
+        VBox medidasContainer = new VBox(10);
+        medidasContainer.getChildren().addAll(
+                criarCampoComLabel("Peso (g):", campoPeso),
+                criarCampoComLabel("Largura (cm):", campoLargura),
+                criarCampoComLabel("Comprimento (cm):", campoComprimento)
+        );
+        medidasContainer.visibleProperty().bind(checkBoxMedidas.selectedProperty());
+        medidasContainer.managedProperty().bind(checkBoxMedidas.selectedProperty());
+
         // Grid para organizar os campos
         GridPane grid = new GridPane();
         grid.setHgap(15);
@@ -74,52 +95,64 @@ public class RegistrarEquipamentoForm extends VBox {
         grid.setAlignment(Pos.CENTER);
 
         // Adiciona os campos ao grid
-        adicionarCampoAoGrid(grid, "Código:", campoId, 0);
-        adicionarCampoAoGrid(grid, "Descrição:", campoDescricao, 1);
-        adicionarCampoAoGrid(grid, "Data de Compra:", campoDataCompra, 2);
-        adicionarCampoAoGrid(grid, "Peso (g):", campoPeso, 3);
-        adicionarCampoAoGrid(grid, "Largura (cm):", campoLargura, 4);
-        adicionarCampoAoGrid(grid, "Comprimento (cm):", campoComprimento, 5);
-        adicionarCampoAoGrid(grid, "Tipo:", campoTipo, 6);
-        adicionarCampoAoGrid(grid, "Quantidade Inicial:", campoQuantidadeInicial, 7);
-        adicionarCampoAoGrid(grid, "Quantidade Mínima:", campoQuantidadeMinima, 8);
-        adicionarCampoAoGrid(grid, "Observações:", campoObservacoes, 9);
+        int row = 0;
+        adicionarCampoAoGrid(grid, "Código:", campoId, row++);
+        adicionarCampoAoGrid(grid, "Descrição:", campoDescricao, row++);
+        adicionarCampoAoGrid(grid, "Data de Compra:", campoDataCompra, row++);
+        adicionarCampoAoGrid(grid, "Tipo de Item:", campoTipo, row++);
+        adicionarCampoAoGrid(grid, "Tipo de Uso:", campoTipoUso, row++);
+        adicionarCampoAoGrid(grid, "Quantidade Inicial:", campoQuantidadeInicial, row++);
+        adicionarCampoAoGrid(grid, "Quantidade Mínima:", campoQuantidadeMinima, row++);
+        adicionarCampoAoGrid(grid, "Observações:", campoObservacoes, row++);
+
+        grid.add(checkBoxMedidas, 0, row++, 2, 1);
+        grid.add(medidasContainer, 0, row, 2, 1);
 
         // Botões
         HBox botoesBox = new HBox(15);
         botoesBox.setAlignment(Pos.CENTER);
-
-        Button btnSalvar = new Button("Salvar Equipamento");
-        btnSalvar.setStyle(
-                "-fx-background-color: #1a237e; " +
-                        "-fx-text-fill: white; " +
-                        "-fx-font-family: 'Segoe UI'; " +
-                        "-fx-font-size: 14px; " +
-                        "-fx-padding: 10px 20px; " +
-                        "-fx-cursor: hand; " +
-                        "-fx-font-weight: bold;"
-        );
-
-        Button btnLimpar = new Button("Limpar");
-        btnLimpar.setStyle(
-                "-fx-background-color: #e0e0e0; " +
-                        "-fx-text-fill: #424242; " +
-                        "-fx-font-family: 'Segoe UI'; " +
-                        "-fx-font-size: 14px; " +
-                        "-fx-padding: 10px 20px; " +
-                        "-fx-cursor: hand; " +
-                        "-fx-font-weight: bold;"
-        );
-
+        Button btnSalvar = criarBotao("Salvar Equipamento", true);
+        Button btnLimpar = criarBotao("Limpar", false);
         botoesBox.getChildren().addAll(btnSalvar, btnLimpar);
 
         // Eventos
+        campoTipo.setOnAction(e -> atualizarCamposQuantidade());
         btnSalvar.setOnAction(e -> salvarEquipamento());
         btnLimpar.setOnAction(e -> limparFormulario());
 
         // Adiciona todos os componentes ao formulário
         formContainer.getChildren().addAll(grid, botoesBox);
         getChildren().addAll(header, formContainer);
+    }
+
+    private HBox criarCampoComLabel(String labelText, Control campo) {
+        HBox container = new HBox(10);
+        Label label = new Label(labelText);
+        label.setStyle("-fx-font-family: 'Segoe UI'; -fx-font-size: 14px;");
+        container.getChildren().addAll(label, campo);
+        return container;
+    }
+
+    private Button criarBotao(String texto, boolean isPrimary) {
+        Button btn = new Button(texto);
+        String baseStyle = "-fx-font-family: 'Segoe UI'; -fx-font-size: 14px; " +
+                "-fx-padding: 10px 20px; -fx-cursor: hand; -fx-font-weight: bold;";
+
+        if (isPrimary) {
+            btn.setStyle(baseStyle + "-fx-background-color: #1a237e; -fx-text-fill: white;");
+        } else {
+            btn.setStyle(baseStyle + "-fx-background-color: #e0e0e0; -fx-text-fill: #424242;");
+        }
+
+        return btn;
+    }
+
+    private void atualizarCamposQuantidade() {
+        boolean isConsumivel = "Consumível".equals(campoTipo.getValue());
+        campoQuantidadeMinima.setDisable(!isConsumivel);
+        if (!isConsumivel) {
+            campoQuantidadeMinima.clear();
+        }
     }
 
     private TextField criarCampoTexto(String prompt) {
@@ -136,17 +169,11 @@ public class RegistrarEquipamentoForm extends VBox {
     }
 
     private void estilizarDatePicker(DatePicker campo) {
-        campo.setStyle(
-                "-fx-font-family: 'Segoe UI'; " +
-                        "-fx-font-size: 14px;"
-        );
+        campo.setStyle("-fx-font-family: 'Segoe UI'; -fx-font-size: 14px;");
     }
 
     private void estilizarComboBox(ComboBox<String> campo) {
-        campo.setStyle(
-                "-fx-font-family: 'Segoe UI'; " +
-                        "-fx-font-size: 14px;"
-        );
+        campo.setStyle("-fx-font-family: 'Segoe UI'; -fx-font-size: 14px;");
     }
 
     private void estilizarTextArea(TextArea campo) {
@@ -166,54 +193,6 @@ public class RegistrarEquipamentoForm extends VBox {
         GridPane.setHgrow(campo, Priority.ALWAYS);
     }
 
-    private void salvarEquipamento() {
-        if (!validarCampos()) {
-            return;
-        }
-
-        Connection conn = null;
-        PreparedStatement stmt = null;
-
-        try {
-            conn = ConnectionFactory.getConnection();
-            String sql = "INSERT INTO equipamentos (id, descricao, dataCompra, peso, largura, " +
-                    "comprimento, quantidadeAtual, quantidadeEstoque, tipo, quantidadeMinima) " +
-                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-            stmt = conn.prepareStatement(sql);
-            stmt.setString(1, campoId.getText());
-            stmt.setString(2, campoDescricao.getText());
-            stmt.setDate(3, Date.valueOf(campoDataCompra.getValue()));
-            stmt.setDouble(4, Double.parseDouble(campoPeso.getText()));
-            stmt.setDouble(5, Double.parseDouble(campoLargura.getText()));
-            stmt.setDouble(6, Double.parseDouble(campoComprimento.getText()));
-            int quantidadeMinima = Integer.parseInt(campoQuantidadeMinima.getText());
-            int quantidadeInicial = Integer.parseInt(campoQuantidadeInicial.getText());
-            stmt.setInt(7, quantidadeInicial); // quantidadeAtual
-            stmt.setInt(8, quantidadeInicial); // quantidadeEstoque
-            stmt.setBoolean(9, "Consumível".equals(campoTipo.getValue()));
-            stmt.setInt(10, quantidadeMinima); // quantidadeMinima
-            stmt.executeUpdate();
-
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Sucesso");
-            alert.setHeaderText("Equipamento registrado");
-            alert.setContentText("O equipamento foi registrado com sucesso!");
-            alert.showAndWait();
-
-            limparFormulario();
-
-        } catch (SQLException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erro");
-            alert.setHeaderText("Erro ao registrar equipamento");
-            alert.setContentText("Não foi possível registrar o equipamento: " + e.getMessage());
-            alert.showAndWait();
-        } finally {
-            ConnectionFactory.closeConnection(conn, stmt);
-        }
-    }
-
     private boolean validarCampos() {
         StringBuilder erros = new StringBuilder();
 
@@ -226,61 +205,104 @@ public class RegistrarEquipamentoForm extends VBox {
         if (campoDataCompra.getValue() == null) {
             erros.append("- A data de compra é obrigatória\n");
         }
-
-        try {
-            if (!campoPeso.getText().trim().isEmpty()) {
-                Double.parseDouble(campoPeso.getText());
-            }
-        } catch (NumberFormatException e) {
-            erros.append("- O peso deve ser um número válido\n");
+        if (campoQuantidadeInicial.getText().trim().isEmpty()) {
+            erros.append("- A quantidade inicial é obrigatória\n");
         }
 
-        try {
-            if (!campoLargura.getText().trim().isEmpty()) {
-                Double.parseDouble(campoLargura.getText());
-            }
-        } catch (NumberFormatException e) {
-            erros.append("- A largura deve ser um número válido\n");
-        }
-
-        try {
-            if (!campoComprimento.getText().trim().isEmpty()) {
-                Double.parseDouble(campoComprimento.getText());
-            }
-        } catch (NumberFormatException e) {
-            erros.append("- O comprimento deve ser um número válido\n");
-        }
-
-        try {
-            if (!campoQuantidadeInicial.getText().trim().isEmpty()) {
-                Integer.parseInt(campoQuantidadeInicial.getText());
-            }
-        } catch (NumberFormatException e) {
-            erros.append("- A quantidade inicial deve ser um número inteiro válido\n");
-        }
-
-        if ("Consumível".equals(campoTipo.getValue())) {
+        // Validar medidas apenas se o checkbox estiver selecionado
+        if (checkBoxMedidas.isSelected()) {
             try {
-                if (!campoQuantidadeMinima.getText().trim().isEmpty()) {
-                    Integer.parseInt(campoQuantidadeMinima.getText());
+                if (!campoPeso.getText().trim().isEmpty()) {
+                    Double.parseDouble(campoPeso.getText());
                 }
             } catch (NumberFormatException e) {
-                erros.append("- A quantidade mínima deve ser um número inteiro válido\n");
+                erros.append("- O peso deve ser um número válido\n");
+            }
+
+            try {
+                if (!campoLargura.getText().trim().isEmpty()) {
+                    Double.parseDouble(campoLargura.getText());
+                }
+            } catch (NumberFormatException e) {
+                erros.append("- A largura deve ser um número válido\n");
+            }
+
+            try {
+                if (!campoComprimento.getText().trim().isEmpty()) {
+                    Double.parseDouble(campoComprimento.getText());
+                }
+            } catch (NumberFormatException e) {
+                erros.append("- O comprimento deve ser um número válido\n");
             }
         }
 
         if (erros.length() > 0) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erro de Validação");
-            alert.setHeaderText("Por favor, corrija os seguintes erros:");
-            alert.setContentText(erros.toString());
-            alert.showAndWait();
+            mostrarErro("Erro de Validação", erros.toString());
             return false;
         }
-
         return true;
     }
 
+    private void mostrarSucesso(String mensagem) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Sucesso");
+        alert.setHeaderText("Operação realizada");
+        alert.setContentText(mensagem);
+        alert.showAndWait();
+    }
+
+    private void mostrarErro(String titulo, String mensagem) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Erro");
+        alert.setHeaderText(titulo);
+        alert.setContentText(mensagem);
+        alert.showAndWait();
+    }
+    private void salvarEquipamento() {
+        if (!validarCampos()) {
+            return;
+        }
+
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        try {
+            conn = ConnectionFactory.getConnection();
+            String sql = "INSERT INTO equipamentos (id, descricao, dataCompra, peso, largura, " +
+                    "comprimento, quantidadeAtual, quantidadeEstoque, tipo, tipo_uso) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, campoId.getText());
+            stmt.setString(2, campoDescricao.getText());
+            stmt.setDate(3, Date.valueOf(campoDataCompra.getValue()));
+
+            // Definir valores de medidas
+            if (checkBoxMedidas.isSelected()) {
+                stmt.setDouble(4, Double.parseDouble(campoPeso.getText()));
+                stmt.setDouble(5, Double.parseDouble(campoLargura.getText()));
+                stmt.setDouble(6, Double.parseDouble(campoComprimento.getText()));
+            } else {
+                stmt.setNull(4, java.sql.Types.DOUBLE);
+                stmt.setNull(5, java.sql.Types.DOUBLE);
+                stmt.setNull(6, java.sql.Types.DOUBLE);
+            }
+
+            int quantidadeInicial = Integer.parseInt(campoQuantidadeInicial.getText());
+            stmt.setInt(7, quantidadeInicial);
+            stmt.setInt(8, quantidadeInicial);
+            stmt.setBoolean(9, "Consumível".equals(campoTipo.getValue()));
+            stmt.setString(10, campoTipoUso.getValue());
+
+            stmt.executeUpdate();
+
+            mostrarSucesso("Equipamento registrado com sucesso!");
+            limparFormulario();
+        } catch (SQLException e) {
+            mostrarErro("Erro ao registrar equipamento", e.getMessage());
+        } finally {
+            ConnectionFactory.closeConnection(conn, stmt);
+        }
+    }
     private void limparFormulario() {
         campoId.clear();
         campoDescricao.clear();
@@ -289,8 +311,10 @@ public class RegistrarEquipamentoForm extends VBox {
         campoLargura.clear();
         campoComprimento.clear();
         campoTipo.setValue("Emprestável");
+        campoTipoUso.setValue("Reutilizável");
         campoQuantidadeInicial.clear();
         campoQuantidadeMinima.clear();
         campoObservacoes.clear();
+        checkBoxMedidas.setSelected(false);
     }
 }

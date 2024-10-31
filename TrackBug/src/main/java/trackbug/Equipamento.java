@@ -102,4 +102,5 @@ public class Equipamento {
     public void setQuantidadeMinima(int quantidadeMinima) {
         this.quantidadeMinima = quantidadeMinima;
     }
+
 }

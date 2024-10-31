@@ -47,6 +47,8 @@
                     text="📦 Registrar Equipamento" />
             <Button fx:id="btnListarEquip" onAction="#mostrarListaEquipamentos" styleClass="menu-button"
                     text="📋 Listar Equipamentos" />
+            <Button fx:id="btnHistoricoAvarias" onAction="#mostrarHistoricoAvarias"
+                    styleClass="menu-button" text="📋 Histórico de Avarias" />
 
             <Label fx:id="labelFuncionarios" styleClass="menu-section" text="FUNCIONÁRIOS" />
             <Button fx:id="btnCadastrarFunc" onAction="#mostrarCadastroFuncionario" styleClass="menu-button"

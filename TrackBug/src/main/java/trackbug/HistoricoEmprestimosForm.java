@@ -253,9 +253,20 @@ public class HistoricoEmprestimosForm extends VBox {
         emp.setId(rs.getInt("id"));
         emp.setIdFuncionario(rs.getString("idFuncionario"));
         emp.setIdEquipamento(rs.getString("idEquipamento"));
-        emp.setDataSaida(rs.getTimestamp("dataSaida").toLocalDateTime());
-        emp.setDataRetornoPrevista(rs.getTimestamp("dataRetornoPrevista").toLocalDateTime());
 
+        // Verificação de nulos para dataSaida
+        Timestamp dataSaida = rs.getTimestamp("dataSaida");
+        if (dataSaida != null) {
+            emp.setDataSaida(dataSaida.toLocalDateTime());
+        }
+
+        // Verificação de nulos para dataRetornoPrevista
+        Timestamp dataRetornoPrevista = rs.getTimestamp("dataRetornoPrevista");
+        if (dataRetornoPrevista != null) {
+            emp.setDataRetornoPrevista(dataRetornoPrevista.toLocalDateTime());
+        }
+
+        // Verificação de nulos para dataRetornoEfetiva
         Timestamp dataRetornoEfetiva = rs.getTimestamp("dataRetornoEfetiva");
         if (dataRetornoEfetiva != null) {
             emp.setDataRetornoEfetiva(dataRetornoEfetiva.toLocalDateTime());
@@ -267,6 +278,7 @@ public class HistoricoEmprestimosForm extends VBox {
 
         return emp;
     }
+
     private void pesquisarHistorico() {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -356,6 +368,8 @@ public class HistoricoEmprestimosForm extends VBox {
         alert.showAndWait();
     }
     private String buscarNomeFuncionario(String id) {
+        if (id == null) return "";
+
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -377,6 +391,8 @@ public class HistoricoEmprestimosForm extends VBox {
     }
 
     private String buscarDescricaoEquipamento(String id) {
+        if (id == null) return "";
+
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -396,6 +412,5 @@ public class HistoricoEmprestimosForm extends VBox {
         }
         return id;
     }
-
 
 }

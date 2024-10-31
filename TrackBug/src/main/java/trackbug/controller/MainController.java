@@ -125,4 +125,9 @@ public class MainController {
         welcomeBox.getChildren().addAll(bemVindo, instrucoes);
         areaPrincipal.getChildren().add(welcomeBox);
     }
+    @FXML
+    private void mostrarHistoricoAvarias() {
+        areaPrincipal.getChildren().clear();
+        areaPrincipal.getChildren().add(new HistoricoAvariasForm());
+    }
 }
