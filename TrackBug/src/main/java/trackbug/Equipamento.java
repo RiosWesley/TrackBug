@@ -20,6 +20,7 @@ public class Equipamento {
     private boolean tipo;
     private int quantidadeEstoque;
     private int quantidadeMinima;
+    private  String tipoUso;
 
     // Getters
     public String getId() {
@@ -103,4 +104,11 @@ public class Equipamento {
         this.quantidadeMinima = quantidadeMinima;
     }
 
+    public String getTipoUso() {
+        return tipoUso;
+    }
+
+    public void setTipoUso(String tipoUso) {
+        this.tipoUso = tipoUso;
+    }
 }

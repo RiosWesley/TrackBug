@@ -559,11 +559,10 @@ public class ListarEquipamentosForm extends VBox {
     }
 
     private void editarEquipamento(Equipamento equipamento) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Editar Equipamento");
-        alert.setHeaderText("Funcionalidade em desenvolvimento");
-        alert.setContentText("A edição do equipamento " + equipamento.getDescricao() + " será implementada em breve.");
-        alert.showAndWait();
+        EditarEquipamentoForm formEdicao = new EditarEquipamentoForm(equipamento);
+        formEdicao.mostrar();
+        // Recarregar a lista após a edição
+        carregarEquipamentos();
     }
 
     private void exportarLista() {
