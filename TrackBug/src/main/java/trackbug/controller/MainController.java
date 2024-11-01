@@ -136,4 +136,9 @@ public class MainController {
         areaPrincipal.getChildren().clear();
         areaPrincipal.getChildren().add(new HistoricoAlteracoesForm());
     }
+    @FXML
+    private void mostrarDeletarFuncionarios() {
+        areaPrincipal.getChildren().clear();
+        areaPrincipal.getChildren().add(new ListarFuncionariosForm());
+    }
 }

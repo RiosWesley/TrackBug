@@ -255,68 +255,106 @@ public class EmprestimoForm extends VBox {
     }
 
     private void salvarEmprestimo() {
+        if (!validarCampos()) {
+            return;
+        }
+
         Connection conn = null;
         PreparedStatement stmt = null;
-
+        ResultSet rs = null;
         try {
             conn = ConnectionFactory.getConnection();
+            conn.setAutoCommit(false);
+
+            // Verifica se o equipamento é de uso único
+            boolean isUsoUnico = false;
+            int quantidadeAtual = 0;
+            String equipamentoId = equipamentoIds.get(equipamentoCombo.getValue());
+
+            String sqlTipoUso = "SELECT tipo_uso, quantidadeAtual FROM equipamentos WHERE id = ?";
+            stmt = conn.prepareStatement(sqlTipoUso);
+            stmt.setString(1, equipamentoId);
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                isUsoUnico = "Uso Único".equals(rs.getString("tipo_uso"));
+                quantidadeAtual = rs.getInt("quantidadeAtual");
+            }
+
+            // Insere o empréstimo
             String sql = "INSERT INTO emprestimos (idFuncionario, idEquipamento, dataSaida, " +
-                    "dataRetornoPrevista, observacoes, ativo, quantidadeEmprestimo) " +
-                    "VALUES (?, ?, NOW(), ?, ?, true, ?)";
+                    "dataRetornoPrevista, dataRetornoEfetiva, observacoes, ativo, " +
+                    "quantidadeEmprestimo, tipoOperacao) " +
+                    "VALUES (?, ?, NOW(), ?, ?, ?, ?, ?, ?)";
 
             stmt = conn.prepareStatement(sql);
-
             String funcionarioId = funcionarioIds.get(funcionarioCombo.getValue());
-            String equipamentoId = equipamentoIds.get(equipamentoCombo.getValue());
+            Timestamp now = new Timestamp(System.currentTimeMillis());
+
             stmt.setString(1, funcionarioId);
             stmt.setString(2, equipamentoId);
-            stmt.setDate(3, java.sql.Date.valueOf(dataDevolucao.getValue()));
-            stmt.setString(4, observacoes.getText());
-            stmt.setInt(5, Integer.parseInt(quantidadeField.getText()));
 
-            stmt.executeUpdate();
-
-            // Atualizar o status do equipamento
-            sql = "SELECT tipo, quantidadeAtual FROM equipamentos WHERE id = ?";
-            stmt = conn.prepareStatement(sql);
-            stmt.setString(1, equipamentoId);
-            ResultSet rs = stmt.executeQuery();
-            String opcao = "";
-            int quantidadeAtual = 0;
-
-            while(rs.next()){
-                if(rs.getBoolean("tipo") == false && rs.getInt("quantidadeAtual") == Integer.parseInt(quantidadeField.getText())) {
-                    quantidadeAtual = rs.getInt("quantidadeAtual") - Integer.parseInt(quantidadeField.getText());
-                    opcao = "UPDATE equipamentos SET status = 'Emprestado', " +
-                            "quantidadeAtual = ? WHERE id = ?";
-                }else if (rs.getBoolean("tipo") == true && rs.getInt("quantidadeAtual") == Integer.parseInt(quantidadeField.getText())){
-                    quantidadeAtual = rs.getInt("quantidadeAtual") - Integer.parseInt(quantidadeField.getText());
-                    opcao = "UPDATE equipamentos SET status = 'Emprestado', " +
-                            "quantidadeAtual = ?, quantidadeEstoque = quantidadeAtual WHERE id = ?";
-                }
-                else if (rs.getBoolean("tipo") == false && rs.getInt("quantidadeAtual") > 0){
-                    quantidadeAtual = rs.getInt("quantidadeAtual") - Integer.parseInt(quantidadeField.getText());
-                    opcao = "UPDATE equipamentos SET status = 'Disponível', " +
-                            "quantidadeAtual = ?, quantidadeEstoque = quantidadeAtual WHERE id = ?";
-                }
-                else if (rs.getBoolean("tipo") == true && rs.getInt("quantidadeAtual") > 0){
-                    quantidadeAtual = rs.getInt("quantidadeAtual") - Integer.parseInt(quantidadeField.getText());
-                    opcao = "UPDATE equipamentos SET status = 'Disponível', " +
-                            "quantidadeAtual = ?, quantidadeEstoque = quantidadeAtual WHERE id = ?";
-                }
+            if (isUsoUnico) {
+                stmt.setTimestamp(3, now); // dataRetornoPrevista
+                stmt.setTimestamp(4, now); // dataRetornoEfetiva
+                stmt.setString(5, "Item de uso único - Baixa automática");
+                stmt.setBoolean(6, false); // não ativo - já finalizado
+                stmt.setInt(7, Integer.parseInt(quantidadeField.getText()));
+                stmt.setString(8, "BAIXA");
+            } else {
+                stmt.setDate(3, java.sql.Date.valueOf(dataDevolucao.getValue()));
+                stmt.setNull(4, java.sql.Types.TIMESTAMP);
+                stmt.setString(5, observacoes.getText());
+                stmt.setBoolean(6, true);
+                stmt.setInt(7, Integer.parseInt(quantidadeField.getText()));
+                stmt.setString(8, "SAIDA");
             }
-            stmt = conn.prepareStatement(opcao);
-            stmt.setInt(1, quantidadeAtual);
-            stmt.setString(2, equipamentoId);
+
             stmt.executeUpdate();
 
-            mostrarSucesso("Empréstimo registrado com sucesso!");
-            limparFormulario();
+            // Atualiza o estoque do equipamento
+            int novaQuantidade = quantidadeAtual - Integer.parseInt(quantidadeField.getText());
+            String sqlUpdateEquipamento;
 
+            if (isUsoUnico) {
+                sqlUpdateEquipamento = "UPDATE equipamentos SET " +
+                        "quantidadeAtual = ?, " +
+                        "quantidadeEstoque = ?, " +
+                        "status = CASE WHEN ? = 0 THEN 'Esgotado' ELSE 'Disponível' END " +
+                        "WHERE id = ?";
+                stmt = conn.prepareStatement(sqlUpdateEquipamento);
+                stmt.setInt(1, novaQuantidade);
+                stmt.setInt(2, novaQuantidade);
+                stmt.setInt(3, novaQuantidade);
+                stmt.setString(4, equipamentoId);
+            } else {
+                sqlUpdateEquipamento = "UPDATE equipamentos SET " +
+                        "quantidadeAtual = ?, " +
+                        "status = CASE WHEN ? = 0 THEN 'Indisponível' ELSE 'Disponível' END " +
+                        "WHERE id = ?";
+                stmt = conn.prepareStatement(sqlUpdateEquipamento);
+                stmt.setInt(1, novaQuantidade);
+                stmt.setInt(2, novaQuantidade);
+                stmt.setString(3, equipamentoId);
+            }
+
+            stmt.executeUpdate();
+
+            conn.commit();
+            mostrarSucesso(isUsoUnico ?
+                    "Item de uso único registrado e baixado automaticamente!" :
+                    "Empréstimo registrado com sucesso!");
+
+            limparFormulario();
         } catch (SQLException e) {
+            try {
+                if (conn != null) conn.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
             mostrarErro("Erro ao registrar empréstimo", e.getMessage());
         } finally {
-            ConnectionFactory.closeConnection(conn, stmt);
+            ConnectionFactory.closeConnection(conn, stmt, rs);
         }
     }
 
@@ -443,5 +481,37 @@ public class EmprestimoForm extends VBox {
             }
         }
 
+    }
+    private void mostrarDetalhesEquipamento(String equipamentoId) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+            conn = ConnectionFactory.getConnection();
+            String sql = "SELECT tipo_uso, quantidadeAtual, quantidadeEstoque FROM equipamentos WHERE id = ?";
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, equipamentoId);
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                String tipoUso = rs.getString("tipo_uso");
+                int quantAtual = rs.getInt("quantidadeAtual");
+                int quantTotal = rs.getInt("quantidadeEstoque");
+
+                if ("Uso Único".equals(tipoUso)) {
+                    dataDevolucao.setDisable(true);
+                    dataDevolucao.setValue(LocalDate.now());
+                } else {
+                    dataDevolucao.setDisable(false);
+                }
+
+                equipamentoInfoLabel.setText(String.format("Disponível: %d unidades (Total: %d) - %s",
+                        quantAtual, quantTotal, tipoUso));
+            }
+        } catch (SQLException e) {
+            equipamentoInfoLabel.setText("Erro ao carregar informações do equipamento");
+        } finally {
+            ConnectionFactory.closeConnection(conn, stmt, rs);
+        }
     }
 }

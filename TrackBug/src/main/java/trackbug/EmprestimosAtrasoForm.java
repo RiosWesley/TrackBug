@@ -195,10 +195,14 @@ public class EmprestimosAtrasoForm extends VBox {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
-
         try {
             conn = ConnectionFactory.getConnection();
-            String sql = "SELECT * FROM emprestimos WHERE ativo = true AND dataRetornoPrevista < NOW()";
+            // Modifica a query para excluir itens consumíveis
+            String sql = "SELECT e.* FROM emprestimos e " +
+                    "JOIN equipamentos eq ON e.idEquipamento = eq.id " +
+                    "WHERE e.ativo = true " +
+                    "AND e.dataRetornoPrevista < NOW() " +
+                    "AND eq.tipo = false"; // tipo = false significa não consumível
             stmt = conn.prepareStatement(sql);
             rs = stmt.executeQuery();
 
@@ -209,7 +213,6 @@ public class EmprestimosAtrasoForm extends VBox {
                 // Aplicar filtro de período
                 boolean incluirRegistro = false;
                 String filtroSelecionado = filtroAtraso.getValue();
-
                 switch (filtroSelecionado) {
                     case "Até 7 dias":
                         incluirRegistro = diasAtraso <= 7;
@@ -237,19 +240,13 @@ public class EmprestimosAtrasoForm extends VBox {
                     emprestimo.setObservacoes(rs.getString("observacoes"));
                     emprestimo.setQuantidadeEmprestimo(rs.getInt("quantidadeEmprestimo"));
                     emprestimo.setAtivo(rs.getBoolean("ativo"));
-
                     emprestimos.add(emprestimo);
                 }
             }
-
             tabelaAtrasos.setItems(emprestimos);
-
         } catch (SQLException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erro");
-            alert.setHeaderText("Erro ao carregar empréstimos em atraso");
-            alert.setContentText("Não foi possível carregar a lista de empréstimos: " + e.getMessage());
-            alert.showAndWait();
+            mostrarErro("Erro ao carregar empréstimos em atraso",
+                    "Não foi possível carregar a lista de empréstimos: " + e.getMessage());
         } finally {
             ConnectionFactory.closeConnection(conn, stmt, rs);
         }
@@ -275,5 +272,28 @@ public class EmprestimosAtrasoForm extends VBox {
         tabelaAtrasos.setItems(dadosFiltrados);
     }
 
+    private void mostrarErro(String titulo, String mensagem) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Erro");
+        alert.setHeaderText(titulo);
+        alert.setContentText(mensagem);
+        alert.showAndWait();
+    }
+
+    private void mostrarSucesso(String mensagem) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Sucesso");
+        alert.setHeaderText("Operação realizada");
+        alert.setContentText(mensagem);
+        alert.showAndWait();
+    }
+
+    private void mostrarAlerta(String titulo, String mensagem) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Aviso");
+        alert.setHeaderText(titulo);
+        alert.setContentText(mensagem);
+        alert.showAndWait();
+    }
 
 }

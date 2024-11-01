@@ -167,13 +167,16 @@ public class DevolucaoForm extends VBox {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
-
         try {
             conn = ConnectionFactory.getConnection();
-            String sql = "SELECT id FROM emprestimos WHERE ativo = true ORDER BY id";
+            String sql = "SELECT e.id FROM emprestimos e " +
+                    "JOIN equipamentos eq ON e.idEquipamento = eq.id " +
+                    "WHERE e.ativo = true " +
+                    "AND eq.tipo_uso = 'Reutilizável' " + // Adiciona filtro por tipo de uso
+                    "ORDER BY e.id";
             stmt = conn.prepareStatement(sql);
-            rs = stmt.executeQuery();
 
+            rs = stmt.executeQuery();
             emprestimoCombo.getItems().clear();
             while (rs.next()) {
                 emprestimoCombo.getItems().add(rs.getInt("id"));
@@ -189,16 +192,15 @@ public class DevolucaoForm extends VBox {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
-
         try {
             conn = ConnectionFactory.getConnection();
             String sql = "SELECT e.dataSaida, e.dataRetornoPrevista, e.observacoes, " +
                     "f.nome as nome_funcionario, eq.descricao as nome_equipamento, " +
-                    "e.quantidadeEmprestimo " +
+                    "e.quantidadeEmprestimo, eq.tipo_uso " +
                     "FROM emprestimos e " +
                     "JOIN funcionarios f ON e.idFuncionario = f.id " +
                     "JOIN equipamentos eq ON e.idEquipamento = eq.id " +
-                    "WHERE e.id = ?";
+                    "WHERE e.id = ? AND eq.tipo_uso = 'Reutilizável'";
 
             stmt = conn.prepareStatement(sql);
             stmt.setInt(1, emprestimoId);
@@ -231,22 +233,43 @@ public class DevolucaoForm extends VBox {
     private void registrarDevolucao(Integer emprestimoId) {
         Connection conn = null;
         PreparedStatement stmt = null;
-
+        ResultSet rs = null;
         try {
             conn = ConnectionFactory.getConnection();
 
+            // Primeiro verifica se é um item reutilizável
+            String sqlVerifica = "SELECT eq.tipo_uso FROM emprestimos e " +
+                    "JOIN equipamentos eq ON e.idEquipamento = eq.id " +
+                    "WHERE e.id = ?";
+            stmt = conn.prepareStatement(sqlVerifica);
+            stmt.setInt(1, emprestimoId);
+            rs = stmt.executeQuery();
+
+            if (rs.next() && !"Reutilizável".equals(rs.getString("tipo_uso"))) {
+                mostrarErro("Operação inválida", "Não é possível registrar devolução de itens de uso único.");
+                return;
+            }
+
             // Atualiza o status do empréstimo
-            String sqlEmprestimo = "UPDATE emprestimos SET ativo = false, dataRetornoEfetiva = NOW() WHERE id = ?";
+            String sqlEmprestimo = "UPDATE emprestimos e " +
+                    "INNER JOIN equipamentos eq ON e.idEquipamento = eq.id " +
+                    "SET e.ativo = false, e.dataRetornoEfetiva = NOW() " +
+                    "WHERE e.id = ? AND eq.tipo_uso = 'Reutilizável'";
             stmt = conn.prepareStatement(sqlEmprestimo);
             stmt.setInt(1, emprestimoId);
-            stmt.executeUpdate();
+            int rowsAffected = stmt.executeUpdate();
+
+            if (rowsAffected == 0) {
+                mostrarErro("Erro", "Não foi possível atualizar o empréstimo.");
+                return;
+            }
 
             // Atualiza o status e quantidade do equipamento
             String sqlEquipamento = "UPDATE equipamentos e " +
-                    "JOIN emprestimos emp ON e.id = emp.idEquipamento " +
+                    "INNER JOIN emprestimos emp ON e.id = emp.idEquipamento " +
                     "SET e.status = 'Disponível', " +
                     "e.quantidadeAtual = e.quantidadeAtual + emp.quantidadeEmprestimo " +
-                    "WHERE emp.id = ?";
+                    "WHERE emp.id = ? AND e.tipo_uso = 'Reutilizável'";
             stmt = conn.prepareStatement(sqlEquipamento);
             stmt.setInt(1, emprestimoId);
             stmt.executeUpdate();
@@ -254,11 +277,10 @@ public class DevolucaoForm extends VBox {
             mostrarSucesso("Devolução registrada com sucesso!");
             limparFormulario();
             carregarEmprestimosAtivos();
-
         } catch (SQLException e) {
             mostrarErro("Erro ao registrar devolução", e.getMessage());
         } finally {
-            ConnectionFactory.closeConnection(conn, stmt);
+            ConnectionFactory.closeConnection(conn, stmt, rs);
         }
     }
 
