@@ -243,11 +243,25 @@ public class EditarEquipamentoForm extends VBox {
         PreparedStatement stmt = null;
         try {
             conn = ConnectionFactory.getConnection();
+            conn.setAutoCommit(false); // Inicia transação
+
+            // Cria uma cópia do equipamento antes das alterações
+            Equipamento equipamentoAntigo = new Equipamento();
+            equipamentoAntigo.setId(equipamento.getId());
+            equipamentoAntigo.setDescricao(equipamento.getDescricao());
+            equipamentoAntigo.setDataCompra(equipamento.getDataCompra());
+            equipamentoAntigo.setPeso(equipamento.getPeso());
+            equipamentoAntigo.setLargura(equipamento.getLargura());
+            equipamentoAntigo.setComprimento(equipamento.getComprimento());
+            equipamentoAntigo.setTipo(equipamento.isTipo());
+            equipamentoAntigo.setQuantidadeAtual(equipamento.getQuantidadeAtual());
+            equipamentoAntigo.setQuantidadeMinima(equipamento.getQuantidadeMinima());
+            equipamentoAntigo.setTipoUso(equipamento.getTipoUso());
+
             String sql = "UPDATE equipamentos SET " +
                     "descricao = ?, dataCompra = ?, " +
                     "peso = ?, largura = ?, comprimento = ?, " +
                     "tipo = ?, quantidadeAtual = ?, " +
-                    "quantidadeEstoque = ?,"+
                     "quantidadeMinima = ?, tipo_uso = ? " +
                     "WHERE id = ?";
 
@@ -273,16 +287,24 @@ public class EditarEquipamentoForm extends VBox {
 
             stmt.setBoolean(paramIndex++, "Consumível".equals(campoTipo.getValue()));
             stmt.setInt(paramIndex++, Integer.parseInt(campoQuantidadeAtual.getText().trim()));
-            stmt.setInt(paramIndex++, Integer.parseInt(campoQuantidadeAtual.getText().trim()));
             stmt.setInt(paramIndex++, Integer.parseInt(campoQuantidadeMinima.getText().trim()));
             stmt.setString(paramIndex++, campoTipoUso.getValue());
             stmt.setString(paramIndex, campoId.getText());
 
             stmt.executeUpdate();
 
+            // Registrar alterações no histórico
+            registrarAlteracoes(equipamentoAntigo, conn);
+
+            conn.commit(); // Confirma transação
             mostrarSucesso("Equipamento atualizado com sucesso!");
             stage.close();
         } catch (SQLException e) {
+            try {
+                if (conn != null) conn.rollback(); // Desfaz alterações em caso de erro
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
             mostrarErro("Erro ao atualizar equipamento", e.getMessage());
         } finally {
             ConnectionFactory.closeConnection(conn, stmt);
@@ -308,4 +330,114 @@ public class EditarEquipamentoForm extends VBox {
     public void mostrar() {
         stage.showAndWait();
     }
+
+    private void registrarAlteracoes(Equipamento equipamentoAntigo, Connection conn) throws SQLException {
+        StringBuilder detalhes = new StringBuilder();
+        String usuarioNome = SessionManager.getUsuarioLogado().getNome();
+
+        // Comparar descrição
+        if (!equipamentoAntigo.getDescricao().equals(campoDescricao.getText().trim())) {
+            detalhes.append("Descrição alterada de '")
+                    .append(equipamentoAntigo.getDescricao())
+                    .append("' para '")
+                    .append(campoDescricao.getText().trim())
+                    .append("'\n");
+        }
+
+        // Comparar quantidade
+        int novaQuantidade = Integer.parseInt(campoQuantidadeAtual.getText().trim());
+        if (equipamentoAntigo.getQuantidadeAtual() != novaQuantidade) {
+            detalhes.append("Quantidade alterada de ")
+                    .append(equipamentoAntigo.getQuantidadeAtual())
+                    .append(" para ")
+                    .append(novaQuantidade)
+                    .append("\n");
+        }
+
+        // Comparar quantidade mínima
+        int novaQuantidadeMinima = Integer.parseInt(campoQuantidadeMinima.getText().trim());
+        if (equipamentoAntigo.getQuantidadeMinima() != novaQuantidadeMinima) {
+            detalhes.append("Quantidade mínima alterada de ")
+                    .append(equipamentoAntigo.getQuantidadeMinima())
+                    .append(" para ")
+                    .append(novaQuantidadeMinima)
+                    .append("\n");
+        }
+
+        // Comparar tipo
+        boolean novoTipo = "Consumível".equals(campoTipo.getValue());
+        if (equipamentoAntigo.isTipo() != novoTipo) {
+            detalhes.append("Tipo alterado de '")
+                    .append(equipamentoAntigo.isTipo() ? "Consumível" : "Emprestável")
+                    .append("' para '")
+                    .append(novoTipo ? "Consumível" : "Emprestável")
+                    .append("'\n");
+        }
+
+        // Medidas (com verificação segura de null)
+        if (checkBoxMedidas.isSelected()) {
+            // Verificar peso
+            String pesoText = campoPeso.getText().trim();
+            if (!pesoText.isEmpty()) {
+                Double pesoNovo = Double.parseDouble(pesoText);
+                Double pesoAntigo = equipamentoAntigo.getPeso();
+
+                if (pesoAntigo == null || !pesoAntigo.equals(pesoNovo)) {
+                    detalhes.append("Peso alterado de ")
+                            .append(pesoAntigo != null ? String.format("%.2f", pesoAntigo) : "não definido")
+                            .append(" para ")
+                            .append(String.format("%.2f", pesoNovo))
+                            .append("\n");
+                }
+            }
+
+            // Verificar largura
+            String larguraText = campoLargura.getText().trim();
+            if (!larguraText.isEmpty()) {
+                Double larguraNova = Double.parseDouble(larguraText);
+                Double larguraAntiga = equipamentoAntigo.getLargura();
+
+                if (larguraAntiga == null || !larguraAntiga.equals(larguraNova)) {
+                    detalhes.append("Largura alterada de ")
+                            .append(larguraAntiga != null ? String.format("%.2f", larguraAntiga) : "não definida")
+                            .append(" para ")
+                            .append(String.format("%.2f", larguraNova))
+                            .append("\n");
+                }
+            }
+
+            // Verificar comprimento
+            String comprimentoText = campoComprimento.getText().trim();
+            if (!comprimentoText.isEmpty()) {
+                Double comprimentoNovo = Double.parseDouble(comprimentoText);
+                Double comprimentoAntigo = equipamentoAntigo.getComprimento();
+
+                if (comprimentoAntigo == null || !comprimentoAntigo.equals(comprimentoNovo)) {
+                    detalhes.append("Comprimento alterado de ")
+                            .append(comprimentoAntigo != null ? String.format("%.2f", comprimentoAntigo) : "não definido")
+                            .append(" para ")
+                            .append(String.format("%.2f", comprimentoNovo))
+                            .append("\n");
+                }
+            }
+        } else if (equipamentoAntigo.getPeso() != 0 ||
+                equipamentoAntigo.getLargura() != 0 ||
+                equipamentoAntigo.getComprimento() != 0) {
+            detalhes.append("Medidas removidas\n");
+        }
+
+        // Registrar no log se houver alterações
+        if (detalhes.length() > 0) {
+            String sql = "INSERT INTO log_equipamentos (id_equipamento, descricao, acao, data_acao, detalhes) " +
+                    "VALUES (?, ?, 'EDICAO', NOW(), ?)";
+
+            try (PreparedStatement stmtLog = conn.prepareStatement(sql)) {
+                stmtLog.setString(1, equipamentoAntigo.getId());
+                stmtLog.setString(2, "Equipamento editado por " + usuarioNome);
+                stmtLog.setString(3, detalhes.toString());
+                stmtLog.executeUpdate();
+            }
+        }
+    }
+
 }

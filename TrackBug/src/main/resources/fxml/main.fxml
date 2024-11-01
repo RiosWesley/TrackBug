@@ -59,7 +59,10 @@
             <Label fx:id="labelRelatorios" styleClass="menu-section" text="RELATÓRIOS" />
             <Button fx:id="btnHistorico" onAction="#mostrarHistorico" styleClass="menu-button"
                     text="📅 Histórico" />
-
+            <Button fx:id="btnHistoricoAlteracoes"
+                    onAction="#mostrarHistoricoAlteracoes"
+                    styleClass="menu-button"
+                    text=" Histórico de Alterações"/>
             <Label fx:id="labelAdministracao" styleClass="menu-section" text="ADMINISTRAÇÃO" />
             <Button fx:id="btnGerenciarUsuarios" onAction="#mostrarGerenciamentoUsuarios" styleClass="menu-button"
                     text="👥 Gerenciar Usuários" />

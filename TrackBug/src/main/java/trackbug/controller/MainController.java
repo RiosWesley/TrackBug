@@ -130,4 +130,10 @@ public class MainController {
         areaPrincipal.getChildren().clear();
         areaPrincipal.getChildren().add(new HistoricoAvariasForm());
     }
+
+    @FXML
+    private void mostrarHistoricoAlteracoes() {
+        areaPrincipal.getChildren().clear();
+        areaPrincipal.getChildren().add(new HistoricoAlteracoesForm());
+    }
 }
