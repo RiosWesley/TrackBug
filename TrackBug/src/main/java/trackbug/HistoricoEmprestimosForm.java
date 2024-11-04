@@ -248,6 +248,7 @@ public class HistoricoEmprestimosForm extends VBox {
             ConnectionFactory.closeConnection(conn, stmt, rs);
         }
     }
+
     private Emprestimos criarEmprestimoDoResultSet(ResultSet rs) throws SQLException {
         Emprestimos emp = new Emprestimos();
         emp.setId(rs.getInt("id"));
@@ -367,6 +368,7 @@ public class HistoricoEmprestimosForm extends VBox {
         alert.setContentText(mensagem);
         alert.showAndWait();
     }
+
     private String buscarNomeFuncionario(String id) {
         if (id == null) return "";
 

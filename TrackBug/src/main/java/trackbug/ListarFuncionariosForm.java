@@ -96,6 +96,9 @@ public class ListarFuncionariosForm extends VBox {
         carregarFuncionarios("");
 
         // Ações dos botões
+        pesquisaField.textProperty().addListener((observable, oldValue, newValue) -> {
+            carregarFuncionarios(newValue);
+        });
         btnPesquisar.setOnAction(e -> carregarFuncionarios(pesquisaField.getText()));
         btnAtualizar.setOnAction(e -> {
             pesquisaField.clear();
@@ -171,6 +174,7 @@ public class ListarFuncionariosForm extends VBox {
         alert.setContentText(mensagem);
         alert.showAndWait();
     }
+
     private void configurarColunaAcoes() {
         TableColumn<Funcionario, Void> colunaAcoes = new TableColumn<>("Ações");
         colunaAcoes.setCellFactory(col -> new TableCell<>() {
@@ -256,6 +260,7 @@ public class ListarFuncionariosForm extends VBox {
             ConnectionFactory.closeConnection(conn, stmt);
         }
     }
+
     private void verificarExclusao(Funcionario funcionario) {
         Connection conn = null;
         PreparedStatement stmt = null;

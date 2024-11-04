@@ -330,6 +330,7 @@ public class ListarEquipamentosForm extends VBox {
     }
 
     private void filtrarEquipamentos() {
+        carregarEquipamentos();
         if (tabelaEquipamentos.getItems() == null) return;
 
         FilteredList<Equipamento> dadosFiltrados = new FilteredList<>(tabelaEquipamentos.getItems());
@@ -445,6 +446,7 @@ public class ListarEquipamentosForm extends VBox {
             ConnectionFactory.closeConnection(conn, stmt);
         }
     }
+
     private boolean verificarEmprestimosAtivos(Equipamento equipamento) {
         Connection conn = null;
         PreparedStatement stmt = null;
