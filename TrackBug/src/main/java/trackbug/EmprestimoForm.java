@@ -65,6 +65,7 @@ public class EmprestimoForm extends VBox {
         // Inicializar e estilizar componentes
         funcionarioCombo = createStyledComboBox("Selecione o funcionário");
         equipamentoCombo = createStyledComboBox("Selecione o equipamento");
+        configurarComboBoxes();
         dataDevolucao = createStyledDatePicker();
         quantidadeField = createStyledTextField("Quantidade");
         observacoes = createStyledTextArea();
@@ -110,6 +111,33 @@ public class EmprestimoForm extends VBox {
         btnCancelar.setOnAction(e -> limparFormulario());
     }
 
+    private void configurarComboBoxes() {
+        // Configurar o ComboBox de equipamentos
+        equipamentoCombo.setVisibleRowCount(15); // Aumenta o número de itens visíveis
+
+        // Customizar o popup do ComboBox
+        equipamentoCombo.showingProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                ListView<String> lv = (ListView<String>) equipamentoCombo.lookup(".list-view");
+                if (lv != null) {
+                    lv.setPrefHeight(400); // Altura máxima do popup
+                    lv.setMinHeight(50);   // Altura mínima do popup
+                }
+            }
+        });
+
+        // Mesmo tratamento para o ComboBox de funcionários
+        funcionarioCombo.setVisibleRowCount(15);
+        funcionarioCombo.showingProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                ListView<String> lv = (ListView<String>) funcionarioCombo.lookup(".list-view");
+                if (lv != null) {
+                    lv.setPrefHeight(400);
+                    lv.setMinHeight(50);
+                }
+            }
+        });
+    }
     private ComboBox<String> createStyledComboBox(String prompt) {
         ComboBox<String> combo = new ComboBox<>();
         combo.setPromptText(prompt);
