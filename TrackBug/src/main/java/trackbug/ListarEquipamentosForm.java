@@ -106,18 +106,6 @@ public class ListarEquipamentosForm extends VBox {
                 )
         );
 
-        TableColumn<Equipamento, String> colunaPeso = new TableColumn<>("Peso (g)");
-        colunaPeso.setCellValueFactory(cellData ->
-                new javafx.beans.property.SimpleStringProperty(
-                        String.format("%.2f", cellData.getValue().getPeso())));
-
-        TableColumn<Equipamento, String> colunaDimensoes = new TableColumn<>("Dimensões (cm)");
-        colunaDimensoes.setCellValueFactory(cellData ->
-                new javafx.beans.property.SimpleStringProperty(
-                        String.format("%.1f x %.1f",
-                                cellData.getValue().getLargura(),
-                                cellData.getValue().getComprimento())));
-
         TableColumn<Equipamento, String> colunaQuantidadeAtual = new TableColumn<>("Qtd. Atual");
         colunaQuantidadeAtual.setCellValueFactory(cellData ->
                 new javafx.beans.property.SimpleStringProperty(
@@ -193,8 +181,6 @@ public class ListarEquipamentosForm extends VBox {
                 colunaId,
                 colunaDescricao,
                 colunaDataCompra,
-                colunaPeso,
-                colunaDimensoes,
                 colunaQuantidadeAtual,
                 colunaQuantidadeEstoque,
                 colunaQuantidadeMinima,

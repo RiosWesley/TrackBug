@@ -297,6 +297,7 @@ public class RegistrarEquipamentoForm extends VBox {
         alert.setContentText(mensagem);
         alert.showAndWait();
     }
+
     private void salvarEquipamento() {
         if (!validarCampos()) {
             return;
@@ -307,8 +308,8 @@ public class RegistrarEquipamentoForm extends VBox {
         try {
             conn = ConnectionFactory.getConnection();
             String sql = "INSERT INTO equipamentos (id, descricao, dataCompra, peso, largura, " +
-                    "comprimento, quantidadeAtual, quantidadeEstoque, tipo, tipo_uso) " +
-                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    "comprimento, quantidadeAtual, quantidadeEstoque, tipo, tipo_uso, quantidadeMinima) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, campoId.getText());
@@ -331,6 +332,7 @@ public class RegistrarEquipamentoForm extends VBox {
             stmt.setInt(8, quantidadeInicial);
             stmt.setBoolean(9, "Consumível".equals(campoTipo.getValue()));
             stmt.setString(10, campoTipoUso.getValue());
+            stmt.setInt(11, Integer.parseInt(campoQuantidadeMinima.getText()));
 
             stmt.executeUpdate();
 
@@ -342,6 +344,7 @@ public class RegistrarEquipamentoForm extends VBox {
             ConnectionFactory.closeConnection(conn, stmt);
         }
     }
+
     private void limparFormulario() {
         campoId.clear();
         campoDescricao.clear();
