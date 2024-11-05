@@ -6,6 +6,8 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import java.sql.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,6 +20,7 @@ public class EmprestimoForm extends VBox {
     private Map<String, String> funcionarioIds = new HashMap<>();
     private Map<String, String> equipamentoIds = new HashMap<>();
     private Label equipamentoInfoLabel;
+    LocalDateTime dateTime;
 
     public EmprestimoForm() {
         setSpacing(30);
@@ -138,6 +141,7 @@ public class EmprestimoForm extends VBox {
             }
         });
     }
+
     private ComboBox<String> createStyledComboBox(String prompt) {
         ComboBox<String> combo = new ComboBox<>();
         combo.setPromptText(prompt);
@@ -330,7 +334,7 @@ public class EmprestimoForm extends VBox {
                 stmt.setInt(7, Integer.parseInt(quantidadeField.getText()));
                 stmt.setString(8, "BAIXA");
             } else {
-                stmt.setDate(3, java.sql.Date.valueOf(dataDevolucao.getValue()));
+                stmt.setTimestamp(3, Timestamp.valueOf(dateTime));
                 stmt.setNull(4, java.sql.Types.TIMESTAMP);
                 stmt.setString(5, observacoes.getText());
                 stmt.setBoolean(6, true);
@@ -402,7 +406,7 @@ public class EmprestimoForm extends VBox {
         int quantAtual = 0;
         String equipamentoSelecionado = equipamentoCombo.getValue();
         try{
-            String sql = "SELECT quantidadeAtual, tipo FROM equipamentos WHERE id = ?";
+            String sql = "SELECT quantidadeAtual, tipo, tipo_uso FROM equipamentos WHERE id = ?";
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, equipamentoIds.get(equipamentoSelecionado));
             rs = stmt.executeQuery();
@@ -413,17 +417,35 @@ public class EmprestimoForm extends VBox {
                         mostrarAlerta("Campos obrigatórios", "Como é um item emprestável, é necessário uma data de retorno.");
                         return false;
                     }
-                    if (dataDevolucao.getValue().isBefore(LocalDate.now())) {
+                    else if (dataDevolucao.getValue().isBefore(LocalDate.now())) {
                         mostrarAlerta("Data inválida", "A data de devolução não pode ser anterior à data atual.");
                         return false;
                     }
+                    else{
+                        LocalTime currentTime = LocalTime.now();
+                        dateTime = LocalDateTime.of(dataDevolucao.getValue(), currentTime);
+                    }
                 }else {
-                    dataDevolucao.setValue(LocalDate.now());
+                    if(rs.getString("tipo_uso") == "Reutilizável"){
+                        if (dataDevolucao.getValue() == null) {
+                            mostrarAlerta("Campos obrigatórios", "Como é um item emprestável, é necessário uma data de retorno.");
+                            return false;
+                        }
+                        if (dataDevolucao.getValue().isBefore(LocalDate.now())) {
+                            mostrarAlerta("Data inválida", "A data de devolução não pode ser anterior à data atual.");
+                            return false;
+                        }
+                    }
+                    else {
+                        dataDevolucao.setValue(LocalDate.now());
+                        LocalTime currentTime = LocalTime.now();
+                        dateTime = LocalDateTime.of(dataDevolucao.getValue(), currentTime);
+                    }
                 }
             }
 
         } catch (SQLException e) {
-            mostrarAlerta("ERRO", "NAQUILO MERMO");
+            mostrarAlerta("ERRO", "NAQUILO MERMO" + e );
             return false;
         } finally {
                 ConnectionFactory.closeConnection(conn, stmt, rs);
@@ -488,7 +510,7 @@ public class EmprestimoForm extends VBox {
 
             try {
                 conn = ConnectionFactory.getConnection();
-                String sql = "SELECT tipo, quantidadeAtual, quantidadeEstoque FROM equipamentos WHERE id = ?";
+                String sql = "SELECT tipo, quantidadeAtual, quantidadeEstoque, tipo_uso FROM equipamentos WHERE id = ?";
                 stmt = conn.prepareStatement(sql);
                 stmt.setString(1, equipamentoId);
                 rs = stmt.executeQuery();
@@ -497,8 +519,8 @@ public class EmprestimoForm extends VBox {
                     int quantAtual = rs.getInt("quantidadeAtual");
                     int quantTotal = rs.getInt("quantidadeEstoque");
                     equipamentoInfoLabel.setText(String.format("Disponível: %d unidades (Total: %d)", quantAtual, quantTotal));
-                    dataDevolucao.setDisable(rs.getBoolean("tipo"));
-                    if(rs.getBoolean("tipo") == true){
+                    if(rs.getBoolean("tipo") == true && rs.getString("tipo_uso") == "Uso Único"){
+                        dataDevolucao.setDisable(rs.getBoolean("tipo"));
                         dataDevolucao.setValue(null);
                     }
                 }
@@ -510,6 +532,7 @@ public class EmprestimoForm extends VBox {
         }
 
     }
+
     private void mostrarDetalhesEquipamento(String equipamentoId) {
         Connection conn = null;
         PreparedStatement stmt = null;
