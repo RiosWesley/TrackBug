@@ -2,6 +2,8 @@
 
     import javafx.fxml.FXML;
     import javafx.scene.control.*;
+    import javafx.scene.image.Image;
+    import javafx.scene.image.ImageView;
     import javafx.stage.Stage;
     import trackbug.Main;
     import trackbug.SessionManager;
@@ -19,6 +21,26 @@
 
         @FXML
         private Button loginButton;
+        @FXML
+        private ImageView leftImage;
+
+        @FXML
+        private ImageView rightImage;
+
+        @FXML
+        public void initialize() {
+            try {
+                // Carrega a imagem
+                Image unifanImage = new Image(getClass().getResourceAsStream("/images/UNIFAN.png"));
+                Image estadoImage = new Image(getClass().getResourceAsStream("/images/ESTADO.png"));
+                // Define a imagem para ambos os ImageViews
+                leftImage.setImage(unifanImage);
+                rightImage.setImage(estadoImage);
+            } catch (Exception e) {
+                System.out.println("Erro ao carregar a imagem: " + e.getMessage());
+                e.printStackTrace();
+            }
+        }
 
         @FXML
         private void realizarLogin() {
