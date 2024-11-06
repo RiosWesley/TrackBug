@@ -30,7 +30,7 @@
 
 /* Estilos do Menu */
 .menu-section {
-    -fx-text-fill: #90caf9;
+    -fx-text-fill: black;
     -fx-font-size: 12px;
     -fx-font-weight: bold;
     -fx-padding: 15 0 5 0;

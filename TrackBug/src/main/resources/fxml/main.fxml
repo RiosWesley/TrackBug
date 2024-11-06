@@ -10,7 +10,7 @@
     <left>
         <ScrollPane fitToWidth="true" styleClass="menu-scroll-pane"
                     style="-fx-background: transparent; -fx-background-color: transparent;">
-            <VBox spacing="5" style="-fx-background-color: linear-gradient(to bottom right, #1a237e, #0d47a1);
+            <VBox spacing="5" style="-fx-background-color: #00B393;
                   -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 10, 0, 0, 0);" prefWidth="250">
                 <padding>
                     <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
@@ -26,7 +26,7 @@
                             <Font name="Segoe UI Bold" size="28.0" />
                         </font>
                     </Label>
-                    <Label text="Sistema de Gerenciamento" textFill="#90caf9">
+                    <Label text="Sistema de Gerenciamento" textFill="black" style="-fx-font-weight: bold">
                         <font>
                             <Font name="Segoe UI" size="14.0" />
                         </font>
@@ -34,9 +34,10 @@
                 </VBox>
 
                 <!-- Menu Items -->
-                <Label fx:id="labelEmprestimos" styleClass="menu-section" text="EMPRÉSTIMOS" />
+                <Label fx:id="labelEmprestimos" styleClass="menu-section" text="EMPRÉSTIMOS"/>
+
                 <Button fx:id="btnEmprestimos" onAction="#mostrarEmprestimos" styleClass="menu-button"
-                        text="📋 Registrar Empréstimo" />
+                        text="➕ Registrar Empréstimo" />
                 <Button fx:id="btnDevolucao" onAction="#mostrarDevolucao" styleClass="menu-button"
                         text="↩ Registrar Devolução" />
                 <Button fx:id="btnListarAtivos" onAction="#mostrarEmprestimosAtivos" styleClass="menu-button"
@@ -49,8 +50,7 @@
                         text="📦 Registrar Equipamento" />
                 <Button fx:id="btnListarEquip" onAction="#mostrarListaEquipamentos" styleClass="menu-button"
                         text="📋 Listar Equipamentos" />
-                <Button fx:id="btnHistoricoAvarias" onAction="#mostrarHistoricoAvarias"
-                        styleClass="menu-button" text="📋 Histórico de Avarias" />
+
 
                 <Label fx:id="labelFuncionarios" styleClass="menu-section" text="FUNCIONÁRIOS" />
                 <Button fx:id="btnCadastrarFunc" onAction="#mostrarCadastroFuncionario" styleClass="menu-button"
@@ -64,6 +64,9 @@
                         text="📅 Histórico" />
                 <Button fx:id="btnHistoricoAlteracoes" onAction="#mostrarHistoricoAlteracoes"
                         styleClass="menu-button" text="📋 Histórico de Alterações"/>
+                <Button fx:id="btnHistoricoAvarias" onAction="#mostrarHistoricoAvarias"
+                        styleClass="menu-button" text="📋 Histórico de Avarias" />
+
 
                 <Label fx:id="labelAdministracao" styleClass="menu-section" text="ADMINISTRAÇÃO" />
                 <Button fx:id="btnGerenciarUsuarios" onAction="#mostrarGerenciamentoUsuarios" styleClass="menu-button"

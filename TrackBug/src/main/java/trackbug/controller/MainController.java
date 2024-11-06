@@ -111,7 +111,7 @@ public class MainController {
         bemVindo.setStyle(
                 "-fx-font-size: 24px;" +
                         "-fx-font-weight: bold;" +
-                        "-fx-text-fill: #1a237e;" +
+                        "-fx-text-fill: #00B393;" +
                         "-fx-font-family: 'Segoe UI';"
         );
 
