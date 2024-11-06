@@ -9,6 +9,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
@@ -45,6 +46,25 @@ public class EditarEquipamentoForm extends VBox {
         subtitulo.setStyle("-fx-font-size: 14px; -fx-text-fill: #757575; -fx-font-family: 'Segoe UI';");
         header.getChildren().addAll(titulo, subtitulo);
 
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+            conn = ConnectionFactory.getConnection();
+
+            String sql = "SELECT tipo_uso FROM equipamentos WHERE id = " + equipamento.getId();
+
+            stmt = conn.prepareStatement(sql);
+            rs = stmt.executeQuery();
+            if (rs.next()){
+                equipamento.setTipoUso(rs.getString("tipo_uso"));
+            }
+
+        }catch (SQLException e){
+            mostrarErro("ERRO", "CAUSA: " + e);
+        }
+
+
         // Container do formulário
         VBox formContainer = new VBox(20);
         formContainer.setMaxWidth(600);
@@ -80,7 +100,7 @@ public class EditarEquipamentoForm extends VBox {
         campoTipoUso = new ComboBox<>();
         campoTipoUso.getItems().addAll("Reutilizável", "Uso Único");
         String tipoUso = equipamento.getTipoUso();
-        campoTipoUso.setValue(tipoUso != null ? tipoUso : "Reutilizável");
+        campoTipoUso.setValue(tipoUso != null ? tipoUso  : "Reutilizável");
         estilizarComboBox(campoTipoUso);
 
         campoQuantidadeAtual = criarCampoTexto(String.valueOf(equipamento.getQuantidadeAtual()));
@@ -261,35 +281,42 @@ public class EditarEquipamentoForm extends VBox {
             String sql = "UPDATE equipamentos SET " +
                     "descricao = ?, dataCompra = ?, " +
                     "peso = ?, largura = ?, comprimento = ?, " +
-                    "tipo = ?, quantidadeAtual = ?, " +
-                    "quantidadeMinima = ?, tipo_uso = ? " +
+                    "tipo = ?, quantidadeAtual = ?, quantidadeEstoque = ?," +
+                    "quantidadeMinima = ?, tipo_uso = ?, status = ? " +
                     "WHERE id = ?";
 
             stmt = conn.prepareStatement(sql);
             int paramIndex = 1;
 
-            stmt.setString(paramIndex++, campoDescricao.getText().trim());
-            stmt.setDate(paramIndex++, java.sql.Date.valueOf(campoDataCompra.getValue()));
+            stmt.setString(1, campoDescricao.getText().trim());
+            stmt.setDate(2, java.sql.Date.valueOf(campoDataCompra.getValue()));
 
             if (checkBoxMedidas.isSelected()) {
                 String pesoText = campoPeso.getText().trim();
                 String larguraText = campoLargura.getText().trim();
                 String comprimentoText = campoComprimento.getText().trim();
 
-                stmt.setDouble(paramIndex++, pesoText.isEmpty() ? 0 : Double.parseDouble(pesoText));
-                stmt.setDouble(paramIndex++, larguraText.isEmpty() ? 0 : Double.parseDouble(larguraText));
-                stmt.setDouble(paramIndex++, comprimentoText.isEmpty() ? 0 : Double.parseDouble(comprimentoText));
+                stmt.setDouble(3, pesoText.isEmpty() ? 0 : Double.parseDouble(pesoText));
+                stmt.setDouble(4, larguraText.isEmpty() ? 0 : Double.parseDouble(larguraText));
+                stmt.setDouble(5, comprimentoText.isEmpty() ? 0 : Double.parseDouble(comprimentoText));
             } else {
-                stmt.setNull(paramIndex++, java.sql.Types.DOUBLE);
-                stmt.setNull(paramIndex++, java.sql.Types.DOUBLE);
-                stmt.setNull(paramIndex++, java.sql.Types.DOUBLE);
+                stmt.setNull(3, java.sql.Types.DOUBLE);
+                stmt.setNull(4, java.sql.Types.DOUBLE);
+                stmt.setNull(5, java.sql.Types.DOUBLE);
             }
 
-            stmt.setBoolean(paramIndex++, "Consumível".equals(campoTipo.getValue()));
-            stmt.setInt(paramIndex++, Integer.parseInt(campoQuantidadeAtual.getText().trim()));
-            stmt.setInt(paramIndex++, Integer.parseInt(campoQuantidadeMinima.getText().trim()));
-            stmt.setString(paramIndex++, campoTipoUso.getValue());
-            stmt.setString(paramIndex, campoId.getText());
+            stmt.setBoolean(6, "Consumível".equals(campoTipo.getValue()));
+            stmt.setInt(7, Integer.parseInt(campoQuantidadeAtual.getText().trim()));
+            stmt.setInt(8, Integer.parseInt(campoQuantidadeAtual.getText().trim()));
+            stmt.setInt(9, Integer.parseInt(campoQuantidadeMinima.getText().trim()));
+            stmt.setString(10, campoTipoUso.getValue());
+            if(equipamentoAntigo.getQuantidadeAtual() == 0 && Integer.parseInt(campoQuantidadeAtual.getText().trim()) > 0){
+                stmt.setString(11, "Disponível");
+            }else {
+                stmt.setString(11, "Esgotado");
+            }
+            stmt.setString(12, campoId.getText());
+
 
             stmt.executeUpdate();
 

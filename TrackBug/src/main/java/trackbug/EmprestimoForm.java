@@ -519,7 +519,7 @@ public class EmprestimoForm extends VBox {
                     int quantAtual = rs.getInt("quantidadeAtual");
                     int quantTotal = rs.getInt("quantidadeEstoque");
                     equipamentoInfoLabel.setText(String.format("Disponível: %d unidades (Total: %d)", quantAtual, quantTotal));
-                    if(rs.getBoolean("tipo") == true && rs.getString("tipo_uso") == "Uso Único"){
+                    if(rs.getBoolean("tipo") == true && rs.getString("tipo_uso") != "Reutilizável"){
                         dataDevolucao.setDisable(rs.getBoolean("tipo"));
                         dataDevolucao.setValue(null);
                     }
