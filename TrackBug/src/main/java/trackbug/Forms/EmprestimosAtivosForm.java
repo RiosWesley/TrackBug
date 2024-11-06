@@ -1,4 +1,4 @@
-package trackbug;
+package trackbug.Forms;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

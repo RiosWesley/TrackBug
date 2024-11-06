@@ -6,7 +6,7 @@
     import javafx.scene.image.ImageView;
     import javafx.stage.Stage;
     import trackbug.Main;
-    import trackbug.SessionManager;
+    import trackbug.Forms.SessionManager;
     import trackbug.model.*;
 
     public class LoginController {

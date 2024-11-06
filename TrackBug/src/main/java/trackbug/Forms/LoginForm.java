@@ -1,10 +1,10 @@
-package trackbug;
+package trackbug.Forms;
 
+import trackbug.Main;
 import trackbug.model.Usuario;
 import trackbug.model.UsuarioDAO;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;

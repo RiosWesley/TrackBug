@@ -1,9 +1,10 @@
-package trackbug;
+package trackbug.Forms;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;

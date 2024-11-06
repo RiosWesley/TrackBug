@@ -1,10 +1,4 @@
-package trackbug;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Scanner;
+package trackbug.Forms;
 
 public class Funcionario {
     public String id;

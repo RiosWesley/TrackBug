@@ -1,4 +1,4 @@
-package trackbug;
+package trackbug.Forms;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;

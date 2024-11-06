@@ -1,6 +1,6 @@
 package trackbug.model;
 
-import trackbug.ConnectionFactory;
+import trackbug.Forms.ConnectionFactory;
 
 import java.sql.*;
 import java.util.ArrayList;

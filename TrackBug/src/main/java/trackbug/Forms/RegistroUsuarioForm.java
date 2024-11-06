@@ -1,4 +1,4 @@
-package trackbug;
+package trackbug.Forms;
 
 import trackbug.model.*;
 import javafx.geometry.Insets;

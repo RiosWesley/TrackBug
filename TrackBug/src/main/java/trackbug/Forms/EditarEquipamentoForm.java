@@ -1,4 +1,4 @@
-package trackbug;
+package trackbug.Forms;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -7,11 +7,11 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 
 public class EditarEquipamentoForm extends VBox {
     private final TextField campoId;
@@ -310,7 +310,7 @@ public class EditarEquipamentoForm extends VBox {
             stmt.setInt(8, Integer.parseInt(campoQuantidadeAtual.getText().trim()));
             stmt.setInt(9, Integer.parseInt(campoQuantidadeMinima.getText().trim()));
             stmt.setString(10, campoTipoUso.getValue());
-            if(equipamentoAntigo.getQuantidadeAtual() == 0 && Integer.parseInt(campoQuantidadeAtual.getText().trim()) > 0){
+            if(equipamentoAntigo.getQuantidadeAtual() == 0 && !campoQuantidadeAtual.getText().equals("0")){
                 stmt.setString(11, "Disponível");
             }else {
                 stmt.setString(11, "Esgotado");

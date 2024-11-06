@@ -12,4 +12,6 @@ module trackbug {
     exports trackbug.controller;
     exports trackbug.model;
     opens trackbug.model to javafx.fxml;
+    exports trackbug.Forms;
+    opens trackbug.Forms to javafx.fxml;
 }

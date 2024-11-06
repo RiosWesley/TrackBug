@@ -1,6 +1,5 @@
-package trackbug;
+package trackbug.Forms;
 
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;

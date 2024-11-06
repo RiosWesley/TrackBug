@@ -1,12 +1,6 @@
-package trackbug;
+package trackbug.Forms;
 
 import java.time.LocalDate;
-import java.util.Scanner;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.ResultSet;
-import java.sql.Date;
 
 public class Equipamento {
 

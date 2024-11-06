@@ -5,21 +5,15 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import trackbug.Forms.*;
 import trackbug.model.NivelAcesso;
-import trackbug.SessionManager;
-import trackbug.*;
+import trackbug.Forms.SessionManager;
 
 // Forms
-import trackbug.EmprestimoForm;
-import trackbug.DevolucaoForm;
-import trackbug.EmprestimosAtivosForm;
-import trackbug.EmprestimosAtrasoForm;
-import trackbug.RegistrarEquipamentoForm;
-import trackbug.ListarEquipamentosForm;
-import trackbug.CadastrarFuncionarioForm;
-import trackbug.ListarFuncionariosForm;
-import trackbug.HistoricoEmprestimosForm;
-import trackbug.GerenciamentoPermissoesForm;
+import trackbug.Forms.RegistrarEquipamentoForm;
+import trackbug.Forms.ListarEquipamentosForm;
+import trackbug.Forms.ListarFuncionariosForm;
+import trackbug.Forms.HistoricoEmprestimosForm;
 
 public class MainController {
     @FXML
