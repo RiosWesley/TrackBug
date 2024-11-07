@@ -26,7 +26,7 @@
                             <Font name="Segoe UI Bold" size="28.0" />
                         </font>
                     </Label>
-                    <Label text="Sistema de Gerenciamento" textFill="black" style="-fx-font-weight: bold">
+                    <Label text="Colégio Estadual Hilda Carneiro" textFill="black" style="-fx-font-weight: bold">
                         <font>
                             <Font name="Segoe UI" size="14.0" />
                         </font>

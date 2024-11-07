@@ -36,7 +36,7 @@ public class EmprestimoForm extends VBox {
         titulo.setStyle(
                 "-fx-font-size: 24px; " +
                         "-fx-font-weight: bold; " +
-                        "-fx-text-fill: #1a237e; " +
+                        "-fx-text-fill: #04b494; " +
                         "-fx-font-family: 'Segoe UI';"
         );
         Label subtitulo = new Label("Preencha os dados do empréstimo abaixo");
@@ -50,10 +50,10 @@ public class EmprestimoForm extends VBox {
         // Container principal
         VBox formContainer = new VBox(20);
         formContainer.setStyle(
-                "-fx-background-color: #f8f9fa; " +
+                "-fx-background-color: #04b494; " +
                         "-fx-padding: 20px; " +
                         "-fx-background-radius: 5px; " +
-                        "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0);"
+                        "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,10.1), 10, 0, 0, 0);"
         );
         formContainer.setMaxWidth(600);
 
@@ -64,7 +64,7 @@ public class EmprestimoForm extends VBox {
         grid.setAlignment(Pos.CENTER);
 
         // Estilo padrão para labels
-        String labelStyle = "-fx-font-family: 'Segoe UI'; -fx-font-size: 14px; -fx-text-fill: #2c3e50;";
+        String labelStyle = "-fx-font-family: 'Segoe UI'; -fx-font-size: 14px; -fx-text-fill: #FFFFFF; -fx-font-weight: bold;";
 
         // Inicializar e estilizar componentes
         funcionarioCombo = createStyledComboBox("Selecione o funcionário");
@@ -206,9 +206,9 @@ public class EmprestimoForm extends VBox {
         final String baseStyle = "-fx-font-family: 'Segoe UI'; -fx-font-size: 14px; " +
                 "-fx-padding: 10px 20px; -fx-cursor: hand; -fx-font-weight: bold;";
 
-        final String confirmStyle = baseStyle + "-fx-background-color: #1a237e; -fx-text-fill: white;";
+        final String confirmStyle = baseStyle + "-fx-background-color: #009177; -fx-text-fill: white;";
         final String cancelStyle = baseStyle + "-fx-background-color: #e0e0e0; -fx-text-fill: #424242;";
-        final String confirmHoverStyle = baseStyle + "-fx-background-color: #283593; -fx-text-fill: white;";
+        final String confirmHoverStyle = baseStyle + "-fx-background-color: #166b5c; -fx-text-fill: white;";
         final String cancelHoverStyle = baseStyle + "-fx-background-color: #bdbdbd; -fx-text-fill: #424242;";
 
         // Aplica o estilo inicial

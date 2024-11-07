@@ -101,7 +101,7 @@ public class MainController {
         VBox welcomeBox = new VBox(15);
         welcomeBox.setAlignment(Pos.CENTER);
 
-        Label bemVindo = new Label("Bem-vindo ao Sistema de Gerenciamento");
+        Label bemVindo = new Label("Bem-vindo ao Sistema de Gerenciamento de Estoque.");
         bemVindo.setStyle(
                 "-fx-font-size: 24px;" +
                         "-fx-font-weight: bold;" +
@@ -109,7 +109,7 @@ public class MainController {
                         "-fx-font-family: 'Segoe UI';"
         );
 
-        Label instrucoes = new Label("Selecione uma opção no menu lateral para começar");
+        Label instrucoes = new Label("Selecione uma opção no menu lateral para começar.");
         instrucoes.setStyle(
                 "-fx-font-size: 16px;" +
                         "-fx-text-fill: #757575;" +

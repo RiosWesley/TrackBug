@@ -46,7 +46,7 @@
             <VBox alignment="CENTER" maxWidth="400">
                 <!-- VBox principal com espaçamento distribuído -->
                 <VBox alignment="TOP_CENTER"
-                      style="-fx-background-color: #04b494; -fx-padding: 20; -fx-background-radius: 50;"
+                      style="-fx-background-color: #04b494; -fx-padding: 20; -fx-background-radius: 50; -fx-effect: dropshadow(three-pass-box, rgba(48, 179, 155, 0.8), 1000, 0.5, 0, 10);"
                       >
 
                     <!-- Seção superior -->
