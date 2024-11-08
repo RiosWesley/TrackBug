@@ -48,7 +48,6 @@
         <HBox spacing="10" alignment="CENTER_RIGHT">
             <Button text="Pesquisar" onAction="#pesquisar" styleClass="btn-primary"/>
             <Button text="Limpar Filtros" onAction="#limparFiltros" styleClass="btn-secondary"/>
-            <Button text="Exportar PDF" onAction="#exportarPDF" styleClass="btn-accent"/>
         </HBox>
     </VBox>
 

@@ -22,10 +22,6 @@
         <TextField fx:id="campoBusca" promptText="Buscar por funcionário ou equipamento..."
                    styleClass="search-field"/>
 
-        <!-- Botão Notificar -->
-        <Button text="Notificar Selecionados" onAction="#notificarSelecionados"
-                styleClass="btn-warning"/>
-
         <padding>
             <Insets top="10" right="10" bottom="10" left="10"/>
         </padding>

@@ -1,72 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="<?xml version="1.0" encoding="UTF-8"?>
-        <?import javafx.geometry.Insets?>
-        <?import javafx.scene.control.*?>
-        <?import javafx.scene.layout.*?>
-        <?import javafx.scene.text.Font?>
+<VBox spacing="30" styleClass="form-container"
+      xmlns="http://javafx.com/javafx/19"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="trackbug.controller.EmprestimoController">
 
-<VBox spacing="30" styleClass="form-container" xmlns="http://javafx.com/javafx/19"
-      xmlns:fx="http://javafx.com/fxml/1" fx:controller="trackbug.controller.EmprestimoController">
+    <!-- Cabeçalho -->
+    <VBox alignment="CENTER" styleClass="form-header">
+        <Label text="Registrar Novo Empréstimo" styleClass="form-title"/>
+        <Label text="Preencha os dados do empréstimo abaixo" styleClass="form-subtitle"/>
+    </VBox>
 
-<!-- Cabeçalho -->
-<VBox alignment="CENTER" styleClass="form-header">
-    <Label text="Registrar Novo Empréstimo" styleClass="form-title"/>
-    <Label text="Preencha os dados do empréstimo abaixo" styleClass="form-subtitle"/>
+    <!-- Container principal -->
+    <VBox styleClass="form-content-container">
+        <!-- Grid para os campos -->
+        <GridPane hgap="15" vgap="15" alignment="CENTER">
+
+            <!-- Seleção de Funcionário -->
+            <Label text="Funcionário:" styleClass="form-label"
+                   GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <ComboBox fx:id="funcionarioCombo" promptText="Selecione o funcionário"
+                      styleClass="form-combo" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+            <!-- Seleção de Equipamento -->
+            <Label text="Equipamento:" styleClass="form-label"
+                   GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+            <ComboBox fx:id="equipamentoCombo" promptText="Selecione o equipamento"
+                      styleClass="form-combo" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+            <!-- Informações do Equipamento -->
+            <Label fx:id="equipamentoInfoLabel" styleClass="info-label"
+                   GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+            <!-- Quantidade -->
+            <Label text="Quantidade:" styleClass="form-label"
+                   GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+            <TextField fx:id="quantidadeField" promptText="Quantidade"
+                       styleClass="form-field" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+            <!-- Data de Devolução -->
+            <Label text="Data de Devolução:" styleClass="form-label"
+                   GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+            <DatePicker fx:id="dataDevolucao" promptText="Selecione a data"
+                        styleClass="form-date-picker" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+            <!-- Observações -->
+            <Label text="Observações:" styleClass="form-label"
+                   GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+            <TextArea fx:id="observacoes" promptText="Observações sobre o empréstimo"
+                      styleClass="form-text-area" prefRowCount="3" wrapText="true"
+                      GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+        </GridPane>
+
+        <!-- Botões -->
+        <HBox alignment="CENTER" spacing="15" styleClass="button-container">
+            <Button text="Registrar Empréstimo" onAction="#registrarEmprestimo"
+                    styleClass="btn-primary"/>
+            <Button text="Limpar" onAction="#limparFormulario"
+                    styleClass="btn-secondary"/>
+        </HBox>
+    </VBox>
+
 </VBox>
-
-<!-- Container principal -->
-<VBox styleClass="form-content-container">
-    <!-- Grid para os campos -->
-    <GridPane hgap="15" vgap="15" alignment="CENTER">
-
-        <!-- Seleção de Funcionário -->
-        <Label text="Funcionário:" styleClass="form-label" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-        <ComboBox fx:id="funcionarioCombo" promptText="Selecione o funcionário"
-                  styleClass="form-combo" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
-
-        <!-- Seleção de Equipamento -->
-        <Label text="Equipamento:" styleClass="form-label" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-        <ComboBox fx:id="equipamentoCombo" promptText="Selecione o equipamento"
-                  styleClass="form-combo" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
-
-        <!-- Informações do Equipamento -->
-        <Label fx:id="equipamentoInfoLabel" styleClass="info-label"
-               GridPane.rowIndex="2" GridPane.columnIndex="1"/>
-
-        <!-- Quantidade -->
-        <Label text="Quantidade:" styleClass="form-label" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
-        <TextField fx:id="quantidadeField" promptText="Quantidade" styleClass="form-field"
-                   GridPane.rowIndex="3" GridPane.columnIndex="1"/>
-
-        <!-- Data de Devolução -->
-        <Label text="Data de Devolução:" styleClass="form-label"
-               GridPane.rowIndex="4" GridPane.columnIndex="0"/>
-        <DatePicker fx:id="dataDevolucao" promptText="Selecione a data" styleClass="form-date-picker"
-                    GridPane.rowIndex="4" GridPane.columnIndex="1"/>
-
-        <!-- Observações -->
-        <Label text="Observações:" styleClass="form-label" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
-        <TextArea fx:id="observacoes" promptText="Observações sobre o empréstimo"
-                  styleClass="form-text-area" prefRowCount="3" wrapText="true"
-                  GridPane.rowIndex="5" GridPane.columnIndex="1"/>
-    </GridPane>
-
-    <!-- Botões -->
-    <HBox alignment="CENTER" spacing="15" styleClass="button-container">
-        <Button text="Registrar Empréstimo" onAction="#registrarEmprestimo" styleClass="btn-primary"/>
-        <Button text="Limpar" onAction="#limparFormulario" styleClass="btn-secondary"/>
-    </HBox>
-</VBox>
-</VBox>"
-            prefHeight="400.0" prefWidth="600.0">
-
-</AnchorPane>
