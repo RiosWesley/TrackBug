@@ -25,9 +25,29 @@ public class EquipamentoDAOImpl implements EquipamentoDAO {
             stmt.setString(1, equipamento.getId());
             stmt.setString(2, equipamento.getDescricao());
             stmt.setDate(3, Date.valueOf(equipamento.getDataCompra()));
-            stmt.setDouble(4, equipamento.getPeso() != null ? equipamento.getPeso() : 0);
-            stmt.setDouble(5, equipamento.getLargura() != null ? equipamento.getLargura() : 0);
-            stmt.setDouble(6, equipamento.getComprimento() != null ? equipamento.getComprimento() : 0);
+
+            // Tratamento para valores nulos
+            Double peso = equipamento.getPeso();
+            if (peso != null) {
+                stmt.setDouble(4, peso);
+            } else {
+                stmt.setNull(4, Types.DOUBLE);
+            }
+
+            Double largura = equipamento.getLargura();
+            if (largura != null) {
+                stmt.setDouble(5, largura);
+            } else {
+                stmt.setNull(5, Types.DOUBLE);
+            }
+
+            Double comprimento = equipamento.getComprimento();
+            if (comprimento != null) {
+                stmt.setDouble(6, comprimento);
+            } else {
+                stmt.setNull(6, Types.DOUBLE);
+            }
+
             stmt.setBoolean(7, equipamento.isTipo());
             stmt.setInt(8, equipamento.getQuantidadeAtual());
             stmt.setInt(9, equipamento.getQuantidadeEstoque());
@@ -47,7 +67,6 @@ public class EquipamentoDAOImpl implements EquipamentoDAO {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        Equipamento equipamento = null;
 
         try {
             conn = ConnectionFactory.getConnection();
@@ -57,10 +76,9 @@ public class EquipamentoDAOImpl implements EquipamentoDAO {
             rs = stmt.executeQuery();
 
             if (rs.next()) {
-                equipamento = mapearResultSet(rs);
+                return mapearResultSet(rs);
             }
-
-            return equipamento;
+            return null;
         } finally {
             ConnectionFactory.closeConnection(conn, stmt, rs);
         }
@@ -127,9 +145,29 @@ public class EquipamentoDAOImpl implements EquipamentoDAO {
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, equipamento.getDescricao());
             stmt.setDate(2, Date.valueOf(equipamento.getDataCompra()));
-            stmt.setDouble(3, equipamento.getPeso() != null ? equipamento.getPeso() : 0);
-            stmt.setDouble(4, equipamento.getLargura() != null ? equipamento.getLargura() : 0);
-            stmt.setDouble(5, equipamento.getComprimento() != null ? equipamento.getComprimento() : 0);
+
+            // Tratamento para valores nulos
+            Double peso = equipamento.getPeso();
+            if (peso != null) {
+                stmt.setDouble(3, peso);
+            } else {
+                stmt.setNull(3, Types.DOUBLE);
+            }
+
+            Double largura = equipamento.getLargura();
+            if (largura != null) {
+                stmt.setDouble(4, largura);
+            } else {
+                stmt.setNull(4, Types.DOUBLE);
+            }
+
+            Double comprimento = equipamento.getComprimento();
+            if (comprimento != null) {
+                stmt.setDouble(5, comprimento);
+            } else {
+                stmt.setNull(5, Types.DOUBLE);
+            }
+
             stmt.setBoolean(6, equipamento.isTipo());
             stmt.setInt(7, equipamento.getQuantidadeAtual());
             stmt.setInt(8, equipamento.getQuantidadeEstoque());
@@ -142,7 +180,6 @@ public class EquipamentoDAOImpl implements EquipamentoDAO {
             ConnectionFactory.closeConnection(conn, stmt);
         }
     }
-
     @Override
     public void deletar(String id) throws Exception {
         Connection conn = null;
@@ -215,19 +252,55 @@ public class EquipamentoDAOImpl implements EquipamentoDAO {
         }
     }
 
+
     private Equipamento mapearResultSet(ResultSet rs) throws SQLException {
         Equipamento equipamento = new Equipamento();
         equipamento.setId(rs.getString("id"));
         equipamento.setDescricao(rs.getString("descricao"));
         equipamento.setDataCompra(rs.getDate("dataCompra").toLocalDate());
-        equipamento.setPeso(rs.getDouble("peso"));
-        equipamento.setLargura(rs.getDouble("largura"));
-        equipamento.setComprimento(rs.getDouble("comprimento"));
+
+        // Tratamento para valores nulos vindos do banco
+        double peso = rs.getDouble("peso");
+        if (!rs.wasNull()) {
+            equipamento.setPeso(peso);
+        }
+
+        double largura = rs.getDouble("largura");
+        if (!rs.wasNull()) {
+            equipamento.setLargura(largura);
+        }
+
+        double comprimento = rs.getDouble("comprimento");
+        if (!rs.wasNull()) {
+            equipamento.setComprimento(comprimento);
+        }
+
         equipamento.setTipo(rs.getBoolean("tipo"));
         equipamento.setQuantidadeAtual(rs.getInt("quantidadeAtual"));
         equipamento.setQuantidadeEstoque(rs.getInt("quantidadeEstoque"));
         equipamento.setQuantidadeMinima(rs.getInt("quantidadeMinima"));
         equipamento.setTipoUso(rs.getString("tipo_uso"));
+
         return equipamento;
+    }
+    public String buscarNomePorId(String id) throws Exception {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = ConnectionFactory.getConnection();
+            String sql = "SELECT descricao FROM equipamentos WHERE id = ?";
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, id);
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return rs.getString("descricao");
+            }
+            return null;
+        } finally {
+            ConnectionFactory.closeConnection(conn, stmt, rs);
+        }
     }
 }

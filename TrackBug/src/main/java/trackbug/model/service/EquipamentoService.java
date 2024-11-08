@@ -19,6 +19,7 @@ public class EquipamentoService {
         this.logEquipamentoDAO = new LogEquipamentoDAOImpl();
     }
 
+
     public void cadastrarEquipamento(Equipamento equipamento) throws Exception {
         // Validações de negócio
         if (equipamento.getQuantidadeMinima() > equipamento.getQuantidadeAtual()) {
@@ -161,6 +162,13 @@ public class EquipamentoService {
             return equipamentoDAO.buscarPorId(id);
         } catch (Exception e) {
             throw new Exception("Erro ao buscar equipamento: " + e.getMessage());
+        }
+    }
+    public String buscarNomePorId(String id) throws Exception {
+        try {
+            return equipamentoDAO.buscarNomePorId(id);
+        } catch (Exception e) {
+            throw new Exception("Erro ao buscar nome do equipamento: " + e.getMessage());
         }
     }
 }

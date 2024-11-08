@@ -12,6 +12,27 @@ public class EmprestimoService {
     public EmprestimoService() {
         this.emprestimoDAO = new EmprestimoDAOImpl();
     }
+    public void realizarEmprestimo(Emprestimo emprestimo) throws Exception {
+        // Validações antes de realizar o empréstimo
+        if (emprestimo == null) {
+            throw new IllegalArgumentException("Empréstimo não pode ser nulo");
+        }
+
+        if (emprestimo.getIdFuncionario() == null || emprestimo.getIdFuncionario().trim().isEmpty()) {
+            throw new IllegalArgumentException("Funcionário é obrigatório");
+        }
+
+        if (emprestimo.getIdEquipamento() == null || emprestimo.getIdEquipamento().trim().isEmpty()) {
+            throw new IllegalArgumentException("Equipamento é obrigatório");
+        }
+
+        if (emprestimo.getQuantidadeEmprestimo() <= 0) {
+            throw new IllegalArgumentException("Quantidade deve ser maior que zero");
+        }
+
+        // Criar o empréstimo no banco de dados
+        emprestimoDAO.criar(emprestimo);
+    }
 
     public Emprestimo buscarPorId(int id) throws Exception {
         if (id <= 0) {

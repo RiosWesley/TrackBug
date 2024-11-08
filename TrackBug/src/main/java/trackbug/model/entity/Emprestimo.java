@@ -18,7 +18,24 @@ public class Emprestimo {
     public int quantidadeEmprestimo;
     private String nomeFuncionario;
     private String descricaoEquipamento;
+    private String tipoOperacao;
+    private boolean usoUnico;
 
+    public String getTipoOperacao() {
+        return tipoOperacao;
+    }
+
+    public void setTipoOperacao(String tipoOperacao) {
+        this.tipoOperacao = tipoOperacao;
+    }
+
+    public boolean isUsoUnico() {
+        return usoUnico;
+    }
+
+    public void setUsoUnico(boolean usoUnico) {
+        this.usoUnico = usoUnico;
+    }
     // Métodos setters para definir os valores dos atributos
     public void setId(int id) {
         this.id = id;

@@ -13,4 +13,5 @@ public interface EquipamentoDAO {
     void atualizarQuantidade(String id, int quantidade) throws Exception;
     void atualizarStatus(String id, String status) throws Exception;
     boolean verificarEmprestimosAtivos(String id) throws Exception;
+    String buscarNomePorId(String id) throws Exception;
 }

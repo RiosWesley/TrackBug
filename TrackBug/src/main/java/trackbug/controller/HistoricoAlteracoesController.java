@@ -14,6 +14,7 @@ import trackbug.util.AlertHelper;
 import trackbug.util.DateUtils;
 
 import java.net.URL;
+import java.time.ZoneId;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
@@ -62,9 +63,12 @@ public class HistoricoAlteracoesController implements Initializable {
         colunaData.setCellValueFactory(data ->
                 new javafx.beans.property.SimpleStringProperty(
                         DateUtils.formatarDataHora(
-                                data.getValue().getDataAcao().toLocalDateTime()
+                                data.getValue().getDataAcao()
+                                        .atZone(ZoneId.systemDefault())
+                                        .toLocalDateTime()
                         )
-                ));
+                )
+        );
 
         colunaEquipamento.setCellValueFactory(data ->
                 new javafx.beans.property.SimpleStringProperty(

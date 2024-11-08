@@ -136,8 +136,9 @@ public class EmprestimoController implements Initializable {
 
     private Emprestimo criarEmprestimo() {
         Emprestimo emprestimo = new Emprestimo();
-        emprestimo.setIdFuncionario(String.valueOf(funcionarioCombo.getValue()));
-        emprestimo.setIdEquipamento(String.valueOf(equipamentoCombo.getValue()));
+
+        emprestimo.setIdFuncionario(funcionarioCombo.getValue().getId());
+        emprestimo.setIdEquipamento(equipamentoCombo.getValue().getId());
         emprestimo.setQuantidadeEmprestimo(Integer.parseInt(quantidadeField.getText()));
 
         LocalDateTime dataHoraDevolucao = dataDevolucao.getValue().atTime(LocalTime.now());
@@ -145,19 +146,27 @@ public class EmprestimoController implements Initializable {
 
         emprestimo.setObservacoes(observacoes.getText());
         emprestimo.setAtivo(true);
+        emprestimo.setDataSaida(LocalDateTime.now());
+
+        // Define o tipo de operação como SAIDA
+        emprestimo.setTipoOperacao("SAIDA");
+
+        // Define se é uso único baseado no equipamento
+        emprestimo.setUsoUnico(equipamentoCombo.getValue().getTipoUso().equals("Uso Único"));
 
         return emprestimo;
     }
 
     private boolean validarCampos() {
-        if (funcionarioCombo.getValue() == null ||
-                equipamentoCombo.getValue() == null ||
+        // Implementação da validação dos campos
+        if (funcionarioCombo.getValue() == null || equipamentoCombo.getValue() == null ||
                 quantidadeField.getText().isEmpty()) {
             AlertHelper.showWarning("Campos obrigatórios",
                     "Por favor, preencha todos os campos obrigatórios.");
             return false;
         }
 
+        // Validação específica para equipamentos reutilizáveis
         Equipamento equipamento = equipamentoCombo.getValue();
         if (!equipamento.getTipoUso().equals("Uso Único")) {
             if (dataDevolucao.getValue() == null) {
@@ -172,6 +181,7 @@ public class EmprestimoController implements Initializable {
             }
         }
 
+        // Validação da quantidade
         try {
             int quantidade = Integer.parseInt(quantidadeField.getText());
             if (quantidade <= 0) {
@@ -192,6 +202,8 @@ public class EmprestimoController implements Initializable {
 
         return true;
     }
+
+
 
     @FXML
     private void limparFormulario() {

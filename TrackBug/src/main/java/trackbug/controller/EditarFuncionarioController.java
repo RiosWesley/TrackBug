@@ -7,7 +7,6 @@ import javafx.stage.Stage;
 import trackbug.model.entity.Funcionario;
 import trackbug.model.service.FuncionarioService;
 import trackbug.util.AlertHelper;
-import trackbug.util.DateUtils;
 import trackbug.util.ValidationHelper;
 
 import java.net.URL;
@@ -16,8 +15,6 @@ import java.util.ResourceBundle;
 
 public class EditarFuncionarioController implements Initializable {
 
-    @FXML private Label tituloLabel;
-    @FXML private Label subtituloLabel;
     @FXML private TextField codigoField;
     @FXML private TextField nomeField;
     @FXML private TextField funcaoField;
@@ -44,6 +41,68 @@ public class EditarFuncionarioController implements Initializable {
         preencherCampos();
     }
 
+    @FXML
+    private void salvar() {
+        try {
+            if (validarCampos()) {
+                Funcionario func = modoEdicao ? funcionario : new Funcionario();
+                func.setId(codigoField.getText());
+                func.setNome(nomeField.getText());
+                func.setFuncao(funcaoField.getText());
+                func.setDataAdmissao(dataAdmissaoField.getValue());
+
+                if (modoEdicao) {
+                    funcionarioService.atualizar(func);
+                    AlertHelper.showSuccess("Funcionário atualizado com sucesso!");
+                } else {
+                    funcionarioService.criar(func);
+                    AlertHelper.showSuccess("Funcionário cadastrado com sucesso!");
+                }
+
+                fecharJanela();
+            }
+        } catch (Exception e) {
+            mostrarErro("Erro ao " + (modoEdicao ? "atualizar" : "cadastrar") +
+                    " funcionário: " + e.getMessage());
+        }
+    }
+
+    private boolean validarCampos() {
+        try {
+            StringBuilder erros = new StringBuilder();
+
+            if (ValidationHelper.isNullOrEmpty(codigoField.getText())) {
+                erros.append("O código é obrigatório\n");
+            } else if (!modoEdicao && funcionarioService.existePorId(codigoField.getText())) {
+                erros.append("Já existe um funcionário com este código\n");
+            }
+
+            if (ValidationHelper.isNullOrEmpty(nomeField.getText())) {
+                erros.append("O nome é obrigatório\n");
+            }
+
+            if (ValidationHelper.isNullOrEmpty(funcaoField.getText())) {
+                erros.append("A função é obrigatória\n");
+            }
+
+            if (dataAdmissaoField.getValue() == null) {
+                erros.append("A data de admissão é obrigatória\n");
+            } else if (dataAdmissaoField.getValue().isAfter(LocalDate.now())) {
+                erros.append("A data de admissão não pode ser futura\n");
+            }
+
+            if (erros.length() > 0) {
+                mostrarErro(erros.toString());
+                return false;
+            }
+
+            return true;
+        } catch (Exception e) {
+            mostrarErro("Erro ao validar campos: " + e.getMessage());
+            return false;
+        }
+    }
+
     private void configurarCampos() {
         // Impedir entrada de números no nome
         nomeField.textProperty().addListener((obs, old, novo) -> {
@@ -62,13 +121,11 @@ public class EditarFuncionarioController implements Initializable {
 
     private void atualizarTitulo() {
         if (modoEdicao) {
-            tituloLabel.setText("Editar Funcionário");
-            subtituloLabel.setText("Altere os dados do funcionário");
-            codigoField.setEditable(false);
+            // Atualizar labels para modo de edição
+            mensagemErro.setText("Editar Funcionário");
         } else {
-            tituloLabel.setText("Novo Funcionário");
-            subtituloLabel.setText("Preencha os dados do novo funcionário");
-            codigoField.setEditable(true);
+            // Atualizar labels para modo de criação
+            mensagemErro.setText("Novo Funcionário");
         }
     }
 
@@ -84,73 +141,17 @@ public class EditarFuncionarioController implements Initializable {
     }
 
     @FXML
-    private void salvar() {
-        if (validarCampos()) {
-            try {
-                Funcionario func = modoEdicao ? funcionario : new Funcionario();
-                func.setId(codigoField.getText());
-                func.setNome(nomeField.getText());
-                func.setFuncao(funcaoField.getText());
-                func.setDataAdmissao(dataAdmissaoField.getValue());
-
-                if (modoEdicao) {
-                    funcionarioService.atualizar(func);
-                    AlertHelper.showSuccess("Funcionário atualizado com sucesso!");
-                } else {
-                    funcionarioService.criar(func);
-                    AlertHelper.showSuccess("Funcionário cadastrado com sucesso!");
-                }
-
-                fecharJanela();
-            } catch (Exception e) {
-                mostrarErro("Erro ao " + (modoEdicao ? "atualizar" : "cadastrar") +
-                        " funcionário: " + e.getMessage());
-            }
-        }
-    }
-
-    private boolean validarCampos() {
-        StringBuilder erros = new StringBuilder();
-
-        if (ValidationHelper.isNullOrEmpty(codigoField.getText())) {
-            erros.append("O código é obrigatório\n");
-        } else if (!modoEdicao && funcionarioService.existePorId(codigoField.getText())) {
-            erros.append("Já existe um funcionário com este código\n");
-        }
-
-        if (ValidationHelper.isNullOrEmpty(nomeField.getText())) {
-            erros.append("O nome é obrigatório\n");
-        }
-
-        if (ValidationHelper.isNullOrEmpty(funcaoField.getText())) {
-            erros.append("A função é obrigatória\n");
-        }
-
-        if (dataAdmissaoField.getValue() == null) {
-            erros.append("A data de admissão é obrigatória\n");
-        } else if (dataAdmissaoField.getValue().isAfter(LocalDate.now())) {
-            erros.append("A data de admissão não pode ser futura\n");
-        }
-
-        if (erros.length() > 0) {
-            mostrarErro(erros.toString());
-            return false;
-        }
-
-        return true;
-    }
-
-    private void mostrarErro(String erro) {
-        mensagemErro.setText(erro);
-        mensagemErro.setVisible(true);
-    }
-
-    @FXML
     private void cancelar() {
         fecharJanela();
     }
 
     private void fecharJanela() {
-        ((Stage) codigoField.getScene().getWindow()).close();
+        Stage stage = (Stage) codigoField.getScene().getWindow();
+        stage.close();
+    }
+
+    private void mostrarErro(String erro) {
+        mensagemErro.setText(erro);
+        mensagemErro.setVisible(true);
     }
 }

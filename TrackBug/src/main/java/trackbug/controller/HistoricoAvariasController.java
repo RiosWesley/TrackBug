@@ -215,9 +215,10 @@ public class HistoricoAvariasController implements Initializable {
 
         // Período mais crítico
         Map<YearMonth, Integer> avariasPorMes = dadosFiltrados.stream()
-                .collect(Collectors.groupingBy(
+                .collect(Collectors.toMap(
                         avaria -> YearMonth.from(avaria.getData()),
-                        Collectors.summingInt(RegistroAvaria::getQuantidade)
+                        RegistroAvaria::getQuantidade,
+                        Integer::sum
                 ));
 
         if (!avariasPorMes.isEmpty()) {
@@ -227,9 +228,7 @@ public class HistoricoAvariasController implements Initializable {
                     .get();
 
             periodoMaisCriticoLabel.setText(
-                    periodoMaisCritico.getKey().format(
-                            DateTimeFormatter.ofPattern("MMM/yyyy")
-                    )
+                    periodoMaisCritico.getKey().format(DateTimeFormatter.ofPattern("MMM/yyyy"))
             );
         } else {
             periodoMaisCriticoLabel.setText("N/A");
