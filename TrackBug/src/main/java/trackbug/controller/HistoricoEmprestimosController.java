@@ -15,7 +15,9 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class HistoricoEmprestimosController implements Initializable {
 
@@ -220,3 +222,23 @@ public class HistoricoEmprestimosController implements Initializable {
                         !emp.getDataRetornoEfetiva().isAfter(emp.getDataRetornoPrevista()))
                 .count();
         double taxaDevolucao = devolvidos > 0 ?
+                (double) devolvidosNoPrazo / devolvidos * 100 : 0;
+        taxaDevolucaoLabel.setText(String.format("%.1f%%", taxaDevolucao));
+
+        // Item mais emprestado
+        Map<String, Long> emprestimoPorEquipamento = lista.stream()
+                .collect(Collectors.groupingBy(
+                        Emprestimo::getDescricaoEquipamento,
+                        Collectors.counting()
+                ));
+
+        String itemMaisEmprestado = emprestimoPorEquipamento.entrySet().stream()
+                .max(Map.Entry.comparingByValue())
+                .map(Map.Entry::getKey)
+                .orElse("N/A");
+
+        itemMaisEmprestadoLabel.setText(itemMaisEmprestado);
+    }
+
+
+}
