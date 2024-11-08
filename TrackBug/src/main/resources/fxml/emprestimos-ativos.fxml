@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="30" styleClass="form-container" xmlns="http://javafx.com/javafx/19"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="trackbug.controller.EmprestimosAtivosController">
+
+    <!-- Cabeçalho -->
+    <VBox styleClass="form-header" alignment="CENTER">
+        <Label text="Empréstimos Ativos" styleClass="form-title"/>
+        <Label text="Visualize e gerencie os empréstimos ativos" styleClass="form-subtitle"/>
+    </VBox>
+
+    <!-- Barra de Ferramentas -->
+    <HBox spacing="15" styleClass="toolbar-container" alignment="CENTER_LEFT">
+        <TextField fx:id="campoBusca" promptText="Buscar por funcionário ou equipamento..."
+                   styleClass="search-field"/>
+        <Button fx:id="btnAtualizar" text="Atualizar Lista"
+                styleClass="btn-secondary" onAction="#atualizarLista"/>
+        <padding>
+            <Insets top="10" right="10" bottom="10" left="10"/>
+        </padding>
+    </HBox>
+
+    <!-- Tabela de Empréstimos -->
+    <TableView fx:id="tabelaEmprestimos" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="colunaId" text="Código"/>
+            <TableColumn fx:id="colunaFuncionario" text="Funcionário"/>
+            <TableColumn fx:id="colunaEquipamento" text="Equipamento"/>
+            <TableColumn fx:id="colunaQuantidade" text="Quantidade"/>
+            <TableColumn fx:id="colunaDataSaida" text="Data de Saída"/>
+            <TableColumn fx:id="colunaDataPrevista" text="Devolução Prevista"/>
+            <TableColumn fx:id="colunaStatus" text="Status"/>
+        </columns>
+        <placeholder>
+            <Label text="Nenhum empréstimo ativo encontrado"/>
+        </placeholder>
+    </TableView>
+
+    <!-- Barra de Status -->
+    <HBox spacing="10" styleClass="status-bar" alignment="CENTER_RIGHT">
+        <Label fx:id="statusLabel" styleClass="status-label"/>
+        <padding>
+            <Insets top="5" right="10" bottom="5" left="10"/>
+        </padding>
+    </HBox>
+</VBox>

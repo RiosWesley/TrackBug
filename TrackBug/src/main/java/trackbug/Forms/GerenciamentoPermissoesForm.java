@@ -1,6 +1,5 @@
 package trackbug.Forms;
 
-import trackbug.model.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -10,6 +9,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import trackbug.model.NivelAcesso;
+import trackbug.model.entity.Usuario;
+import trackbug.model.entity.UsuarioDAO;
+
 import java.util.Optional;
 
 public class GerenciamentoPermissoesForm extends VBox {

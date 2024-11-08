@@ -7,6 +7,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import trackbug.model.entity.Equipamento;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

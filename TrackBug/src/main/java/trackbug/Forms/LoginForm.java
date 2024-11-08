@@ -1,8 +1,8 @@
 package trackbug.Forms;
 
 import trackbug.Main;
-import trackbug.model.Usuario;
-import trackbug.model.UsuarioDAO;
+import trackbug.model.entity.Usuario;
+import trackbug.model.entity.UsuarioDAO;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;

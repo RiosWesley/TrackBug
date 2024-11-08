@@ -1,4 +1,4 @@
-package trackbug.Forms;
+package trackbug.model.entity;
 
 public class Funcionario {
     public String id;

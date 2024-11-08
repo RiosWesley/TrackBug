@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<VBox spacing="30" alignment="TOP_CENTER" style="-fx-background-color: white;"
+      xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="trackbug.controller.DevolucaoController">
+
+    <!-- Cabeçalho -->
+    <VBox alignment="CENTER" spacing="5">
+        <Label text="Registrar Devolução" styleClass="titulo">
+            <font>
+                <Font name="Segoe UI Bold" size="24"/>
+            </font>
+        </Label>
+        <Label text="Selecione o empréstimo para registrar a devolução" styleClass="subtitulo">
+            <font>
+                <Font name="Segoe UI" size="14"/>
+            </font>
+        </Label>
+    </VBox>
+
+    <!-- Container principal -->
+    <VBox styleClass="form-container" maxWidth="600">
+        <!-- Seleção do empréstimo -->
+        <VBox spacing="10" styleClass="form-group">
+            <Label text="Selecione o Empréstimo:" styleClass="form-label"/>
+            <ComboBox fx:id="emprestimoCombo" prefWidth="300"
+                      promptText="Selecione o código do empréstimo"/>
+        </VBox>
+
+        <!-- Card de detalhes -->
+        <VBox spacing="10" styleClass="details-card">
+            <Label text="Detalhes do Empréstimo" styleClass="card-title"/>
+            <TextArea fx:id="detalhesEmprestimo"
+                      prefRowCount="8"
+                      prefWidth="500"
+                      wrapText="true"
+                      editable="false"/>
+        </VBox>
+
+        <!-- Botões -->
+        <HBox alignment="CENTER" spacing="15">
+            <Button text="Confirmar Devolução"
+                    onAction="#confirmarDevolucao"
+                    styleClass="btn-primary"/>
+            <Button text="Cancelar"
+                    onAction="#cancelar"
+                    styleClass="btn-secondary"/>
+        </HBox>
+    </VBox>
+</VBox>

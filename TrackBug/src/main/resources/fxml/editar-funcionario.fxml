@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="trackbug.controller.EditarFuncionarioController"
+      styleClass="dialog-container" spacing="20">
+
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <!-- Cabeçalho -->
+    <VBox styleClass="dialog-header" alignment="CENTER">
+        <Label fx:id="tituloLabel" styleClass="dialog-title"/>
+        <Label fx:id="subtituloLabel" styleClass="dialog-subtitle"/>
+    </VBox>
+
+    <!-- Formulário -->
+    <GridPane hgap="10" vgap="15" styleClass="form-grid">
+        <!-- Código -->
+        <Label text="Código:" styleClass="form-label"
+               GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+        <TextField fx:id="codigoField" styleClass="form-field"
+                   GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+        <!-- Nome -->
+        <Label text="Nome:" styleClass="form-label"
+               GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+        <TextField fx:id="nomeField" styleClass="form-field"
+                   GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+        <!-- Função -->
+        <Label text="Função:" styleClass="form-label"
+               GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+        <TextField fx:id="funcaoField" styleClass="form-field"
+                   GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+        <!-- Data de Admissão -->
+        <Label text="Data de Admissão:" styleClass="form-label"
+               GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+        <DatePicker fx:id="dataAdmissaoField" styleClass="form-date-picker"
+                    GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+    </GridPane>
+
+    <!-- Mensagem de Erro -->
+    <Label fx:id="mensagemErro" styleClass="error-label" visible="false"
+           wrapText="true" maxWidth="Infinity"/>
+
+    <!-- Botões -->
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Button text="Salvar" onAction="#salvar" styleClass="btn-primary"/>
+        <Button text="Cancelar" onAction="#cancelar" styleClass="btn-secondary"/>
+    </HBox>
+</VBox>

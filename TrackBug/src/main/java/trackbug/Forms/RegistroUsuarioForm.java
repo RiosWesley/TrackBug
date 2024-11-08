@@ -1,11 +1,13 @@
 package trackbug.Forms;
 
-import trackbug.model.*;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import trackbug.model.NivelAcesso;
+import trackbug.model.entity.Usuario;
+import trackbug.model.entity.UsuarioDAO;
 
 public class RegistroUsuarioForm extends VBox {
     private TextField usernameField;

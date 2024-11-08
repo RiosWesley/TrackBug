@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="20" styleClass="form-container" xmlns="http://javafx.com/javafx/19"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="trackbug.controller.EmprestimosAtrasoController">
+
+    <!-- Cabeçalho -->
+    <VBox styleClass="form-header" alignment="CENTER">
+        <Label text="Empréstimos em Atraso" styleClass="form-title"/>
+        <Label text="Monitore e gerencie os empréstimos atrasados" styleClass="form-subtitle"/>
+    </VBox>
+
+    <!-- Barra de Ferramentas -->
+    <HBox spacing="15" styleClass="toolbar-container" alignment="CENTER_LEFT">
+        <!-- Filtro de Período -->
+        <ComboBox fx:id="filtroAtraso" promptText="Período de atraso" styleClass="form-combo"/>
+
+        <!-- Campo de Busca -->
+        <TextField fx:id="campoBusca" promptText="Buscar por funcionário ou equipamento..."
+                   styleClass="search-field"/>
+
+        <!-- Botão Notificar -->
+        <Button text="Notificar Selecionados" onAction="#notificarSelecionados"
+                styleClass="btn-warning"/>
+
+        <padding>
+            <Insets top="10" right="10" bottom="10" left="10"/>
+        </padding>
+    </HBox>
+
+    <!-- Tabela de Empréstimos em Atraso -->
+    <TableView fx:id="tabelaAtrasos" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="colunaSeletor" maxWidth="50">
+                <graphic>
+                    <CheckBox fx:id="selecionarTodos"/>
+                </graphic>
+            </TableColumn>
+            <TableColumn fx:id="colunaFuncionario" text="Funcionário"/>
+            <TableColumn fx:id="colunaEquipamento" text="Equipamento"/>
+            <TableColumn fx:id="colunaQuantidade" text="Quantidade"/>
+            <TableColumn fx:id="colunaDataPrevista" text="Devolução Prevista"/>
+            <TableColumn fx:id="colunaDiasAtraso" text="Dias em Atraso"/>
+        </columns>
+        <placeholder>
+            <Label text="Nenhum empréstimo em atraso encontrado"/>
+        </placeholder>
+    </TableView>
+
+    <!-- Barra de Status -->
+    <HBox spacing="10" styleClass="status-bar" alignment="CENTER_RIGHT">
+        <Label fx:id="statusLabel" styleClass="status-label"/>
+        <padding>
+            <Insets top="5" right="10" bottom="5" left="10"/>
+        </padding>
+    </HBox>
+</VBox>

@@ -7,6 +7,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import trackbug.model.entity.Equipamento;
 
 import java.sql.*;
 import java.time.format.DateTimeFormatter;

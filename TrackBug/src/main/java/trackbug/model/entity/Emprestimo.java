@@ -1,8 +1,10 @@
-package trackbug.Forms;
+package trackbug.model.entity;
 
 import java.time.LocalDateTime;
-
-public class Emprestimos {
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import java.time.LocalDateTime;
+public class Emprestimo {
 
     // Atributos da classe Emprestimos
     public int id;
@@ -14,6 +16,8 @@ public class Emprestimos {
     public String observacoes;
     public boolean ativo;
     public int quantidadeEmprestimo;
+    private String nomeFuncionario;
+    private String descricaoEquipamento;
 
     // Métodos setters para definir os valores dos atributos
     public void setId(int id) {
@@ -89,6 +93,11 @@ public class Emprestimos {
         return quantidadeEmprestimo;
     }
 
+
+    public String getNomeFuncionario() { return nomeFuncionario; }
+    public void setNomeFuncionario(String nomeFuncionario) { this.nomeFuncionario = nomeFuncionario; }
+    public String getDescricaoEquipamento() { return descricaoEquipamento; }
+    public void setDescricaoEquipamento(String descricaoEquipamento) { this.descricaoEquipamento = descricaoEquipamento; }
 }
 
 

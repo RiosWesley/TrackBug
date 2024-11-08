@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="30" styleClass="form-container" xmlns="http://javafx.com/javafx/19"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="trackbug.controller.HistoricoAvariasController">
+
+    <!-- Cabeçalho -->
+    <VBox styleClass="form-header" alignment="CENTER">
+        <Label text="Histórico de Avarias" styleClass="form-title"/>
+        <Label text="Consulte o histórico de avarias dos equipamentos"
+               styleClass="form-subtitle"/>
+    </VBox>
+
+    <!-- Barra de Ferramentas -->
+    <HBox spacing="15" styleClass="toolbar-container" alignment="CENTER_LEFT">
+        <!-- Campo de Pesquisa -->
+        <TextField fx:id="equipamentoField"
+                   promptText="Buscar por equipamento..."
+                   styleClass="search-field"/>
+
+        <!-- Botão Pesquisar -->
+        <Button text="Pesquisar" onAction="#pesquisar"
+                styleClass="btn-primary"/>
+
+        <!-- Filtro de Período -->
+        <ComboBox fx:id="filtroPeriodo" promptText="Período"
+                  styleClass="form-combo"/>
+
+        <!-- Filtro de Gravidade -->
+        <ComboBox fx:id="filtroGravidade" promptText="Gravidade"
+                  styleClass="form-combo"/>
+
+        <padding>
+            <Insets top="10" right="10" bottom="10" left="10"/>
+        </padding>
+    </HBox>
+
+    <!-- Tabela de Avarias -->
+    <TableView fx:id="tabelaAvarias" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="colunaEquipamento" text="Equipamento"/>
+            <TableColumn fx:id="colunaData" text="Data do Registro"/>
+            <TableColumn fx:id="colunaQuantidade" text="Quantidade"/>
+            <TableColumn fx:id="colunaGravidade" text="Gravidade"/>
+            <TableColumn fx:id="colunaDescricao" text="Descrição"/>
+            <TableColumn fx:id="colunaStatus" text="Status"/>
+        </columns>
+        <placeholder>
+            <Label text="Nenhuma avaria encontrada"/>
+        </placeholder>
+    </TableView>
+
+    <!-- Barra de Status -->
+    <HBox spacing="10" styleClass="status-bar" alignment="CENTER_RIGHT">
+        <Label fx:id="statusLabel" styleClass="status-label"/>
+        <padding>
+            <Insets top="5" right="10" bottom="5" left="10"/>
+        </padding>
+    </HBox>
+
+    <!-- Estatísticas -->
+    <GridPane styleClass="stats-container" hgap="20" vgap="10">
+        <columnConstraints>
+            <ColumnConstraints hgrow="ALWAYS"/>
+            <ColumnConstraints hgrow="ALWAYS"/>
+            <ColumnConstraints hgrow="ALWAYS"/>
+        </columnConstraints>
+
+        <!-- Total de Avarias -->
+        <VBox styleClass="stat-card" GridPane.columnIndex="0">
+            <Label fx:id="totalAvariasLabel" styleClass="stat-value"/>
+            <Label text="Total de Avarias" styleClass="stat-title"/>
+        </VBox>
+
+        <!-- Quantidade Total Afetada -->
+        <VBox styleClass="stat-card" GridPane.columnIndex="1">
+            <Label fx:id="totalQuantidadeLabel" styleClass="stat-value"/>
+            <Label text="Itens Afetados" styleClass="stat-title"/>
+        </VBox>
+
+        <!-- Período Mais Crítico -->
+        <VBox styleClass="stat-card" GridPane.columnIndex="2">
+            <Label fx:id="periodoMaisCriticoLabel" styleClass="stat-value"/>
+            <Label text="Período Mais Crítico" styleClass="stat-title"/>
+        </VBox>
+    </GridPane>
+</VBox>

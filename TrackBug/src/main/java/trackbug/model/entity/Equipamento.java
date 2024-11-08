@@ -1,4 +1,4 @@
-package trackbug.Forms;
+package trackbug.model.entity;
 
 import java.time.LocalDate;
 

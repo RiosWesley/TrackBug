@@ -6,6 +6,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import trackbug.model.entity.Funcionario;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

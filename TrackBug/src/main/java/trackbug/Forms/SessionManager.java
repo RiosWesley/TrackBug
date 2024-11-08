@@ -1,7 +1,7 @@
 package trackbug.Forms;
 
 import trackbug.model.NivelAcesso;
-import trackbug.model.Usuario;
+import trackbug.model.entity.Usuario;
 
 public class SessionManager {
     private static Usuario usuarioLogado;

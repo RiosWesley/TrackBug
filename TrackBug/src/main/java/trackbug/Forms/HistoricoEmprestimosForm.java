@@ -7,6 +7,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import trackbug.model.entity.Emprestimo;
 
 import java.sql.*;
 import java.time.format.DateTimeFormatter;
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HistoricoEmprestimosForm extends VBox {
-    private TableView<Emprestimos> tabelaHistorico;
+    private TableView<Emprestimo> tabelaHistorico;
     private DatePicker dataInicio;
     private DatePicker dataFim;
     private TextField funcionarioField;
@@ -86,7 +87,7 @@ public class HistoricoEmprestimosForm extends VBox {
         tabelaHistorico = new TableView<>();
         tabelaHistorico.setStyle("-fx-font-family: 'Segoe UI';");
 
-        TableColumn<Emprestimos, String> colunaData = new TableColumn<>("Data do Empréstimo");
+        TableColumn<Emprestimo, String> colunaData = new TableColumn<>("Data do Empréstimo");
         colunaData.setCellValueFactory(data -> {
             if (data.getValue() != null && data.getValue().getDataSaida() != null) {
                 return new SimpleStringProperty(formatador.format(data.getValue().getDataSaida()));
@@ -94,7 +95,7 @@ public class HistoricoEmprestimosForm extends VBox {
             return new SimpleStringProperty("");
         });
 
-        TableColumn<Emprestimos, String> colunaFuncionario = new TableColumn<>("Funcionário");
+        TableColumn<Emprestimo, String> colunaFuncionario = new TableColumn<>("Funcionário");
         colunaFuncionario.setCellValueFactory(data -> {
             if (data.getValue() != null) {
                 return new SimpleStringProperty(buscarNomeFuncionario(data.getValue().getIdFuncionario()));
@@ -102,7 +103,7 @@ public class HistoricoEmprestimosForm extends VBox {
             return new SimpleStringProperty("");
         });
 
-        TableColumn<Emprestimos, String> colunaEquipamento = new TableColumn<>("Equipamento");
+        TableColumn<Emprestimo, String> colunaEquipamento = new TableColumn<>("Equipamento");
         colunaEquipamento.setCellValueFactory(data -> {
             if (data.getValue() != null) {
                 return new SimpleStringProperty(buscarDescricaoEquipamento(data.getValue().getIdEquipamento()));
@@ -110,7 +111,7 @@ public class HistoricoEmprestimosForm extends VBox {
             return new SimpleStringProperty("");
         });
 
-        TableColumn<Emprestimos, String> colunaQtd = new TableColumn<>("Quantidade");
+        TableColumn<Emprestimo, String> colunaQtd = new TableColumn<>("Quantidade");
         colunaQtd.setCellValueFactory(data -> {
             if (data.getValue() != null) {
                 return new SimpleStringProperty(String.valueOf(data.getValue().getQuantidadeEmprestimo()));
@@ -118,7 +119,7 @@ public class HistoricoEmprestimosForm extends VBox {
             return new SimpleStringProperty("");
         });
 
-        TableColumn<Emprestimos, String> colunaPrevista = new TableColumn<>("Devolução Prevista");
+        TableColumn<Emprestimo, String> colunaPrevista = new TableColumn<>("Devolução Prevista");
         colunaPrevista.setCellValueFactory(data -> {
             if (data.getValue() != null && data.getValue().getDataRetornoPrevista() != null) {
                 return new SimpleStringProperty(formatador.format(data.getValue().getDataRetornoPrevista()));
@@ -126,7 +127,7 @@ public class HistoricoEmprestimosForm extends VBox {
             return new SimpleStringProperty("");
         });
 
-        TableColumn<Emprestimos, String> colunaEfetiva = new TableColumn<>("Devolução Efetiva");
+        TableColumn<Emprestimo, String> colunaEfetiva = new TableColumn<>("Devolução Efetiva");
         colunaEfetiva.setCellValueFactory(data -> {
             if (data.getValue() != null && data.getValue().getDataRetornoEfetiva() != null) {
                 return new SimpleStringProperty(formatador.format(data.getValue().getDataRetornoEfetiva()));
@@ -134,7 +135,7 @@ public class HistoricoEmprestimosForm extends VBox {
             return new SimpleStringProperty("Pendente");
         });
 
-        TableColumn<Emprestimos, String> colunaStatus = new TableColumn<>("Status");
+        TableColumn<Emprestimo, String> colunaStatus = new TableColumn<>("Status");
         colunaStatus.setCellValueFactory(data -> {
             if (data.getValue() != null) {
                 return new SimpleStringProperty(data.getValue().isAtivo() ? "Em andamento" : "Concluído");
@@ -232,10 +233,10 @@ public class HistoricoEmprestimosForm extends VBox {
             stmt = conn.prepareStatement(sql);
             rs = stmt.executeQuery();
 
-            ObservableList<Emprestimos> emprestimos = FXCollections.observableArrayList();
+            ObservableList<Emprestimo> emprestimos = FXCollections.observableArrayList();
 
             while (rs.next()) {
-                Emprestimos emp = criarEmprestimoDoResultSet(rs);
+                Emprestimo emp = criarEmprestimoDoResultSet(rs);
                 emprestimos.add(emp);
             }
 
@@ -249,8 +250,8 @@ public class HistoricoEmprestimosForm extends VBox {
         }
     }
 
-    private Emprestimos criarEmprestimoDoResultSet(ResultSet rs) throws SQLException {
-        Emprestimos emp = new Emprestimos();
+    private Emprestimo criarEmprestimoDoResultSet(ResultSet rs) throws SQLException {
+        Emprestimo emp = new Emprestimo();
         emp.setId(rs.getInt("id"));
         emp.setIdFuncionario(rs.getString("idFuncionario"));
         emp.setIdEquipamento(rs.getString("idEquipamento"));
@@ -323,10 +324,10 @@ public class HistoricoEmprestimosForm extends VBox {
             }
 
             rs = stmt.executeQuery();
-            ObservableList<Emprestimos> emprestimos = FXCollections.observableArrayList();
+            ObservableList<Emprestimo> emprestimos = FXCollections.observableArrayList();
 
             while (rs.next()) {
-                Emprestimos emp = criarEmprestimoDoResultSet(rs);
+                Emprestimo emp = criarEmprestimoDoResultSet(rs);
                 emprestimos.add(emp);
             }
 

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="20" styleClass="form-container" xmlns="http://javafx.com/javafx/19"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="trackbug.controller.ListarFuncionariosController">
+
+    <!-- Cabeçalho -->
+    <VBox styleClass="form-header" alignment="CENTER">
+        <Label text="Lista de Funcionários" styleClass="form-title"/>
+        <Label text="Visualize e gerencie os funcionários cadastrados" styleClass="form-subtitle"/>
+    </VBox>
+
+    <!-- Barra de Ferramentas -->
+    <HBox spacing="10" alignment="CENTER_LEFT" styleClass="toolbar-container">
+        <TextField fx:id="pesquisaField" promptText="Pesquisar por nome ou função..."
+                   styleClass="search-field"/>
+        <Button text="Pesquisar" onAction="#pesquisar" styleClass="btn-primary"/>
+        <Button text="Atualizar Lista" onAction="#atualizarLista" styleClass="btn-secondary"/>
+        <padding>
+            <Insets left="10" right="10" top="10" bottom="10"/>
+        </padding>
+    </HBox>
+
+    <!-- Tabela de Funcionários -->
+    <TableView fx:id="tabelaFuncionarios" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="colunaId" text="Código"/>
+            <TableColumn fx:id="colunaNome" text="Nome"/>
+            <TableColumn fx:id="colunaFuncao" text="Função"/>
+            <TableColumn fx:id="colunaData" text="Data de Admissão"/>
+            <TableColumn fx:id="colunaAcoes" text="Ações"/>
+        </columns>
+        <placeholder>
+            <Label text="Nenhum funcionário encontrado"/>
+        </placeholder>
+    </TableView>
+
+    <!-- Status Bar -->
+    <HBox spacing="10" alignment="CENTER_RIGHT" styleClass="status-bar">
+        <Label fx:id="statusLabel" styleClass="status-label"/>
+        <padding>
+            <Insets top="5" right="10" bottom="5" left="10"/>
+        </padding>
+    </HBox>
+
+</VBox>

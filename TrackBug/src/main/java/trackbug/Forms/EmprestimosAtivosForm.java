@@ -6,6 +6,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import trackbug.model.entity.Emprestimo;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,7 +16,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class EmprestimosAtivosForm extends VBox {
-    private TableView<Emprestimos> tabelaEmprestimos;
+    private TableView<Emprestimo> tabelaEmprestimos;
     private TextField campoBusca;
     private Button btnAtualizar;
     private final DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
@@ -69,46 +70,46 @@ public class EmprestimosAtivosForm extends VBox {
         tabelaEmprestimos = new TableView<>();
         tabelaEmprestimos.setStyle("-fx-font-family: 'Segoe UI';");
 
-        TableColumn<Emprestimos, String> colunaId = new TableColumn<>("Código");
+        TableColumn<Emprestimo, String> colunaId = new TableColumn<>("Código");
         colunaId.setCellValueFactory(cellData ->
                 new javafx.beans.property.SimpleStringProperty(String.valueOf(cellData.getValue().getId())));
 
-        TableColumn<Emprestimos, String> colunaFuncionario = new TableColumn<>("Funcionário");
+        TableColumn<Emprestimo, String> colunaFuncionario = new TableColumn<>("Funcionário");
         colunaFuncionario.setCellValueFactory(cellData -> {
             String idFuncionario = cellData.getValue().getIdFuncionario();
             String nomeFuncionario = buscarNomeFuncionario(idFuncionario);
             return new javafx.beans.property.SimpleStringProperty(nomeFuncionario);
         });
 
-        TableColumn<Emprestimos, String> colunaEquipamento = new TableColumn<>("Equipamento");
+        TableColumn<Emprestimo, String> colunaEquipamento = new TableColumn<>("Equipamento");
         colunaEquipamento.setCellValueFactory(cellData -> {
             String idEquipamento = cellData.getValue().getIdEquipamento();
             String nomeEquipamento = buscarNomeEquipamento(idEquipamento);
             return new javafx.beans.property.SimpleStringProperty(nomeEquipamento);
         });
 
-        TableColumn<Emprestimos, String> colunaQuantidade = new TableColumn<>("Quantidade");
+        TableColumn<Emprestimo, String> colunaQuantidade = new TableColumn<>("Quantidade");
         colunaQuantidade.setCellValueFactory(cellData ->
                 new javafx.beans.property.SimpleStringProperty(
                         String.valueOf(cellData.getValue().getQuantidadeEmprestimo())));
 
-        TableColumn<Emprestimos, String> colunaDataSaida = new TableColumn<>("Data de Saída");
+        TableColumn<Emprestimo, String> colunaDataSaida = new TableColumn<>("Data de Saída");
         colunaDataSaida.setCellValueFactory(cellData ->
                 new javafx.beans.property.SimpleStringProperty(
                         cellData.getValue().getDataSaida().format(formatador)));
 
-        TableColumn<Emprestimos, String> colunaDataPrevista = new TableColumn<>("Devolução Prevista");
+        TableColumn<Emprestimo, String> colunaDataPrevista = new TableColumn<>("Devolução Prevista");
         colunaDataPrevista.setCellValueFactory(cellData ->
                 new javafx.beans.property.SimpleStringProperty(
                         cellData.getValue().getDataRetornoPrevista().format(formatador)));
 
-        TableColumn<Emprestimos, String> colunaStatus = new TableColumn<>("Status");
+        TableColumn<Emprestimo, String> colunaStatus = new TableColumn<>("Status");
         colunaStatus.setCellValueFactory(cellData -> {
             LocalDateTime dataPrevista = cellData.getValue().getDataRetornoPrevista();
             String status = LocalDateTime.now().isAfter(dataPrevista) ? "Atrasado" : "Em dia";
             return new javafx.beans.property.SimpleStringProperty(status);
         });
-        colunaStatus.setCellFactory(column -> new TableCell<Emprestimos, String>() {
+        colunaStatus.setCellFactory(column -> new TableCell<Emprestimo, String>() {
             @Override
             protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
@@ -152,7 +153,7 @@ public class EmprestimosAtivosForm extends VBox {
     }
 
     private void carregarEmprestimos() {
-        ObservableList<Emprestimos> emprestimos = FXCollections.observableArrayList();
+        ObservableList<Emprestimo> emprestimos = FXCollections.observableArrayList();
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -176,7 +177,7 @@ public class EmprestimosAtivosForm extends VBox {
                 stmtEquip.setString(1, rs.getString("idEquipamento"));
                 rsEquip = stmtEquip.executeQuery();
                 while(rsEquip.next()){
-                    Emprestimos emprestimo = new Emprestimos();
+                    Emprestimo emprestimo = new Emprestimo();
                     if(rsEquip.getBoolean("tipo") == false) {
                         emprestimo.setId(rs.getInt("id"));
                         emprestimo.setIdFuncionario(rs.getString("idFuncionario"));
@@ -209,12 +210,12 @@ public class EmprestimosAtivosForm extends VBox {
     private void filtrarEmprestimos(String filtro) {
         if (tabelaEmprestimos.getItems() == null) return;
 
-        ObservableList<Emprestimos> todosDados = tabelaEmprestimos.getItems();
-        ObservableList<Emprestimos> dadosFiltrados = FXCollections.observableArrayList();
+        ObservableList<Emprestimo> todosDados = tabelaEmprestimos.getItems();
+        ObservableList<Emprestimo> dadosFiltrados = FXCollections.observableArrayList();
 
         String filtroLowerCase = filtro.toLowerCase();
 
-        for (Emprestimos emprestimo : todosDados) {
+        for (Emprestimo emprestimo : todosDados) {
             if (emprestimo.getIdFuncionario().toLowerCase().contains(filtroLowerCase) ||
                     emprestimo.getIdEquipamento().toLowerCase().contains(filtroLowerCase)) {
                 dadosFiltrados.add(emprestimo);

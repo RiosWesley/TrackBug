@@ -7,7 +7,8 @@
     import javafx.stage.Stage;
     import trackbug.Main;
     import trackbug.Forms.SessionManager;
-    import trackbug.model.*;
+    import trackbug.model.entity.Usuario;
+    import trackbug.model.entity.UsuarioDAO;
 
     public class LoginController {
         @FXML

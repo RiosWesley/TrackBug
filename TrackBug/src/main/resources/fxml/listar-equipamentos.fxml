@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="30" styleClass="form-container" xmlns="http://javafx.com/javafx/19"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="trackbug.controller.ListarEquipamentosController">
+
+    <!-- Cabeçalho -->
+    <VBox styleClass="form-header" alignment="CENTER">
+        <Label text="Equipamentos Cadastrados" styleClass="form-title"/>
+        <Label text="Visualize e gerencie os equipamentos do sistema"
+               styleClass="form-subtitle"/>
+    </VBox>
+
+    <!-- Barra de Ferramentas -->
+    <HBox spacing="15" styleClass="toolbar-container" alignment="CENTER_LEFT">
+        <!-- Campo de Busca -->
+        <TextField fx:id="campoBusca" promptText="Buscar equipamento..."
+                   styleClass="search-field"/>
+
+        <!-- Filtros -->
+        <ComboBox fx:id="filtroTipo" promptText="Tipo"
+                  styleClass="form-combo"/>
+        <ComboBox fx:id="filtroStatus" promptText="Status"
+                  styleClass="form-combo"/>
+
+        <!-- Botão Exportar -->
+        <Button fx:id="btnExportar" text="Exportar Lista"
+                styleClass="btn-secondary" onAction="#exportarLista"/>
+
+        <padding>
+            <Insets top="10" right="10" bottom="10" left="10"/>
+        </padding>
+    </HBox>
+
+    <!-- Tabela de Equipamentos -->
+    <TableView fx:id="tabelaEquipamentos" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="colunaId" text="Código"/>
+            <TableColumn fx:id="colunaDescricao" text="Descrição"/>
+            <TableColumn fx:id="colunaDataCompra" text="Data de Compra"/>
+            <TableColumn fx:id="colunaQuantidadeAtual" text="Qtd. Atual"/>
+            <TableColumn fx:id="colunaQuantidadeEstoque" text="Qtd. Total"/>
+            <TableColumn fx:id="colunaQuantidadeMinima" text="Qtd. Mínima"/>
+            <TableColumn fx:id="colunaTipo" text="Tipo"/>
+            <TableColumn fx:id="colunaStatus" text="Status"/>
+            <TableColumn fx:id="colunaAcoes" text="Ações"/>
+        </columns>
+        <placeholder>
+            <Label text="Nenhum equipamento encontrado"/>
+        </placeholder>
+    </TableView>
+
+    <!-- Barra de Status -->
+    <HBox spacing="10" styleClass="status-bar" alignment="CENTER_RIGHT">
+        <Label fx:id="statusLabel" styleClass="status-label"/>
+        <padding>
+            <Insets top="5" right="10" bottom="5" left="10"/>
+        </padding>
+    </HBox>
+</VBox>

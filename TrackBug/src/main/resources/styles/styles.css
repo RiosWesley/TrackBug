@@ -291,4 +291,424 @@
     .combo-box-popup > .list-view > .virtual-flow > .scroll-bar:vertical > .thumb:hover {
         -fx-background-color: #757575;
     }
+    /* Títulos e subtítulos */
+    .titulo {
+        -fx-font-size: 24px;
+        -fx-font-weight: bold;
+        -fx-text-fill: #1a237e;
+        -fx-font-family: 'Segoe UI';
+    }
+
+    .subtitulo {
+        -fx-font-size: 14px;
+        -fx-text-fill: #757575;
+        -fx-font-family: 'Segoe UI';
+    }
+
+    /* Container do formulário */
+    .form-container {
+        -fx-background-color: #f8f9fa;
+        -fx-padding: 20px;
+        -fx-background-radius: 5px;
+        -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0);
+    }
+
+    /* Campos do formulário */
+    .form-container TextField,
+    .form-container DatePicker {
+        -fx-font-family: 'Segoe UI';
+        -fx-font-size: 14px;
+        -fx-background-color: white;
+        -fx-border-color: #e0e0e0;
+        -fx-border-radius: 4px;
+        -fx-pref-width: 300;
+    }
+
+    /* Labels */
+    .form-container Label {
+        -fx-font-family: 'Segoe UI';
+        -fx-font-size: 14px;
+        -fx-text-fill: #2c3e50;
+    }
+
+    /* Botões */
+    .btn-primary {
+        -fx-font-family: 'Segoe UI';
+        -fx-font-size: 14px;
+        -fx-background-color: #1a237e;
+        -fx-text-fill: white;
+        -fx-padding: 10px 20px;
+        -fx-cursor: hand;
+        -fx-font-weight: bold;
+    }
+
+    .btn-primary:hover {
+        -fx-background-color: #283593;
+    }
+
+    .btn-secondary {
+        -fx-font-family: 'Segoe UI';
+        -fx-font-size: 14px;
+        -fx-background-color: #e0e0e0;
+        -fx-text-fill: #424242;
+        -fx-padding: 10px 20px;
+        -fx-cursor: hand;
+        -fx-font-weight: bold;
+    }
+
+    .btn-secondary:hover {
+        -fx-background-color: #bdbdbd;
+    }
+    /* Estilos para o cartão de detalhes */
+    .details-card {
+        -fx-background-color: white;
+        -fx-padding: 15px;
+        -fx-border-color: #e0e0e0;
+        -fx-border-radius: 4px;
+    }
+
+    .card-title {
+        -fx-font-size: 16px;
+        -fx-font-weight: bold;
+        -fx-text-fill: #2c3e50;
+        -fx-font-family: 'Segoe UI';
+    }
+
+    /* Estilos para ComboBox */
+    .combo-box {
+        -fx-font-family: 'Segoe UI';
+        -fx-font-size: 14px;
+        -fx-background-color: white;
+        -fx-border-color: #e0e0e0;
+        -fx-border-radius: 4px;
+    }
+
+    .combo-box:hover {
+        -fx-border-color: #1a237e;
+    }
+
+    .form-group {
+        -fx-spacing: 5;
+        -fx-padding: 0 0 10 0;
+    }
+    /* Estilos existentes permanecem... */
+
+    /* Novos estilos para formulários */
+    .form-container {
+        -fx-background-color: white;
+        -fx-padding: 30px;
+        -fx-spacing: 30px;
+    }
+
+    .form-content-container {
+        -fx-background-color: #f8f9fa;
+        -fx-padding: 20px;
+        -fx-background-radius: 5px;
+        -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0);
+        -fx-max-width: 600px;
+    }
+
+    .form-header {
+        -fx-spacing: 5px;
+        -fx-padding: 0 0 20px 0;
+    }
+
+    .form-title {
+        -fx-font-size: 24px;
+        -fx-font-weight: bold;
+        -fx-text-fill: #1a237e;
+        -fx-font-family: 'Segoe UI';
+    }
+
+    .form-subtitle {
+        -fx-font-size: 14px;
+        -fx-text-fill: #757575;
+        -fx-font-family: 'Segoe UI';
+    }
+
+    .form-label {
+        -fx-font-family: 'Segoe UI';
+        -fx-font-size: 14px;
+        -fx-text-fill: #2c3e50;
+    }
+
+    .form-field {
+        -fx-font-family: 'Segoe UI';
+        -fx-font-size: 14px;
+        -fx-background-color: white;
+        -fx-border-color: #e0e0e0;
+        -fx-border-radius: 4px;
+        -fx-padding: 8px;
+    }
+
+    .form-combo {
+        -fx-font-family: 'Segoe UI';
+        -fx-font-size: 14px;
+        -fx-background-color: white;
+        -fx-border-color: #e0e0e0;
+        -fx-border-radius: 4px;
+        -fx-padding: 4px;
+    }
+
+    .form-combo .list-cell {
+        -fx-padding: 8px;
+    }
+
+    .form-date-picker {
+        -fx-font-family: 'Segoe UI';
+        -fx-font-size: 14px;
+    }
+
+    .form-date-picker .text-field {
+        -fx-background-color: white;
+        -fx-border-color: #e0e0e0;
+        -fx-border-radius: 4px;
+        -fx-padding: 8px;
+    }
+
+    .form-text-area {
+        -fx-font-family: 'Segoe UI';
+        -fx-font-size: 14px;
+        -fx-background-color: white;
+        -fx-border-color: #e0e0e0;
+        -fx-border-radius: 4px;
+        -fx-padding: 8px;
+    }
+
+    .info-label {
+        -fx-font-size: 12px;
+        -fx-text-fill: #666666;
+        -fx-font-family: 'Segoe UI';
+    }
+
+    .button-container {
+        -fx-padding: 20px 0 0 0;
+    }
+
+    .btn-primary {
+        -fx-font-family: 'Segoe UI';
+        -fx-font-size: 14px;
+        -fx-background-color: #1a237e;
+        -fx-text-fill: white;
+        -fx-padding: 10px 20px;
+        -fx-cursor: hand;
+        -fx-font-weight: bold;
+    }
+
+    .btn-primary:hover {
+        -fx-background-color: #283593;
+    }
+
+    .btn-secondary {
+        -fx-font-family: 'Segoe UI';
+        -fx-font-size: 14px;
+        -fx-background-color: #e0e0e0;
+        -fx-text-fill: #424242;
+        -fx-padding: 10px 20px;
+        -fx-cursor: hand;
+        -fx-font-weight: bold;
+    }
+
+    .btn-secondary:hover {
+        -fx-background-color: #bdbdbd;
+    }
+
+    /* Estilização do ComboBox */
+    .form-combo .combo-box-popup .list-view {
+        -fx-background-color: white;
+        -fx-border-color: #e0e0e0;
+    }
+
+    .form-combo .combo-box-popup .list-cell {
+        -fx-padding: 8px;
+        -fx-background-color: white;
+    }
+
+    .form-combo .combo-box-popup .list-cell:hover {
+        -fx-background-color: #f5f5f5;
+    }
+
+    .form-combo .combo-box-popup .list-cell:selected {
+        -fx-background-color: #e3f2fd;
+    }
+
+    /* Estilização do ScrollPane */
+    .form-container .scroll-pane {
+        -fx-background-color: transparent;
+        -fx-background: transparent;
+    }
+
+    .form-container .scroll-pane > .viewport {
+        -fx-background-color: transparent;
+    }
+
+    .form-container .scroll-pane .scroll-bar:vertical {
+        -fx-background-color: transparent;
+    }
+
+    .form-container .scroll-pane .scroll-bar:vertical .thumb {
+        -fx-background-color: #90a4ae;
+        -fx-background-radius: 4px;
+    }
+    /* Estilos para a lista de funcionários */
+    .toolbar-container {
+        -fx-background-color: #f8f9fa;
+        -fx-background-radius: 5px;
+    }
+
+    .search-field {
+        -fx-pref-width: 300px;
+        -fx-font-family: 'Segoe UI';
+        -fx-font-size: 14px;
+        -fx-background-color: white;
+        -fx-border-color: #e0e0e0;
+        -fx-border-radius: 4px;
+        -fx-padding: 8px;
+    }
+
+    .status-bar {
+        -fx-background-color: #f8f9fa;
+        -fx-border-color: #e0e0e0;
+        -fx-border-width: 1 0 0 0;
+    }
+
+    .status-label {
+        -fx-font-family: 'Segoe UI';
+        -fx-font-size: 12px;
+        -fx-text-fill: #666666;
+    }
+
+    /* Botões da tabela */
+    .btn-edit {
+        -fx-background-color: #1976d2;
+        -fx-text-fill: white;
+        -fx-font-family: 'Segoe UI';
+        -fx-font-size: 12px;
+        -fx-padding: 5px 10px;
+        -fx-cursor: hand;
+    }
+
+    .btn-edit:hover {
+        -fx-background-color: #1565c0;
+    }
+
+    .btn-delete {
+        -fx-background-color: #d32f2f;
+        -fx-text-fill: white;
+        -fx-font-family: 'Segoe UI';
+        -fx-font-size: 12px;
+        -fx-padding: 5px 10px;
+        -fx-cursor: hand;
+    }
+
+    .btn-delete:hover {
+        -fx-background-color: #c62828;
+    }
+
+    /* Estilos da tabela */
+    .table-row-cell:hover {
+        -fx-background-color: #e3f2fd;
+    }
+
+    .table-row-cell:selected {
+        -fx-background-color: #bbdefb;
+    }
+
+    .table-row-cell:selected .table-cell {
+        -fx-text-fill: #1a237e;
+    }
+    /* Estilos para diálogos */
+    .dialog-container {
+        -fx-background-color: white;
+        -fx-min-width: 500px;
+    }
+
+    .dialog-header {
+        -fx-padding: 0 0 20px 0;
+    }
+
+    .dialog-title {
+        -fx-font-size: 20px;
+        -fx-font-weight: bold;
+        -fx-text-fill: #1a237e;
+        -fx-font-family: 'Segoe UI';
+    }
+
+    .dialog-subtitle {
+        -fx-font-size: 14px;
+        -fx-text-fill: #757575;
+        -fx-font-family: 'Segoe UI';
+    }
+
+    .error-label {
+        -fx-text-fill: #d32f2f;
+        -fx-font-size: 12px;
+        -fx-font-family: 'Segoe UI';
+        -fx-padding: 5px;
+        -fx-background-color: #ffebee;
+        -fx-background-radius: 4px;
+        -fx-border-color: #ffcdd2;
+        -fx-border-radius: 4px;
+    }
+
+    .form-grid {
+        -fx-alignment: center;
+    }
+
+    .form-grid .form-field {
+        -fx-min-width: 300px;
+    }
+
+    .form-grid .form-date-picker {
+        -fx-min-width: 300px;
+    }
+
+    /* Animação de shake para erros */
+    .shake {
+        -fx-animation: shake 0.3s;
+    }
+
+    @keyframes shake {
+        0%, 100% { -fx-translate-x: 0; }
+        25% { -fx-translate-x: -5px; }
+        75% { -fx-translate-x: 5px; }
+    }
+    /* Estilos para empréstimos ativos */
+    .table-row-cell:status-atrasado {
+        -fx-background-color: #ffebee;
+    }
+
+    .table-row-cell:status-atrasado:hover {
+        -fx-background-color: #ffcdd2;
+    }
+
+    .table-row-cell:status-em-dia {
+        -fx-background-color: #e8f5e9;
+    }
+
+    .table-row-cell:status-em-dia:hover {
+        -fx-background-color: #c8e6c9;
+    }
+
+    .status-bar {
+        -fx-background-color: #f8f9fa;
+        -fx-border-color: #e0e0e0;
+        -fx-border-width: 1 0 0 0;
+    }
+
+    .status-label {
+        -fx-font-family: 'Segoe UI';
+        -fx-font-size: 12px;
+        -fx-text-fill: #424242;
+    }
+
+    .toolbar-container {
+        -fx-background-color: #f8f9fa;
+        -fx-background-radius: 5px;
+        -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 4, 0, 0, 0);
+    }
+
+    .search-field {
+        -fx-pref-width: 300px;
+    }
 }

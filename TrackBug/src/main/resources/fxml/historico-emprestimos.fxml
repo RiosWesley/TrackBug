@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="30" styleClass="form-container" xmlns="http://javafx.com/javafx/19"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="trackbug.controller.HistoricoEmprestimosController">
+
+    <!-- Cabeçalho -->
+    <VBox styleClass="form-header" alignment="CENTER">
+        <Label text="Histórico de Empréstimos" styleClass="form-title"/>
+        <Label text="Consulte o histórico completo de empréstimos" styleClass="form-subtitle"/>
+    </VBox>
+
+    <!-- Área de Filtros -->
+    <VBox styleClass="filtros-container">
+        <Label text="Filtros" styleClass="section-title"/>
+
+        <GridPane hgap="15" vgap="10">
+            <!-- Período -->
+            <Label text="Período:" GridPane.columnIndex="0" GridPane.rowIndex="0"
+                   styleClass="form-label"/>
+            <DatePicker fx:id="dataInicio" promptText="Data inicial"
+                        GridPane.columnIndex="1" GridPane.rowIndex="0"
+                        styleClass="form-date-picker"/>
+            <Label text="até" GridPane.columnIndex="2" GridPane.rowIndex="0"
+                   styleClass="form-label"/>
+            <DatePicker fx:id="dataFim" promptText="Data final"
+                        GridPane.columnIndex="3" GridPane.rowIndex="0"
+                        styleClass="form-date-picker"/>
+
+            <!-- Funcionário e Equipamento -->
+            <Label text="Funcionário:" GridPane.columnIndex="0" GridPane.rowIndex="1"
+                   styleClass="form-label"/>
+            <TextField fx:id="funcionarioField" promptText="Nome do funcionário"
+                       GridPane.columnIndex="1" GridPane.rowIndex="1"
+                       styleClass="form-field"/>
+
+            <Label text="Equipamento:" GridPane.columnIndex="2" GridPane.rowIndex="1"
+                   styleClass="form-label"/>
+            <TextField fx:id="equipamentoField" promptText="Descrição do equipamento"
+                       GridPane.columnIndex="3" GridPane.rowIndex="1"
+                       styleClass="form-field"/>
+        </GridPane>
+
+        <!-- Botões de Ação -->
+        <HBox spacing="10" alignment="CENTER_RIGHT">
+            <Button text="Pesquisar" onAction="#pesquisar" styleClass="btn-primary"/>
+            <Button text="Limpar Filtros" onAction="#limparFiltros" styleClass="btn-secondary"/>
+            <Button text="Exportar PDF" onAction="#exportarPDF" styleClass="btn-accent"/>
+        </HBox>
+    </VBox>
+
+    <!-- Tabela de Empréstimos -->
+    <TableView fx:id="tabelaHistorico" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="colunaData" text="Data do Empréstimo"/>
+            <TableColumn fx:id="colunaFuncionario" text="Funcionário"/>
+            <TableColumn fx:id="colunaEquipamento" text="Equipamento"/>
+            <TableColumn fx:id="colunaQtd" text="Quantidade"/>
+            <TableColumn fx:id="colunaPrevista" text="Devolução Prevista"/>
+            <TableColumn fx:id="colunaEfetiva" text="Devolução Efetiva"/>
+            <TableColumn fx:id="colunaStatus" text="Status"/>
+        </columns>
+        <placeholder>
+            <Label text="Nenhum empréstimo encontrado"/>
+        </placeholder>
+    </TableView>
+
+    <!-- Área de Estatísticas -->
+    <GridPane styleClass="stats-container" hgap="20" vgap="10">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES"/>
+            <ColumnConstraints hgrow="SOMETIMES"/>
+            <ColumnConstraints hgrow="SOMETIMES"/>
+            <ColumnConstraints hgrow="SOMETIMES"/>
+        </columnConstraints>
+
+        <VBox styleClass="stat-card" GridPane.columnIndex="0">
+            <Label fx:id="totalEmprestimosLabel" styleClass="stat-value"/>
+            <Label text="Total de Empréstimos" styleClass="stat-title"/>
+        </VBox>
+
+        <VBox styleClass="stat-card" GridPane.columnIndex="1">
+            <Label fx:id="mediaAtrasoLabel" styleClass="stat-value"/>
+            <Label text="Média de Atraso (dias)" styleClass="stat-title"/>
+        </VBox>
+
+        <VBox styleClass="stat-card" GridPane.columnIndex="2">
+            <Label fx:id="taxaDevolucaoLabel" styleClass="stat-value"/>
+            <Label text="Taxa de Devolução" styleClass="stat-title"/>
+        </VBox>
+
+        <VBox styleClass="stat-card" GridPane.columnIndex="3">
+            <Label fx:id="itemMaisEmprestadoLabel" styleClass="stat-value"/>
+            <Label text="Item Mais Emprestado" styleClass="stat-title"/>
+        </VBox>
+    </GridPane>
+
+</VBox>

@@ -1,4 +1,4 @@
-package trackbug.model;
+package trackbug.model.entity;
 
 import trackbug.Forms.ConnectionFactory;
 

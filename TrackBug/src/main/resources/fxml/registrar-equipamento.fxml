@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="<?xml version="1.0" encoding="UTF-8"?>
+        <?import javafx.geometry.Insets?>
+        <?import javafx.scene.control.*?>
+        <?import javafx.scene.layout.*?>
+
+<ScrollPane fitToWidth="true" xmlns="http://javafx.com/javafx/19"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="trackbug.controller.RegistrarEquipamentoController">
+<VBox styleClass="form-container" spacing="30">
+    <!-- Cabeçalho -->
+    <VBox styleClass="form-header" alignment="CENTER">
+        <Label text="Registrar Novo Equipamento" styleClass="form-title"/>
+        <Label text="Preencha os dados do novo equipamento" styleClass="form-subtitle"/>
+    </VBox>
+
+    <!-- Grid de campos -->
+    <GridPane styleClass="form-grid" hgap="15" vgap="15">
+        <!-- Código -->
+        <Label text="Código:" styleClass="form-label"
+               GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+        <TextField fx:id="codigoField" promptText="Digite o código"
+                   styleClass="form-field" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+        <!-- Descrição -->
+        <Label text="Descrição:" styleClass="form-label"
+               GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+        <TextField fx:id="descricaoField" promptText="Digite a descrição"
+                   styleClass="form-field" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+        <!-- Data de Compra -->
+        <Label text="Data de Compra:" styleClass="form-label"
+               GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+        <DatePicker fx:id="dataCompraField" promptText="Selecione a data"
+                    styleClass="form-date-picker" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+        <!-- Tipo de Item -->
+        <Label text="Tipo de Item:" styleClass="form-label"
+               GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+        <ComboBox fx:id="tipoItemCombo" promptText="Selecione o tipo"
+                  styleClass="form-combo" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+
+        <!-- Tipo de Uso -->
+        <Label text="Tipo de Uso:" styleClass="form-label"
+               GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+        <ComboBox fx:id="tipoUsoCombo" promptText="Selecione o tipo de uso"
+                  styleClass="form-combo" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+
+        <!-- Quantidade Inicial -->
+        <Label text="Quantidade Inicial:" styleClass="form-label"
+               GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+        <TextField fx:id="quantidadeInicialField" promptText="Digite a quantidade inicial"
+                   styleClass="form-field" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+
+        <!-- Quantidade Mínima -->
+        <Label text="Quantidade Mínima:" styleClass="form-label"
+               GridPane.columnIndex="0" GridPane.rowIndex="6"/>
+        <TextField fx:id="quantidadeMinimaField" promptText="Digite a quantidade mínima"
+                   styleClass="form-field" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
+
+        <!-- Checkbox Medidas -->
+        <CheckBox fx:id="medidasCheckBox" text="Incluir peso e dimensões"
+                  styleClass="form-checkbox" GridPane.columnSpan="2" GridPane.rowIndex="7"/>
+
+        <!-- Container de Medidas (visível apenas quando checkbox está marcado) -->
+        <VBox fx:id="medidasContainer" spacing="10" visible="false" managed="false"
+              GridPane.columnSpan="2" GridPane.rowIndex="8">
+            <GridPane hgap="15" vgap="10">
+                <Label text="Peso (g):" styleClass="form-label"
+                       GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                <TextField fx:id="pesoField" promptText="Digite o peso"
+                           styleClass="form-field" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+                <Label text="Largura (cm):" styleClass="form-label"
+                       GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                <TextField fx:id="larguraField" promptText="Digite a largura"
+                           styleClass="form-field" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+                <Label text="Comprimento (cm):" styleClass="form-label"
+                       GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                <TextField fx:id="comprimentoField" promptText="Digite o comprimento"
+                           styleClass="form-field" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+            </GridPane>
+        </VBox>
+    </GridPane>
+
+    <!-- Botões -->
+    <HBox spacing="15" alignment="CENTER">
+        <Button text="Salvar Equipamento" onAction="#salvarEquipamento"
+                styleClass="btn-primary"/>
+        <Button text="Limpar" onAction="#limparFormulario"
+                styleClass="btn-secondary"/>
+    </HBox>
+</VBox>
+</ScrollPane>"
+            prefHeight="400.0" prefWidth="600.0">
+
+</AnchorPane>
