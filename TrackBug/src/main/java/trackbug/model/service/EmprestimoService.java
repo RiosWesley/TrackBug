@@ -91,7 +91,7 @@ public class EmprestimoService {
         }
     }
 
-    public List<Emprestimo> listarEmprestimosEmAtraso() throws Exception {
+    public List<Emprestimo> listarEmprestimosAtrasados() throws Exception {
         try {
             return emprestimoDAO.listarAtrasados();
         } catch (Exception e) {

@@ -57,7 +57,7 @@ public class GerenciamentoPermissoesController implements Initializable {
                 new javafx.beans.property.SimpleStringProperty(data.getValue().getEmail()));
 
         colunaNivel.setCellValueFactory(data ->
-                new javafx.beans.property.SimpleStringProperty(data.getValue().getNivelAcesso()));
+                new javafx.beans.property.SimpleStringProperty(String.valueOf(data.getValue().getNivelAcesso())));
 
         colunaStatus.setCellValueFactory(data ->
                 new javafx.beans.property.SimpleStringProperty(

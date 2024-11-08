@@ -1,13 +1,15 @@
 package trackbug.model.entity;
 
+import java.time.LocalDate;
+
 public class Funcionario {
     public String id;
     public String nome;
     public String funcao;
-    public String dataAdmissao;
+    public LocalDate dataAdmissao;
 
     // Metodos setter
-    public void setID(String id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -19,7 +21,7 @@ public class Funcionario {
         this.funcao = funcao;
     }
 
-    public void setDataAdmissao(String dataAdmissao) {
+    public void setDataAdmissao(LocalDate dataAdmissao) {
         this.dataAdmissao = dataAdmissao;
     }
 
@@ -33,7 +35,8 @@ public class Funcionario {
     public String getFuncao(){
         return funcao;
     }
-    public String getDataAdmissao(){
+
+    public LocalDate getDataAdmissao() {
         return dataAdmissao;
     }
 }
