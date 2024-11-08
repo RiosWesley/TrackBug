@@ -231,34 +231,42 @@ public class ListarEquipamentosController implements Initializable {
     }
 
     private void deletarEquipamento(Equipamento equipamento) {
-        if (equipamentoService.possuiEmprestimosAtivos(equipamento.getId())) {
-            AlertHelper.showWarning("Não é possível excluir",
-                    "Este equipamento possui empréstimos ativos.");
-            return;
-        }
+        try {
+            if (equipamentoService.possuiEmprestimosAtivos(equipamento.getId())) {
+                AlertHelper.showWarning("Não é possível excluir",
+                        "Este equipamento possui empréstimos ativos.");
+                return;
+            }
 
-        Optional<ButtonType> result = AlertHelper.showConfirmation(
-                "Confirmar Exclusão",
-                "Deseja realmente excluir o equipamento?",
-                "Esta ação não poderá ser desfeita."
-        );
+            Optional<ButtonType> result = AlertHelper.showConfirmation(
+                    "Confirmar Exclusão",
+                    "Deseja realmente excluir o equipamento?",
+                    "Esta ação não poderá ser desfeita."
+            );
 
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            try {
+            if (result.isPresent() && result.get() == ButtonType.OK) {
                 equipamentoService.deletar(equipamento.getId());
                 carregarEquipamentos();
                 AlertHelper.showSuccess("Equipamento excluído com sucesso!");
-            } catch (Exception e) {
-                AlertHelper.showError("Erro ao excluir equipamento", e.getMessage());
             }
+        } catch (Exception e) {
+            AlertHelper.showError("Erro ao excluir equipamento", e.getMessage());
         }
     }
 
     private void registrarAvaria(Equipamento equipamento) {
         try {
-            equipamentoService.registrarAvaria(equipamento);
-            carregarEquipamentos();
-            AlertHelper.showSuccess("Avaria registrada com sucesso!");
+            TextInputDialog dialog = new TextInputDialog();
+            dialog.setTitle("Registrar Avaria");
+            dialog.setHeaderText("Informe a descrição da avaria");
+            dialog.setContentText("Descrição:");
+
+            Optional<String> result = dialog.showAndWait();
+            if (result.isPresent()) {
+                equipamentoService.registrarAvaria(equipamento, result.get());
+                carregarEquipamentos();
+                AlertHelper.showSuccess("Avaria registrada com sucesso!");
+            }
         } catch (Exception e) {
             AlertHelper.showError("Erro ao registrar avaria", e.getMessage());
         }

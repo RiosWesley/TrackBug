@@ -52,7 +52,7 @@ public class RegistroAvaria extends Avaria {
         this.custoReparo = custoReparo;
     }
 
-    // Métodos utilitários
+    // Métodos utilitários e constantes
     public static String[] getNiveisGravidade() {
         return NIVEIS_GRAVIDADE;
     }

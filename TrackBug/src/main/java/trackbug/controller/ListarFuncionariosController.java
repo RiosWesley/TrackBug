@@ -181,7 +181,7 @@ public class ListarFuncionariosController implements Initializable {
                 );
 
                 if (result.isPresent() && result.get() == ButtonType.OK) {
-                    funcionarioService.deletar(funcionario.getId());
+                    funcionarioService.excluirFuncionario(funcionario.getId());
                     carregarFuncionarios();
                     AlertHelper.showSuccess("Funcionário excluído com sucesso!");
                 }

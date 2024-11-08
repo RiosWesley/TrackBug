@@ -16,6 +16,7 @@ import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
@@ -80,7 +81,7 @@ public class HistoricoAvariasController implements Initializable {
     private void configurarColunas() {
         colunaEquipamento.setCellValueFactory(data ->
                 new javafx.beans.property.SimpleStringProperty(
-                        equipamentoService.buscarNomePorId(data.getValue().getIdEquipamento())
+                        buscarNomeEquipamento(data.getValue().getIdEquipamento())
                 ));
 
         colunaData.setCellValueFactory(data ->
@@ -108,8 +109,11 @@ public class HistoricoAvariasController implements Initializable {
                         data.getValue().getStatus()
                 ));
 
-        // Estilização da coluna de gravidade
-        colunaGravidade.setCellFactory(column -> new TableCell<RegistroAvaria, String>() {
+        configurarEstiloColunaGravidade();
+    }
+
+    private void configurarEstiloColunaGravidade() {
+        colunaGravidade.setCellFactory(column -> new TableCell<>() {
             @Override
             protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
@@ -118,32 +122,20 @@ public class HistoricoAvariasController implements Initializable {
                     setStyle("");
                 } else {
                     setText(item);
-                    switch (item.toLowerCase()) {
-                        case "baixa":
-                            setStyle("-fx-text-fill: #2e7d32;"); // Verde
-                            break;
-                        case "média":
-                            setStyle("-fx-text-fill: #f57c00;"); // Laranja
-                            break;
-                        case "alta":
-                            setStyle("-fx-text-fill: #d32f2f;"); // Vermelho
-                            break;
-                        case "crítica":
-                            setStyle("-fx-text-fill: #c62828; -fx-font-weight: bold;"); // Vermelho escuro
-                            break;
-                        default:
-                            setStyle("");
-                            break;
-                    }
+                    setStyle(switch (item.toLowerCase()) {
+                        case "baixa" -> "-fx-text-fill: #2e7d32;";
+                        case "média" -> "-fx-text-fill: #f57c00;";
+                        case "alta" -> "-fx-text-fill: #d32f2f;";
+                        case "crítica" -> "-fx-text-fill: #c62828; -fx-font-weight: bold;";
+                        default -> "";
+                    });
                 }
             }
         });
     }
 
     private void configurarPesquisa() {
-        equipamentoField.textProperty().addListener((obs, old, novo) -> {
-            aplicarFiltros();
-        });
+        equipamentoField.textProperty().addListener((obs, old, novo) -> aplicarFiltros());
     }
 
     @FXML
@@ -161,24 +153,25 @@ public class HistoricoAvariasController implements Initializable {
 
         dadosFiltrados.setPredicate(avaria -> {
             boolean matchTexto = textoBusca.isEmpty() ||
-                    equipamentoService.buscarNomePorId(avaria.getIdEquipamento())
-                            .toLowerCase().contains(textoBusca) ||
+                    buscarNomeEquipamento(avaria.getIdEquipamento()).toLowerCase().contains(textoBusca) ||
                     avaria.getDescricao().toLowerCase().contains(textoBusca);
 
             boolean matchPeriodo = "Todos os períodos".equals(periodoSelecionado) ||
                     verificarPeriodo(avaria.getData(), periodoSelecionado);
 
             boolean matchGravidade = "Todas".equals(gravidadeSelecionada) ||
-                    avaria.getGravidade().equals(gravidadeSelecionada);
+                    gravidadeSelecionada.equals(avaria.getGravidade());
 
             return matchTexto && matchPeriodo && matchGravidade;
         });
 
         tabelaAvarias.setItems(dadosFiltrados);
-        atualizarEstatisticas();
+        atualizarEstatisticas(dadosFiltrados);
     }
 
     private boolean verificarPeriodo(LocalDateTime data, String periodo) {
+        if (data == null) return false;
+
         LocalDateTime agora = LocalDateTime.now();
         return switch (periodo) {
             case "Último mês" -> data.isAfter(agora.minusMonths(1));
@@ -191,18 +184,18 @@ public class HistoricoAvariasController implements Initializable {
 
     private void carregarAvarias(String filtro) {
         try {
-            avarias = FXCollections.observableArrayList(
-                    avariaService.buscarTodos(filtro)
-            );
+            List<RegistroAvaria> listaAvarias = avariaService.buscarTodos(filtro);
+            avarias = FXCollections.observableArrayList(listaAvarias);
             tabelaAvarias.setItems(avarias);
-            atualizarEstatisticas();
+            atualizarEstatisticas(avarias);
         } catch (Exception e) {
             AlertHelper.showError("Erro ao carregar avarias", e.getMessage());
+            e.printStackTrace(); // Remova em produção
         }
     }
 
-    private void atualizarEstatisticas() {
-        ObservableList<RegistroAvaria> dadosFiltrados = tabelaAvarias.getItems();
+    private void atualizarEstatisticas(ObservableList<RegistroAvaria> dadosFiltrados) {
+        if (dadosFiltrados == null) return;
 
         // Total de avarias
         totalAvariasLabel.setText(String.valueOf(dadosFiltrados.size()));
@@ -214,27 +207,38 @@ public class HistoricoAvariasController implements Initializable {
         totalQuantidadeLabel.setText(String.valueOf(totalItens));
 
         // Período mais crítico
+        calcularPeriodoMaisCritico(dadosFiltrados);
+
+        // Status por gravidade
+        atualizarStatusPorGravidade(dadosFiltrados);
+    }
+
+    private void calcularPeriodoMaisCritico(ObservableList<RegistroAvaria> dadosFiltrados) {
+        if (dadosFiltrados.isEmpty()) {
+            periodoMaisCriticoLabel.setText("N/A");
+            return;
+        }
+
         Map<YearMonth, Integer> avariasPorMes = dadosFiltrados.stream()
-                .collect(Collectors.toMap(
-                        avaria -> YearMonth.from(avaria.getData()),
-                        RegistroAvaria::getQuantidade,
-                        Integer::sum
+                .filter(a -> a.getData() != null)
+                .collect(Collectors.groupingBy(
+                        a -> YearMonth.from(a.getData()),
+                        Collectors.summingInt(RegistroAvaria::getQuantidade)
                 ));
 
         if (!avariasPorMes.isEmpty()) {
-            Map.Entry<YearMonth, Integer> periodoMaisCritico = avariasPorMes.entrySet()
-                    .stream()
+            YearMonth periodoMaisCritico = avariasPorMes.entrySet().stream()
                     .max(Map.Entry.comparingByValue())
-                    .get();
+                    .map(Map.Entry::getKey)
+                    .orElse(YearMonth.now());
 
             periodoMaisCriticoLabel.setText(
-                    periodoMaisCritico.getKey().format(DateTimeFormatter.ofPattern("MMM/yyyy"))
+                    periodoMaisCritico.format(DateTimeFormatter.ofPattern("MMM/yyyy"))
             );
-        } else {
-            periodoMaisCriticoLabel.setText("N/A");
         }
+    }
 
-        // Status
+    private void atualizarStatusPorGravidade(ObservableList<RegistroAvaria> dadosFiltrados) {
         Map<String, Long> contagemPorGravidade = dadosFiltrados.stream()
                 .collect(Collectors.groupingBy(
                         RegistroAvaria::getGravidade,
@@ -249,5 +253,13 @@ public class HistoricoAvariasController implements Initializable {
                 contagemPorGravidade.getOrDefault("Alta", 0L),
                 contagemPorGravidade.getOrDefault("Crítica", 0L)
         ));
+    }
+
+    private String buscarNomeEquipamento(String id) {
+        try {
+            return equipamentoService.buscarNomePorId(id);
+        } catch (Exception e) {
+            return "Equipamento não encontrado";
+        }
     }
 }

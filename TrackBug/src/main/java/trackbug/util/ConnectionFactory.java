@@ -21,7 +21,7 @@ public class ConnectionFactory {
             // Se não encontrar o arquivo, usa valores default
             props.setProperty("db.url", "jdbc:mysql://localhost:3306/trackbug");
             props.setProperty("db.user", "root");
-            props.setProperty("db.password", "");
+            props.setProperty("db.password", "root");
         }
     }
 

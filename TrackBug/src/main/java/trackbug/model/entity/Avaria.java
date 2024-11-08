@@ -7,9 +7,9 @@ public class Avaria {
     private String idEquipamento;
     private int quantidade;
     private String descricao;
+    private LocalDateTime data;
     private String gravidade;
     private String status;
-    private LocalDateTime data;
 
     // Construtores
     public Avaria() {}
@@ -47,6 +47,14 @@ public class Avaria {
         this.descricao = descricao;
     }
 
+    public LocalDateTime getData() {
+        return data;
+    }
+
+    public void setData(LocalDateTime data) {
+        this.data = data;
+    }
+
     public String getGravidade() {
         return gravidade;
     }
@@ -61,13 +69,5 @@ public class Avaria {
 
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    public LocalDateTime getData() {
-        return data;
-    }
-
-    public void setData(LocalDateTime data) {
-        this.data = data;
     }
 }

@@ -12,6 +12,34 @@ public class UsuarioService {
         this.usuarioDAO = new UsuarioDAOImpl();
     }
 
+    public boolean autenticar(String username, String password) throws Exception {
+        if (username == null || username.trim().isEmpty()) {
+            throw new IllegalArgumentException("Username é obrigatório");
+        }
+        if (password == null || password.trim().isEmpty()) {
+            throw new IllegalArgumentException("Senha é obrigatória");
+        }
+
+        return usuarioDAO.autenticar(username, password);
+    }
+
+    public Usuario buscarPorUsername(String username) throws Exception {
+        if (username == null || username.trim().isEmpty()) {
+            throw new IllegalArgumentException("Username é obrigatório");
+        }
+
+        Usuario usuario = usuarioDAO.buscarPorUsername(username);
+        if (usuario == null) {
+            throw new IllegalArgumentException("Usuário não encontrado");
+        }
+
+        return usuario;
+    }
+
+    public List<Usuario> listarTodos() throws Exception {
+        return usuarioDAO.listarTodos();
+    }
+
     public void cadastrar(Usuario usuario) throws Exception {
         validarUsuario(usuario);
         if (usuarioDAO.buscarPorUsername(usuario.getUsername()) != null) {
@@ -33,19 +61,10 @@ public class UsuarioService {
         if (usuario == null) {
             throw new IllegalArgumentException("Usuário não pode ser nulo");
         }
-        Usuario existente = usuarioDAO.buscarPorId(usuario.getId());
-        if (existente == null) {
-            throw new IllegalArgumentException("Usuário não encontrado");
+        if (usuario.getId() <= 0) {
+            throw new IllegalArgumentException("ID do usuário inválido");
         }
         usuarioDAO.atualizarStatus(usuario);
-    }
-
-    public Usuario buscarPorUsername(String username) throws Exception {
-        return usuarioDAO.buscarPorUsername(username);
-    }
-
-    public List<Usuario> listarTodos() throws Exception {
-        return usuarioDAO.listarTodos();
     }
 
     private void validarUsuario(Usuario usuario) {

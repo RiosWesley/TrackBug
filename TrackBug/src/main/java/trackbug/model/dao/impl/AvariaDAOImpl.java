@@ -110,6 +110,8 @@ public class AvariaDAOImpl implements AvariaDAO {
         avaria.setQuantidade(rs.getInt("quantidade"));
         avaria.setDescricao(rs.getString("descricao"));
         avaria.setData(rs.getTimestamp("data").toLocalDateTime());
+        avaria.setGravidade(rs.getString("gravidade"));
+        avaria.setStatus(rs.getString("status"));
         return avaria;
     }
 }

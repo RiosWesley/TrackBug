@@ -1,10 +1,10 @@
-// File: src/main/java/trackbug/model/dao/impl/FuncionarioDAOImpl.java
 package trackbug.model.dao.impl;
 
 import trackbug.model.dao.interfaces.FuncionarioDAO;
 import trackbug.model.entity.Funcionario;
 import trackbug.util.ConnectionFactory;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,11 +17,13 @@ public class FuncionarioDAOImpl implements FuncionarioDAO {
         try {
             conn = ConnectionFactory.getConnection();
             String sql = "INSERT INTO funcionarios (id, nome, funcao, dt) VALUES (?, ?, ?, ?)";
+
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, funcionario.getId());
             stmt.setString(2, funcionario.getNome());
             stmt.setString(3, funcionario.getFuncao());
             stmt.setDate(4, Date.valueOf(funcionario.getDataAdmissao()));
+
             stmt.executeUpdate();
         } finally {
             ConnectionFactory.closeConnection(conn, stmt);
@@ -39,6 +41,7 @@ public class FuncionarioDAOImpl implements FuncionarioDAO {
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, id);
             rs = stmt.executeQuery();
+
             if (rs.next()) {
                 return mapearResultSet(rs);
             }
@@ -54,14 +57,17 @@ public class FuncionarioDAOImpl implements FuncionarioDAO {
         PreparedStatement stmt = null;
         ResultSet rs = null;
         List<Funcionario> funcionarios = new ArrayList<>();
+
         try {
             conn = ConnectionFactory.getConnection();
             String sql = "SELECT * FROM funcionarios ORDER BY nome";
             stmt = conn.prepareStatement(sql);
             rs = stmt.executeQuery();
+
             while (rs.next()) {
                 funcionarios.add(mapearResultSet(rs));
             }
+
             return funcionarios;
         } finally {
             ConnectionFactory.closeConnection(conn, stmt, rs);
@@ -80,7 +86,7 @@ public class FuncionarioDAOImpl implements FuncionarioDAO {
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, funcionario.getNome());
             stmt.setString(2, funcionario.getFuncao());
-            stmt.setString(3, funcionario.getDataAdmissao());
+            stmt.setDate(3, Date.valueOf(funcionario.getDataAdmissao()));
             stmt.setString(4, funcionario.getId());
 
             stmt.executeUpdate();
@@ -96,6 +102,7 @@ public class FuncionarioDAOImpl implements FuncionarioDAO {
 
         try {
             conn = ConnectionFactory.getConnection();
+            conn.setAutoCommit(false);
 
             // Primeiro, atualiza as observações dos empréstimos
             String sqlHistorico = "UPDATE emprestimos SET observacoes = " +
@@ -111,6 +118,17 @@ public class FuncionarioDAOImpl implements FuncionarioDAO {
             stmt = conn.prepareStatement(sqlDelete);
             stmt.setString(1, id);
             stmt.executeUpdate();
+
+            conn.commit();
+        } catch (Exception e) {
+            if (conn != null) {
+                try {
+                    conn.rollback();
+                } catch (SQLException ex) {
+                    throw new Exception("Erro ao realizar rollback: " + ex.getMessage());
+                }
+            }
+            throw e;
         } finally {
             ConnectionFactory.closeConnection(conn, stmt);
         }

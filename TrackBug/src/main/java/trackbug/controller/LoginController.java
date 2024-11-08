@@ -1,63 +1,87 @@
-    package trackbug.controller;
+package trackbug.controller;
 
-    import javafx.fxml.FXML;
-    import javafx.scene.control.*;
-    import javafx.scene.image.Image;
-    import javafx.scene.image.ImageView;
-    import javafx.stage.Stage;
-    import trackbug.Main;
-    import trackbug.util.SessionManager;
-    import trackbug.model.entity.Usuario;
+import javafx.fxml.FXML;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
+import trackbug.Main;
+import trackbug.util.SessionManager;
+import trackbug.model.entity.Usuario;
+import trackbug.model.service.UsuarioService;
 
-    public class LoginController {
-        @FXML
-        private TextField usernameField;
+public class LoginController {
 
-        @FXML
-        private PasswordField passwordField;
+    @FXML private TextField usernameField;
+    @FXML private PasswordField passwordField;
+    @FXML private Label mensagemErro;
+    @FXML private Button loginButton;
+    @FXML private ImageView leftImage;
+    @FXML private ImageView rightImage;
 
-        @FXML
-        private Label mensagemErro;
+    private final UsuarioService usuarioService;
 
-        @FXML
-        private Button loginButton;
-        @FXML
-        private ImageView leftImage;
+    public LoginController() {
+        this.usuarioService = new UsuarioService();
+    }
 
-        @FXML
-        private ImageView rightImage;
+    @FXML
+    public void initialize() {
+        try {
+            // Carrega a imagem
+            Image unifanImage = new Image(getClass().getResourceAsStream("/images/UNIFAN.png"));
+            Image estadoImage = new Image(getClass().getResourceAsStream("/images/ESTADO.png"));
 
-        @FXML
-        public void initialize() {
-            try {
-                // Carrega a imagem
-                Image unifanImage = new Image(getClass().getResourceAsStream("/images/UNIFAN.png"));
-                Image estadoImage = new Image(getClass().getResourceAsStream("/images/ESTADO.png"));
-                // Define a imagem para ambos os ImageViews
-                leftImage.setImage(unifanImage);
-                rightImage.setImage(estadoImage);
-            } catch (Exception e) {
-                System.out.println("Erro ao carregar a imagem: " + e.getMessage());
-                e.printStackTrace();
-            }
+            // Define a imagem para ambos os ImageViews
+            leftImage.setImage(unifanImage);
+            rightImage.setImage(estadoImage);
+        } catch (Exception e) {
+            System.out.println("Erro ao carregar a imagem: " + e.getMessage());
+            e.printStackTrace();
         }
 
-        @FXML
-        private void realizarLogin() {
-            String username = usernameField.getText().trim();
-            String password = passwordField.getText().trim();
+        // Configurar validações dos campos
+        configurarValidacoes();
+    }
 
-            if (username.isEmpty() || password.isEmpty()) {
-                mostrarErro("Por favor, preencha todos os campos");
-                return;
-            }
+    private void configurarValidacoes() {
+        // Adicionar listener para limpar mensagem de erro quando o usuário começa a digitar
+        usernameField.textProperty().addListener((obs, old, novo) -> mensagemErro.setVisible(false));
+        passwordField.textProperty().addListener((obs, old, novo) -> mensagemErro.setVisible(false));
 
-            if (UsuarioDAO.autenticar(username, password)) {
-                Usuario usuario = UsuarioDAO.buscarPorUsername(username);
+        // Configurar ação de enter nos campos
+        passwordField.setOnAction(event -> realizarLogin());
+    }
+
+    @FXML
+    private void realizarLogin() {
+        String username = usernameField.getText().trim();
+        String password = passwordField.getText().trim();
+
+        if (username.isEmpty() || password.isEmpty()) {
+            mostrarErro("Por favor, preencha todos os campos");
+            return;
+        }
+
+        try {
+            // Tenta autenticar o usuário
+            if (usuarioService.autenticar(username, password)) {
+                Usuario usuario = usuarioService.buscarPorUsername(username);
                 if (usuario != null) {
+                    // Verifica se o usuário está ativo
+                    if (!usuario.isAtivo()) {
+                        mostrarErro("Usuário está inativo. Contate o administrador.");
+                        return;
+                    }
+
+                    // Login bem sucedido
                     SessionManager.setUsuarioLogado(usuario);
+
+                    // Fecha a tela de login
                     Stage loginStage = (Stage) loginButton.getScene().getWindow();
                     loginStage.close();
+
+                    // Abre a tela principal
                     Main.carregarTelaPrincipal(new Stage());
                 } else {
                     mostrarErro("Erro ao carregar dados do usuário");
@@ -66,11 +90,15 @@
                 mostrarErro("Usuário ou senha inválidos");
                 passwordField.clear();
             }
-        }
-
-        private void mostrarErro(String mensagem) {
-            mensagemErro.setText(mensagem);
-            mensagemErro.setVisible(true);
+        } catch (Exception e) {
+            mostrarErro("Erro ao realizar login: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
+    private void mostrarErro(String mensagem) {
+        mensagemErro.setText(mensagem);
+        mensagemErro.setVisible(true);
+        passwordField.clear(); // Limpa a senha por segurança
+    }
+}
