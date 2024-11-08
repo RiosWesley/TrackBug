@@ -3,7 +3,7 @@ package trackbug.model.dao.impl;
 
 import trackbug.model.dao.interfaces.EmprestimoDAO;
 import trackbug.model.entity.Emprestimo;
-import trackbug.Forms.ConnectionFactory;
+import trackbug.util.ConnectionFactory;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;

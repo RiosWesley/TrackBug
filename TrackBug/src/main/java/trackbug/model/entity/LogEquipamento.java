@@ -1,36 +1,72 @@
 package trackbug.model.entity;
 
-import java.security.Timestamp;
+import java.time.LocalDateTime;
 
 public class LogEquipamento {
-    private final int id;
-    private final String idEquipamento;
-    private final String descricao;
-    private final String acao;
-    private final Timestamp dataAcao;
-    private final String detalhes;
+    private Integer id;
+    private String idEquipamento;
+    private String descricao;
+    private String acao;
+    private LocalDateTime dataAcao;
+    private String detalhes;
 
-    // Setters
+    // Construtores
+    public LogEquipamento() {}
 
-
-    public LogEquipamento(String acao, int id, String idEquipamento, String descricao, Timestamp dataAcao, String detalhes) {
-        this.acao = acao;
-        this.id = id;
+    public LogEquipamento(String idEquipamento, String descricao, String acao, String detalhes) {
         this.idEquipamento = idEquipamento;
         this.descricao = descricao;
-        this.dataAcao = dataAcao;
+        this.acao = acao;
         this.detalhes = detalhes;
+        this.dataAcao = LocalDateTime.now();
     }
 
-    // Getters
-    public int getId() { return id; }
+    // Getters e Setters
+    public Integer getId() {
+        return id;
+    }
 
-    public String getIdEquipamento() { return idEquipamento; }
-    public String getDescricao() { return descricao; }
-    public String getAcao() { return acao; }
-    public Timestamp getDataAcao() { return dataAcao; }
-    public String getDetalhes() { return detalhes; }
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
+    public String getIdEquipamento() {
+        return idEquipamento;
+    }
 
+    public void setIdEquipamento(String idEquipamento) {
+        this.idEquipamento = idEquipamento;
+    }
 
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public String getAcao() {
+        return acao;
+    }
+
+    public void setAcao(String acao) {
+        this.acao = acao;
+    }
+
+    public LocalDateTime getDataAcao() {
+        return dataAcao;
+    }
+
+    public void setDataAcao(LocalDateTime dataAcao) {
+        this.dataAcao = dataAcao;
+    }
+
+    public String getDetalhes() {
+        return detalhes;
+    }
+
+    public void setDetalhes(String detalhes) {
+        this.detalhes = detalhes;
+    }
 }

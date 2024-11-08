@@ -7,7 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import trackbug.model.NivelAcesso;
-import trackbug.Forms.SessionManager;
+import trackbug.util.SessionManager;
 import trackbug.util.AlertHelper;
 
 public class MainController {

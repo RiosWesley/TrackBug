@@ -4,9 +4,9 @@ package trackbug.model.service;
 import trackbug.model.dao.interfaces.EquipamentoDAO;
 import trackbug.model.dao.impl.EquipamentoDAOImpl;
 import trackbug.model.entity.Equipamento;
-import trackbug.model.entity.LogEquipamento;
 import trackbug.model.dao.interfaces.LogEquipamentoDAO;
 import trackbug.model.dao.impl.LogEquipamentoDAOImpl;
+import trackbug.model.entity.LogEquipamento;
 
 import java.util.List;
 

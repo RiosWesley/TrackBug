@@ -1,10 +1,8 @@
-// File: src/main/java/trackbug/model/service/FuncionarioService.java
 package trackbug.model.service;
 
 import trackbug.model.dao.interfaces.FuncionarioDAO;
 import trackbug.model.dao.impl.FuncionarioDAOImpl;
 import trackbug.model.entity.Funcionario;
-
 import java.util.List;
 
 public class FuncionarioService {
@@ -15,50 +13,41 @@ public class FuncionarioService {
     }
 
     public void cadastrarFuncionario(Funcionario funcionario) throws Exception {
-        // Validações
-        if (funcionario.getNome() == null || funcionario.getNome().trim().isEmpty()) {
-            throw new IllegalArgumentException("Nome é obrigatório");
-        }
+        validarFuncionario(funcionario);
 
-        if (funcionario.getId() == null || funcionario.getId().trim().isEmpty()) {
-            throw new IllegalArgumentException("ID é obrigatório");
-        }
-
-        if (funcionario.getFuncao() == null || funcionario.getFuncao().trim().isEmpty()) {
-            throw new IllegalArgumentException("Função é obrigatória");
-        }
-
-        // Validar formato do ID
-        if (!funcionario.getId().matches("^[A-Za-z0-9-]+$")) {
-            throw new IllegalArgumentException("ID deve conter apenas letras, números e hífen");
+        if (existePorId(funcionario.getId())) {
+            throw new IllegalArgumentException("Já existe um funcionário com este ID");
         }
 
         try {
-            if (funcionarioDAO.buscarPorId(funcionario.getId()) != null) {
-                throw new IllegalArgumentException("Já existe um funcionário com este ID");
-            }
-
             funcionarioDAO.criar(funcionario);
         } catch (Exception e) {
             throw new Exception("Erro ao cadastrar funcionário: " + e.getMessage());
         }
     }
 
-    public void atualizarFuncionario(Funcionario funcionario) throws Exception {
-        // Validações
-        if (funcionario.getNome() == null || funcionario.getNome().trim().isEmpty()) {
-            throw new IllegalArgumentException("Nome é obrigatório");
-        }
+    public void criar(Funcionario funcionario) throws Exception {
+        validarFuncionario(funcionario);
 
-        if (funcionario.getFuncao() == null || funcionario.getFuncao().trim().isEmpty()) {
-            throw new IllegalArgumentException("Função é obrigatória");
+        if (existePorId(funcionario.getId())) {
+            throw new IllegalArgumentException("Já existe um funcionário com este ID");
         }
 
         try {
-            if (funcionarioDAO.buscarPorId(funcionario.getId()) == null) {
-                throw new IllegalArgumentException("Funcionário não encontrado");
-            }
+            funcionarioDAO.criar(funcionario);
+        } catch (Exception e) {
+            throw new Exception("Erro ao criar funcionário: " + e.getMessage());
+        }
+    }
 
+    public void atualizar(Funcionario funcionario) throws Exception {
+        validarFuncionario(funcionario);
+
+        if (!existePorId(funcionario.getId())) {
+            throw new IllegalArgumentException("Funcionário não encontrado");
+        }
+
+        try {
             funcionarioDAO.atualizar(funcionario);
         } catch (Exception e) {
             throw new Exception("Erro ao atualizar funcionário: " + e.getMessage());
@@ -70,7 +59,6 @@ public class FuncionarioService {
             if (funcionarioDAO.verificarEmprestimosAtivos(id)) {
                 throw new IllegalStateException("Não é possível excluir funcionário com empréstimos ativos");
             }
-
             funcionarioDAO.deletar(id);
         } catch (Exception e) {
             throw new Exception("Erro ao excluir funcionário: " + e.getMessage());
@@ -94,6 +82,40 @@ public class FuncionarioService {
             return funcionarioDAO.listarTodos();
         } catch (Exception e) {
             throw new Exception("Erro ao listar funcionários: " + e.getMessage());
+        }
+    }
+
+    public boolean existePorId(String id) throws Exception {
+        try {
+            return funcionarioDAO.buscarPorId(id) != null;
+        } catch (Exception e) {
+            throw new Exception("Erro ao verificar existência do funcionário: " + e.getMessage());
+        }
+    }
+
+    private void validarFuncionario(Funcionario funcionario) {
+        if (funcionario == null) {
+            throw new IllegalArgumentException("Funcionário não pode ser nulo");
+        }
+        if (funcionario.getId() == null || funcionario.getId().trim().isEmpty()) {
+            throw new IllegalArgumentException("ID do funcionário é obrigatório");
+        }
+        if (funcionario.getNome() == null || funcionario.getNome().trim().isEmpty()) {
+            throw new IllegalArgumentException("Nome é obrigatório");
+        }
+        if (funcionario.getFuncao() == null || funcionario.getFuncao().trim().isEmpty()) {
+            throw new IllegalArgumentException("Função é obrigatória");
+        }
+        if (funcionario.getDataAdmissao() == null) {
+            throw new IllegalArgumentException("Data de admissão é obrigatória");
+        }
+    }
+
+    public boolean possuiEmprestimosAtivos(String id) throws Exception {
+        try {
+            return funcionarioDAO.verificarEmprestimosAtivos(id);
+        } catch (Exception e) {
+            throw new Exception("Erro ao verificar empréstimos ativos: " + e.getMessage());
         }
     }
 }

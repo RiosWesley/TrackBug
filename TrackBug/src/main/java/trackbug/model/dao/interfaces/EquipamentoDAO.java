@@ -14,17 +14,3 @@ public interface EquipamentoDAO {
     void atualizarStatus(String id, String status) throws Exception;
     boolean verificarEmprestimosAtivos(String id) throws Exception;
 }
-
-// File: src/main/java/trackbug/model/dao/interfaces/FuncionarioDAO.java
-package trackbug.model.dao.interfaces;
-
-import trackbug.model.entity.Funcionario;
-import java.util.List;
-
-// File: src/main/java/trackbug/model/dao/interfaces/EmprestimoDAO.java
-package trackbug.model.dao.interfaces;
-
-import trackbug.model.entity.Emprestimo;
-import java.util.List;
-import java.time.LocalDateTime;
-

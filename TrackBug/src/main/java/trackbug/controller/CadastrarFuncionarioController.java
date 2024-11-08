@@ -10,13 +10,10 @@ import java.time.LocalDate;
 public class CadastrarFuncionarioController {
     @FXML
     private TextField idField;
-
     @FXML
     private TextField nomeField;
-
     @FXML
     private TextField funcaoField;
-
     @FXML
     private DatePicker dataAdmissaoField;
 
@@ -42,27 +39,20 @@ public class CadastrarFuncionarioController {
     @FXML
     private void salvarFuncionario() {
         try {
-            // Validar campos
             if (!validarCampos()) {
                 return;
             }
 
-            // Criar objeto funcionário
             Funcionario funcionario = new Funcionario();
             funcionario.setId(idField.getText().trim());
             funcionario.setNome(nomeField.getText().trim());
             funcionario.setFuncao(funcaoField.getText().trim());
-            funcionario.setDataAdmissao(dataAdmissaoField.getValue().toString());
+            funcionario.setDataAdmissao(dataAdmissaoField.getValue()); // Agora passa o LocalDate diretamente
 
-            // Salvar usando o service
             funcionarioService.cadastrarFuncionario(funcionario);
 
-            // Mostrar mensagem de sucesso
             mostrarMensagem("Sucesso", "Funcionário cadastrado com sucesso!", Alert.AlertType.INFORMATION);
-
-            // Limpar formulário
             limparFormulario();
-
         } catch (IllegalArgumentException e) {
             mostrarMensagem("Erro de Validação", e.getMessage(), Alert.AlertType.WARNING);
         } catch (Exception e) {
@@ -70,27 +60,17 @@ public class CadastrarFuncionarioController {
         }
     }
 
-    @FXML
-    private void cancelar() {
-        Stage stage = (Stage) idField.getScene().getWindow();
-        stage.close();
-    }
-
     private boolean validarCampos() {
         StringBuilder erros = new StringBuilder();
-
         if (idField.getText().trim().isEmpty()) {
             erros.append("- O código do funcionário é obrigatório\n");
         }
-
         if (nomeField.getText().trim().isEmpty()) {
             erros.append("- O nome é obrigatório\n");
         }
-
         if (funcaoField.getText().trim().isEmpty()) {
             erros.append("- A função é obrigatória\n");
         }
-
         if (dataAdmissaoField.getValue() == null) {
             erros.append("- A data de admissão é obrigatória\n");
         }
@@ -99,8 +79,13 @@ public class CadastrarFuncionarioController {
             mostrarMensagem("Campos Incompletos", erros.toString(), Alert.AlertType.WARNING);
             return false;
         }
-
         return true;
+    }
+
+    @FXML
+    private void cancelar() {
+        Stage stage = (Stage) idField.getScene().getWindow();
+        stage.close();
     }
 
     private void limparFormulario() {

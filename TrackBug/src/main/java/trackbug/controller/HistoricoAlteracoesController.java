@@ -6,6 +6,7 @@ import javafx.scene.control.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.scene.text.Text;
 import trackbug.model.entity.LogEquipamento;
 import trackbug.model.service.LogEquipamentoService;
 import trackbug.model.service.EquipamentoService;
@@ -13,8 +14,9 @@ import trackbug.util.AlertHelper;
 import trackbug.util.DateUtils;
 
 import java.net.URL;
-import java.sql.Timestamp;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class HistoricoAlteracoesController implements Initializable {
 

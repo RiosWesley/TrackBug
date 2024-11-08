@@ -3,7 +3,7 @@ package trackbug.model.dao.impl;
 
 import trackbug.model.dao.interfaces.AvariaDAO;
 import trackbug.model.entity.Avaria;
-import trackbug.Forms.ConnectionFactory;
+import trackbug.util.ConnectionFactory;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;

@@ -8,12 +8,17 @@ module trackbug {
 
     opens trackbug to javafx.fxml;
     opens trackbug.controller to javafx.fxml;
+    opens trackbug.model to javafx.fxml;
+    opens trackbug.model.entity to javafx.fxml;
+    opens trackbug.model.dao.interfaces to javafx.fxml;
+    opens trackbug.model.dao.impl to javafx.fxml;
+    opens trackbug.util to javafx.fxml;
+
     exports trackbug;
     exports trackbug.controller;
     exports trackbug.model;
-    opens trackbug.model to javafx.fxml;
-    exports trackbug.Forms;
-    opens trackbug.Forms to javafx.fxml;
     exports trackbug.model.entity;
-    opens trackbug.model.entity to javafx.fxml;
+    exports trackbug.model.dao.interfaces;
+    exports trackbug.model.dao.impl;
+    exports trackbug.util;
 }

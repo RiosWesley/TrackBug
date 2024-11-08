@@ -3,7 +3,7 @@ package trackbug.model.dao.impl;
 
 import trackbug.model.dao.interfaces.FuncionarioDAO;
 import trackbug.model.entity.Funcionario;
-import trackbug.Forms.ConnectionFactory;
+import trackbug.util.ConnectionFactory;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,17 +14,14 @@ public class FuncionarioDAOImpl implements FuncionarioDAO {
     public void criar(Funcionario funcionario) throws Exception {
         Connection conn = null;
         PreparedStatement stmt = null;
-
         try {
             conn = ConnectionFactory.getConnection();
             String sql = "INSERT INTO funcionarios (id, nome, funcao, dt) VALUES (?, ?, ?, ?)";
-
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, funcionario.getId());
             stmt.setString(2, funcionario.getNome());
             stmt.setString(3, funcionario.getFuncao());
-            stmt.setString(4, funcionario.getDataAdmissao());
-
+            stmt.setDate(4, Date.valueOf(funcionario.getDataAdmissao()));
             stmt.executeUpdate();
         } finally {
             ConnectionFactory.closeConnection(conn, stmt);
@@ -36,20 +33,16 @@ public class FuncionarioDAOImpl implements FuncionarioDAO {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        Funcionario funcionario = null;
-
         try {
             conn = ConnectionFactory.getConnection();
             String sql = "SELECT * FROM funcionarios WHERE id = ?";
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, id);
             rs = stmt.executeQuery();
-
             if (rs.next()) {
-                funcionario = mapearResultSet(rs);
+                return mapearResultSet(rs);
             }
-
-            return funcionario;
+            return null;
         } finally {
             ConnectionFactory.closeConnection(conn, stmt, rs);
         }
@@ -61,17 +54,14 @@ public class FuncionarioDAOImpl implements FuncionarioDAO {
         PreparedStatement stmt = null;
         ResultSet rs = null;
         List<Funcionario> funcionarios = new ArrayList<>();
-
         try {
             conn = ConnectionFactory.getConnection();
             String sql = "SELECT * FROM funcionarios ORDER BY nome";
             stmt = conn.prepareStatement(sql);
             rs = stmt.executeQuery();
-
             while (rs.next()) {
                 funcionarios.add(mapearResultSet(rs));
             }
-
             return funcionarios;
         } finally {
             ConnectionFactory.closeConnection(conn, stmt, rs);
@@ -150,10 +140,10 @@ public class FuncionarioDAOImpl implements FuncionarioDAO {
 
     private Funcionario mapearResultSet(ResultSet rs) throws SQLException {
         Funcionario funcionario = new Funcionario();
-        funcionario.setID(rs.getString("id"));
+        funcionario.setId(rs.getString("id"));
         funcionario.setNome(rs.getString("nome"));
         funcionario.setFuncao(rs.getString("funcao"));
-        funcionario.setDataAdmissao(rs.getString("dt"));
+        funcionario.setDataAdmissao(rs.getDate("dt").toLocalDate());
         return funcionario;
     }
 }
