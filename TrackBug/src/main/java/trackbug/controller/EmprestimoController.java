@@ -5,6 +5,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.util.StringConverter;
 import trackbug.model.entity.Equipamento;
 import trackbug.model.entity.Funcionario;
 import trackbug.model.entity.Emprestimo;
@@ -123,7 +124,7 @@ public class EmprestimoController implements Initializable {
 
         try {
             Emprestimo emprestimo = criarEmprestimo();
-            emprestimoService.registrar(emprestimo);
+            emprestimoService.realizarEmprestimo(emprestimo);
 
             AlertHelper.showSuccess("Empréstimo registrado com sucesso!");
             limparFormulario();
@@ -135,12 +136,12 @@ public class EmprestimoController implements Initializable {
 
     private Emprestimo criarEmprestimo() {
         Emprestimo emprestimo = new Emprestimo();
-        emprestimo.setFuncionario(funcionarioCombo.getValue());
-        emprestimo.setEquipamento(equipamentoCombo.getValue());
-        emprestimo.setQuantidade(Integer.parseInt(quantidadeField.getText()));
+        emprestimo.setIdFuncionario(String.valueOf(funcionarioCombo.getValue()));
+        emprestimo.setIdEquipamento(String.valueOf(equipamentoCombo.getValue()));
+        emprestimo.setQuantidadeEmprestimo(Integer.parseInt(quantidadeField.getText()));
 
         LocalDateTime dataHoraDevolucao = dataDevolucao.getValue().atTime(LocalTime.now());
-        emprestimo.setDataDevolucaoPrevista(dataHoraDevolucao);
+        emprestimo.setDataRetornoPrevista(dataHoraDevolucao);
 
         emprestimo.setObservacoes(observacoes.getText());
         emprestimo.setAtivo(true);

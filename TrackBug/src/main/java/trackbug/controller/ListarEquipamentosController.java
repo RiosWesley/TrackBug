@@ -266,7 +266,7 @@ public class ListarEquipamentosController implements Initializable {
 
     @FXML
     private void exportarLista() {
-        AlertHelper.showInfo("Em desenvolvimento",
+        AlertHelper.showWarning("Em desenvolvimento",
                 "A funcionalidade de exportação será implementada em breve.");
     }
 

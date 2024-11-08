@@ -239,6 +239,4 @@ public class HistoricoEmprestimosController implements Initializable {
 
         itemMaisEmprestadoLabel.setText(itemMaisEmprestado);
     }
-
-
 }

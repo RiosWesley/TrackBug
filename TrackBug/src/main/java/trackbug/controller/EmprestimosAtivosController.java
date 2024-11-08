@@ -51,12 +51,12 @@ public class EmprestimosAtivosController implements Initializable {
 
         colunaFuncionario.setCellValueFactory(data ->
                 new javafx.beans.property.SimpleStringProperty(
-                        data.getValue().getFuncionario().getNome()
+                        data.getValue().getNomeFuncionario()
                 ));
 
         colunaEquipamento.setCellValueFactory(data ->
                 new javafx.beans.property.SimpleStringProperty(
-                        data.getValue().getEquipamento().getDescricao()
+                        data.getValue().getDescricaoEquipamento()
                 ));
 
         colunaQuantidade.setCellValueFactory(
@@ -70,11 +70,11 @@ public class EmprestimosAtivosController implements Initializable {
 
         colunaDataPrevista.setCellValueFactory(data ->
                 new javafx.beans.property.SimpleStringProperty(
-                        DateUtils.formatarDataHora(data.getValue().getDataDevolucaoPrevista())
+                        DateUtils.formatarDataHora(data.getValue().getDataRetornoPrevista())
                 ));
 
         colunaStatus.setCellValueFactory(data -> {
-            LocalDateTime dataPrevista = data.getValue().getDataDevolucaoPrevista();
+            LocalDateTime dataPrevista = data.getValue().getDataRetornoPrevista();
             String status = LocalDateTime.now().isAfter(dataPrevista) ?
                     "Atrasado" : "Em dia";
             return new javafx.beans.property.SimpleStringProperty(status);
@@ -109,8 +109,8 @@ public class EmprestimosAtivosController implements Initializable {
                         return true;
                     }
                     String filtroLowerCase = novo.toLowerCase();
-                    return emprestimo.getFuncionario().getNome().toLowerCase().contains(filtroLowerCase) ||
-                            emprestimo.getEquipamento().getDescricao().toLowerCase().contains(filtroLowerCase);
+                    return emprestimo.getNomeFuncionario().toLowerCase().contains(filtroLowerCase) ||
+                            emprestimo.getDescricaoEquipamento().toLowerCase().contains(filtroLowerCase);
                 });
                 tabelaEmprestimos.setItems(dadosFiltrados);
                 atualizarStatusLabel();
@@ -140,7 +140,7 @@ public class EmprestimosAtivosController implements Initializable {
         int total = tabelaEmprestimos.getItems().size();
         int atrasados = 0;
         for (Emprestimo emp : tabelaEmprestimos.getItems()) {
-            if (LocalDateTime.now().isAfter(emp.getDataDevolucaoPrevista())) {
+            if (LocalDateTime.now().isAfter(emp.getDataRetornoPrevista())) {
                 atrasados++;
             }
         }
