@@ -29,6 +29,9 @@
 
     <!-- Tabela de Empréstimos em Atraso -->
     <TableView fx:id="tabelaAtrasos" VBox.vgrow="ALWAYS">
+        <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+        </columnResizePolicy>
         <columns>
             <TableColumn fx:id="colunaSeletor" maxWidth="50">
                 <graphic>

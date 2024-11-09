@@ -160,7 +160,6 @@ public class EmprestimoDAOImpl implements EmprestimoDAO {
         }
     }
 
-    @Override
     public List<Emprestimo> listarAtivos() throws Exception {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -169,17 +168,19 @@ public class EmprestimoDAOImpl implements EmprestimoDAO {
 
         try {
             conn = ConnectionFactory.getConnection();
-            String sql = "SELECT e.* FROM emprestimos e " +
+            String sql = "SELECT e.*, f.nome as nome_funcionario, eq.descricao as descricao_equipamento " +
+                    "FROM emprestimos e " +
+                    "JOIN funcionarios f ON e.idFuncionario = f.id " +
                     "JOIN equipamentos eq ON e.idEquipamento = eq.id " +
                     "WHERE e.ativo = true AND eq.tipo = false " +
                     "ORDER BY e.dataSaida DESC";
+
             stmt = conn.prepareStatement(sql);
             rs = stmt.executeQuery();
 
             while (rs.next()) {
                 emprestimos.add(mapearResultSet(rs));
             }
-
             return emprestimos;
         } finally {
             ConnectionFactory.closeConnection(conn, stmt, rs);
@@ -356,6 +357,21 @@ public class EmprestimoDAOImpl implements EmprestimoDAO {
         emprestimo.setQuantidadeEmprestimo(rs.getInt("quantidadeEmprestimo"));
         emprestimo.setTipoOperacao(rs.getString("tipoOperacao"));
         emprestimo.setUsoUnico(rs.getBoolean("usoUnico"));
+
+        // Tentar obter os campos adicionais se existirem
+        try {
+            String nomeFuncionario = rs.getString("nome_funcionario");
+            String descricaoEquipamento = rs.getString("descricao_equipamento");
+
+            if (nomeFuncionario != null) {
+                emprestimo.setNomeFuncionario(nomeFuncionario);
+            }
+            if (descricaoEquipamento != null) {
+                emprestimo.setDescricaoEquipamento(descricaoEquipamento);
+            }
+        } catch (SQLException e) {
+            // Ignora se os campos não existirem no ResultSet
+        }
 
         return emprestimo;
     }

@@ -53,6 +53,9 @@
 
     <!-- Tabela de Empréstimos -->
     <TableView fx:id="tabelaHistorico" VBox.vgrow="ALWAYS">
+        <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+        </columnResizePolicy>
         <columns>
             <TableColumn fx:id="colunaData" text="Data do Empréstimo"/>
             <TableColumn fx:id="colunaFuncionario" text="Funcionário"/>

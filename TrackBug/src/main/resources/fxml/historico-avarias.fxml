@@ -40,6 +40,9 @@
 
     <!-- Tabela de Avarias -->
     <TableView fx:id="tabelaAvarias" VBox.vgrow="ALWAYS">
+        <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+        </columnResizePolicy>
         <columns>
             <TableColumn fx:id="colunaEquipamento" text="Equipamento"/>
             <TableColumn fx:id="colunaData" text="Data do Registro"/>

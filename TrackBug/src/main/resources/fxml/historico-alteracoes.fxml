@@ -36,6 +36,9 @@
 
     <!-- Tabela de Histórico -->
     <TableView fx:id="tabelaHistorico" VBox.vgrow="ALWAYS">
+        <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+        </columnResizePolicy>
         <columns>
             <TableColumn fx:id="colunaData" text="Data/Hora"/>
             <TableColumn fx:id="colunaEquipamento" text="Equipamento"/>
