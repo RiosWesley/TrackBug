@@ -13,13 +13,14 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class CadastrarUsuarioController implements Initializable {
-
     @FXML private TextField usernameField;
     @FXML private PasswordField passwordField;
     @FXML private TextField nomeField;
     @FXML private TextField emailField;
     @FXML private ComboBox<Integer> nivelAcessoCombo;
     @FXML private Label mensagemErro;
+    @FXML private Label tituloLabel;
+    @FXML private Label subtituloLabel;
 
     private final UsuarioService usuarioService;
     private Usuario usuarioParaEditar;
@@ -39,6 +40,7 @@ public class CadastrarUsuarioController implements Initializable {
         this.usuarioParaEditar = usuario;
         this.modoEdicao = true;
         preencherCampos();
+        atualizarTitulo();
     }
 
     private void configurarComboNivelAcesso() {
@@ -47,6 +49,13 @@ public class CadastrarUsuarioController implements Initializable {
 
     private void configurarValidacoes() {
         // Adicione validações em tempo real se necessário
+        emailField.textProperty().addListener((obs, old, novo) -> {
+            if (!ValidationHelper.isValidEmail(novo)) {
+                emailField.setStyle("-fx-border-color: red;");
+            } else {
+                emailField.setStyle("");
+            }
+        });
     }
 
     private void preencherCampos() {
@@ -57,6 +66,13 @@ public class CadastrarUsuarioController implements Initializable {
             emailField.setText(usuarioParaEditar.getEmail());
             nivelAcessoCombo.setValue(usuarioParaEditar.getNivelAcesso());
             passwordField.setPromptText("Deixe em branco para manter a senha atual");
+        }
+    }
+
+    private void atualizarTitulo() {
+        if (modoEdicao) {
+            tituloLabel.setText("Editar Usuário");
+            subtituloLabel.setText("Altere os dados do usuário");
         }
     }
 
@@ -81,7 +97,6 @@ public class CadastrarUsuarioController implements Initializable {
                     usuarioService.cadastrar(usuario);
                     AlertHelper.showSuccess("Usuário cadastrado com sucesso!");
                 }
-
                 fecharJanela();
             }
         } catch (Exception e) {
@@ -120,7 +135,8 @@ public class CadastrarUsuarioController implements Initializable {
         }
 
         if (erros.length() > 0) {
-            AlertHelper.showWarning("Campos Inválidos", erros.toString());
+            mensagemErro.setText(erros.toString());
+            mensagemErro.setVisible(true);
             return false;
         }
 

@@ -143,9 +143,15 @@ public class GerenciamentoPermissoesController implements Initializable {
             dialogStage.initModality(Modality.APPLICATION_MODAL);
 
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/fxml/cadastrar-usuario.fxml"));
-            Scene scene = new Scene(loader.load());
+                    getClass().getResource("/fxml/cadastrar-usuario.fxml")
+            );
 
+            Scene scene = new Scene(loader.load());
+            scene.getStylesheets().add(
+                    getClass().getResource("/styles/styles.css").toExternalForm()
+            );
+
+            dialogStage.setTitle("Novo Usuário");
             dialogStage.setScene(scene);
             dialogStage.showAndWait();
 
@@ -168,12 +174,19 @@ public class GerenciamentoPermissoesController implements Initializable {
             dialogStage.initModality(Modality.APPLICATION_MODAL);
 
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/fxml/cadastrar-usuario.fxml"));
+                    getClass().getResource("/fxml/cadastrar-usuario.fxml")
+            );
+
             Scene scene = new Scene(loader.load());
 
             CadastrarUsuarioController controller = loader.getController();
             controller.setUsuario(usuario);
 
+            scene.getStylesheets().add(
+                    getClass().getResource("/styles/styles.css").toExternalForm()
+            );
+
+            dialogStage.setTitle("Editar Usuário");
             dialogStage.setScene(scene);
             dialogStage.showAndWait();
 
