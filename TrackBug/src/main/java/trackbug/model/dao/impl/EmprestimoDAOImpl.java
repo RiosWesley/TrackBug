@@ -146,7 +146,12 @@ public class EmprestimoDAOImpl implements EmprestimoDAO {
 
         try {
             conn = ConnectionFactory.getConnection();
-            String sql = "SELECT * FROM emprestimos ORDER BY dataSaida DESC";
+            String sql = "SELECT e.*, f.nome as nome_funcionario, eq.descricao as descricao_equipamento " +
+                    "FROM emprestimos e " +
+                    "JOIN funcionarios f ON e.idFuncionario = f.id " +
+                    "JOIN equipamentos eq ON e.idEquipamento = eq.id " +
+                    "ORDER BY e.dataSaida DESC";
+
             stmt = conn.prepareStatement(sql);
             rs = stmt.executeQuery();
 
@@ -196,8 +201,10 @@ public class EmprestimoDAOImpl implements EmprestimoDAO {
 
         try {
             conn = ConnectionFactory.getConnection();
-            String sql = "SELECT e.* FROM emprestimos e " +
+            String sql = "SELECT e.*, f.nome as nome_funcionario, eq.descricao as descricao_equipamento" +
+                    " FROM emprestimos e " +
                     "JOIN equipamentos eq ON e.idEquipamento = eq.id " +
+                    "JOIN funcionarios f ON e.idFuncionario = f.id " +
                     "WHERE e.ativo = true " +
                     "AND e.dataRetornoPrevista < NOW() " +
                     "AND eq.tipo = false " +

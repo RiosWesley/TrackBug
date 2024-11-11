@@ -21,6 +21,7 @@ public class EmprestimosAtrasoController implements Initializable {
     @FXML private ComboBox<String> filtroAtraso;
     @FXML private TextField campoBusca;
     @FXML private TableView<Emprestimo> tabelaAtrasos;
+    @FXML private TableColumn<Emprestimo, String> colunaId;
     @FXML private TableColumn<Emprestimo, String> colunaFuncionario;
     @FXML private TableColumn<Emprestimo, String> colunaEquipamento;
     @FXML private TableColumn<Emprestimo, Integer> colunaQuantidade;
@@ -56,11 +57,20 @@ public class EmprestimosAtrasoController implements Initializable {
     }
 
     private void configurarColunas() {
+        colunaId.setCellValueFactory(data ->
+                new javafx.beans.property.SimpleStringProperty(
+                        String.valueOf(data.getValue().getId())
+                ));
+
         colunaFuncionario.setCellValueFactory(data ->
-                new javafx.beans.property.SimpleStringProperty(data.getValue().getNomeFuncionario()));
+                new javafx.beans.property.SimpleStringProperty(
+                        data.getValue().getNomeFuncionario()
+                ));
 
         colunaEquipamento.setCellValueFactory(data ->
-                new javafx.beans.property.SimpleStringProperty(data.getValue().getDescricaoEquipamento()));
+                new javafx.beans.property.SimpleStringProperty(
+                        data.getValue().getDescricaoEquipamento()
+                ));
 
         colunaQuantidade.setCellValueFactory(data ->
                 new javafx.beans.property.SimpleIntegerProperty(

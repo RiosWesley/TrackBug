@@ -33,11 +33,7 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
         </columnResizePolicy>
         <columns>
-            <TableColumn fx:id="colunaSeletor" maxWidth="50">
-                <graphic>
-                    <CheckBox fx:id="selecionarTodos"/>
-                </graphic>
-            </TableColumn>
+            <TableColumn fx:id="colunaId" text="Código"/>
             <TableColumn fx:id="colunaFuncionario" text="Funcionário"/>
             <TableColumn fx:id="colunaEquipamento" text="Equipamento"/>
             <TableColumn fx:id="colunaQuantidade" text="Quantidade"/>

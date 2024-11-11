@@ -2,6 +2,7 @@ package trackbug.controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -41,6 +42,13 @@ public class EmprestimosAtivosController implements Initializable {
         configurarColunas();
         configurarPesquisa();
         carregarEmprestimos();
+        configurarAlinhamentoCentral(colunaId);
+        configurarAlinhamentoCentral(colunaFuncionario);
+        configurarAlinhamentoCentral(colunaEquipamento);
+        configurarAlinhamentoCentral(colunaQuantidade);
+        configurarAlinhamentoCentral(colunaDataSaida);
+        configurarAlinhamentoCentral(colunaDataPrevista);
+        configurarAlinhamentoCentral(colunaStatus);
     }
 
     private void configurarColunas() {
@@ -59,8 +67,9 @@ public class EmprestimosAtivosController implements Initializable {
                         data.getValue().getDescricaoEquipamento()
                 ));
 
-        colunaQuantidade.setCellValueFactory(
-                new PropertyValueFactory<>("quantidade")
+        colunaQuantidade.setCellValueFactory(data ->
+                new javafx.beans.property.SimpleIntegerProperty(
+                        data.getValue().getQuantidadeEmprestimo()).asObject()
         );
 
         colunaDataSaida.setCellValueFactory(data ->
@@ -90,11 +99,13 @@ public class EmprestimosAtivosController implements Initializable {
                     setStyle("");
                 } else {
                     setText(item);
-                    if (item.equals("Atrasado")) {
-                        setStyle("-fx-text-fill: #c62828;"); // Vermelho
-                    } else {
-                        setStyle("-fx-text-fill: #2e7d32;"); // Verde
-                    }
+                    setAlignment(Pos.CENTER);
+                    setStyle("-fx-padding: 0 10 0 10; " +
+                            switch (item) {
+                                case "Atrasado" -> "-fx-text-fill: #c62828;";
+                                case "Em dia" -> "-fx-text-fill: #2e7d32;";
+                                default -> "";
+                            });
                 }
             }
         });
@@ -147,5 +158,23 @@ public class EmprestimosAtivosController implements Initializable {
         statusLabel.setText(String.format(
                 "Total de empréstimos ativos: %d | Atrasados: %d", total, atrasados
         ));
+    }
+
+    private <T> void configurarAlinhamentoCentral(TableColumn<Emprestimo, T> coluna) {
+        coluna.setCellFactory(tc -> new TableCell<Emprestimo, T>() {
+            @Override
+            protected void updateItem(T item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty || item == null) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    setText(item.toString());
+                    setAlignment(Pos.CENTER);
+                    setStyle("-fx-padding: 0 10 0 10;"); // Adiciona um pequeno padding horizontal
+                }
+            }
+        });
     }
 }
