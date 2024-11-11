@@ -124,7 +124,7 @@ public class EmprestimoDAOImpl implements EmprestimoDAO {
                 if(rs.getInt("quantidadeAtual") == 0){
                     esgotado = true;
                 }
-                if(rs.getString("tipo_uso") == "Uso Único"){
+                if(rs.getString("tipo_uso").equals("Uso Único")){
                     tipo_uso = true;
                 }
             }
