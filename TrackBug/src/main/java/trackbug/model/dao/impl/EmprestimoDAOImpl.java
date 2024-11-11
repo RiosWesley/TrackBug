@@ -105,6 +105,7 @@ public class EmprestimoDAOImpl implements EmprestimoDAO {
 
     private void atualizarQuantidadeEquipamento(Connection conn, String idEquipamento,
                                                 int quantidade, boolean isEmprestimo) throws SQLException {
+        boolean esgotado = false, tipo_uso = false;
         String sql = "UPDATE equipamentos SET quantidadeAtual = quantidadeAtual " +
                 (isEmprestimo ? "- ?" : "+ ?") + " WHERE id = ?";
 
@@ -112,6 +113,44 @@ public class EmprestimoDAOImpl implements EmprestimoDAO {
             stmt.setInt(1, quantidade);
             stmt.setString(2, idEquipamento);
             stmt.executeUpdate();
+        }
+
+        sql = "SELECT quantidadeAtual, tipo_uso FROM equipamentos WHERE id = ?";
+        ResultSet rs = null;
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, idEquipamento);
+            rs = stmt.executeQuery();
+            if(rs.next()) {
+                if(rs.getInt("quantidadeAtual") == 0){
+                    esgotado = true;
+                }
+                if(rs.getString("tipo_uso") == "Uso Único"){
+                    tipo_uso = true;
+                }
+            }
+        }
+
+        if(esgotado == true) {
+            sql = "UPDATE equipamentos SET status = 'Esgotado' WHERE id = ?";
+            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+                stmt.setString(1, idEquipamento);
+                stmt.executeUpdate();
+            }
+        }else{
+            sql = "UPDATE equipamentos SET status = 'Disponível' WHERE id = ?";
+            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+                stmt.setString(1, idEquipamento);
+                stmt.executeUpdate();
+            }
+        }
+
+        if(tipo_uso == true) {
+            sql = "UPDATE equipamentos SET quantidadeEstoque = quantidadeEstoque" + (isEmprestimo ? "- ?" : "+ ?") +  " WHERE id = ?";
+            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+                stmt.setInt(1, quantidade);
+                stmt.setString(2, idEquipamento);
+                stmt.executeUpdate();
+            }
         }
     }
 
