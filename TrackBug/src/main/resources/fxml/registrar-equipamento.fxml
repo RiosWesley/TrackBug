@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 
-<StackPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1"
+<StackPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" styleClass="form-container"
            fx:controller="trackbug.controller.RegistrarEquipamentoController">
 
     <!-- Container principal centralizado -->
@@ -26,13 +26,13 @@
                 <!-- Código -->
                 <Label text="Código:" styleClass="form-label"
                        GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-                <TextField fx:id="codigoField" promptText="Digite o código"
+                <TextField fx:id="codigoField" promptText="Digite o código"  styleClass="form-field"
                            GridPane.columnIndex="1" GridPane.rowIndex="0"/>
 
                 <!-- Descrição -->
                 <Label text="Descrição:" styleClass="form-label"
                        GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-                <TextField fx:id="descricaoField" promptText="Digite a descrição"
+                <TextField fx:id="descricaoField" promptText="Digite a descrição" styleClass="form-field"
                            GridPane.columnIndex="1" GridPane.rowIndex="1"/>
 
                 <!-- Data de Compra -->
@@ -44,25 +44,25 @@
                 <!-- Tipo de Item -->
                 <Label text="Tipo de Item:" styleClass="form-label"
                        GridPane.columnIndex="0" GridPane.rowIndex="3"/>
-                <ComboBox fx:id="tipoItemCombo" promptText="Selecione o tipo"
+                <ComboBox fx:id="tipoItemCombo" promptText="Selecione o tipo" styleClass="form-combo"
                           GridPane.columnIndex="1" GridPane.rowIndex="3"/>
 
                 <!-- Tipo de Uso -->
                 <Label text="Tipo de Uso:" styleClass="form-label"
                        GridPane.columnIndex="0" GridPane.rowIndex="4"/>
-                <ComboBox fx:id="tipoUsoCombo" promptText="Selecione o tipo de uso"
+                <ComboBox fx:id="tipoUsoCombo" promptText="Selecione o tipo de uso" styleClass="form-combo"
                           GridPane.columnIndex="1" GridPane.rowIndex="4"/>
 
                 <!-- Quantidade Inicial -->
                 <Label text="Quantidade Inicial:" styleClass="form-label"
                        GridPane.columnIndex="0" GridPane.rowIndex="5"/>
-                <TextField fx:id="quantidadeInicialField" promptText="Digite a quantidade"
+                <TextField fx:id="quantidadeInicialField" promptText="Digite a quantidade" styleClass="form-field"
                            GridPane.columnIndex="1" GridPane.rowIndex="5"/>
 
                 <!-- Quantidade Mínima -->
                 <Label text="Quantidade Mínima:" styleClass="form-label"
                        GridPane.columnIndex="0" GridPane.rowIndex="6"/>
-                <TextField fx:id="quantidadeMinimaField" promptText="Digite a quantidade mínima"
+                <TextField fx:id="quantidadeMinimaField" promptText="Digite a quantidade mínima" styleClass="form-field"
                            GridPane.columnIndex="1" GridPane.rowIndex="6"/>
 
                 <!-- Medidas -->
@@ -74,15 +74,15 @@
                       GridPane.columnSpan="2" GridPane.rowIndex="8">
                     <HBox spacing="10" alignment="CENTER">
                         <Label text="Peso (g):" styleClass="form-label"/>
-                        <TextField fx:id="pesoField" promptText="Digite o peso"/>
+                        <TextField fx:id="pesoField" promptText="Digite o peso" styleClass="form-field"/>
                     </HBox>
                     <HBox spacing="10" alignment="CENTER">
                         <Label text="Largura (cm):" styleClass="form-label"/>
-                        <TextField fx:id="larguraField" promptText="Digite a largura"/>
+                        <TextField fx:id="larguraField" promptText="Digite a largura" styleClass="form-field"/>
                     </HBox>
                     <HBox spacing="10" alignment="CENTER">
                         <Label text="Comprimento (cm):" styleClass="form-label"/>
-                        <TextField fx:id="comprimentoField" promptText="Digite o comprimento"/>
+                        <TextField fx:id="comprimentoField" promptText="Digite o comprimento" styleClass="form-field"/>
                     </HBox>
                 </VBox>
             </GridPane>

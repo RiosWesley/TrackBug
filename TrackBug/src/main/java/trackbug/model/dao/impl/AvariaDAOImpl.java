@@ -1,4 +1,4 @@
-// File: src/main/java/trackbug/model/dao/impl/AvariaDAOImpl.java
+// src/main/java/trackbug/model/dao/impl/AvariaDAOImpl.java
 package trackbug.model.dao.impl;
 
 import trackbug.model.dao.interfaces.AvariaDAO;
@@ -22,23 +22,19 @@ public class AvariaDAOImpl implements AvariaDAO {
             // Registra a avaria
             String sql = "INSERT INTO avarias (id_equipamento, quantidade, descricao, data) " +
                     "VALUES (?, ?, ?, NOW())";
-
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, avaria.getIdEquipamento());
             stmt.setInt(2, avaria.getQuantidade());
             stmt.setString(3, avaria.getDescricao());
-
             stmt.executeUpdate();
 
-            // Atualiza a quantidade do equipamento
+            // Atualiza quantidade do equipamento
             sql = "UPDATE equipamentos SET quantidadeAtual = quantidadeAtual - ?, " +
                     "quantidadeEstoque = quantidadeEstoque - ? WHERE id = ?";
-
             stmt = conn.prepareStatement(sql);
             stmt.setInt(1, avaria.getQuantidade());
             stmt.setInt(2, avaria.getQuantidade());
             stmt.setString(3, avaria.getIdEquipamento());
-
             stmt.executeUpdate();
 
             conn.commit();
@@ -73,7 +69,6 @@ public class AvariaDAOImpl implements AvariaDAO {
             while (rs.next()) {
                 avarias.add(mapearResultSet(rs));
             }
-
             return avarias;
         } finally {
             ConnectionFactory.closeConnection(conn, stmt, rs);
@@ -96,7 +91,6 @@ public class AvariaDAOImpl implements AvariaDAO {
             while (rs.next()) {
                 avarias.add(mapearResultSet(rs));
             }
-
             return avarias;
         } finally {
             ConnectionFactory.closeConnection(conn, stmt, rs);
@@ -110,8 +104,6 @@ public class AvariaDAOImpl implements AvariaDAO {
         avaria.setQuantidade(rs.getInt("quantidade"));
         avaria.setDescricao(rs.getString("descricao"));
         avaria.setData(rs.getTimestamp("data").toLocalDateTime());
-        avaria.setGravidade(rs.getString("gravidade"));
-        avaria.setStatus(rs.getString("status"));
         return avaria;
     }
 }

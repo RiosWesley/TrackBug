@@ -283,19 +283,32 @@ public class ListarEquipamentosController implements Initializable {
 
     private void registrarAvaria(Equipamento equipamento) {
         try {
-            TextInputDialog dialog = new TextInputDialog();
-            dialog.setTitle("Registrar Avaria");
-            dialog.setHeaderText("Informe a descrição da avaria");
-            dialog.setContentText("Descrição:");
+            // Carregar a tela de edição
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/registrar-avaria.fxml"));
+            Parent root = loader.load();
 
-            Optional<String> result = dialog.showAndWait();
-            if (result.isPresent()) {
-                equipamentoService.registrarAvaria(equipamento, result.get());
-                carregarEquipamentos();
-                AlertHelper.showSuccess("Avaria registrada com sucesso!");
-            }
-        } catch (Exception e) {
-            AlertHelper.showError("Erro ao registrar avaria", e.getMessage());
+            // Obter o controller e passar o equipamento
+            RegistrarAvariaController controller = loader.getController();
+            controller.setEquipamento(equipamento);
+
+            // Criar e configurar o Stage
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Registrar Equipamento");
+            dialogStage.initModality(Modality.APPLICATION_MODAL);
+            dialogStage.setResizable(false);
+
+            // Criar a cena
+            Scene scene = new Scene(root);
+            dialogStage.setScene(scene);
+
+            // Configurar ação ao fechar (atualizar a lista)
+            dialogStage.setOnHiding(event -> carregarEquipamentos());
+
+            // Mostrar a tela
+            dialogStage.showAndWait();
+
+        } catch (IOException e) {
+            AlertHelper.showError("Erro", "Erro ao abrir formulário de registro de avaria: " + e.getMessage());
         }
     }
 

@@ -1,3 +1,4 @@
+// src/main/java/trackbug/model/dao/interfaces/AvariaDAO.java
 package trackbug.model.dao.interfaces;
 
 import trackbug.model.entity.Avaria;

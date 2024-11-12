@@ -4,18 +4,18 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 
-<VBox spacing="30" alignment="TOP_CENTER" style="-fx-background-color: white;"
+<VBox alignment="TOP_CENTER" styleClass="form-container"
       xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
       fx:controller="trackbug.controller.CadastrarFuncionarioController">
 
     <!-- Cabeçalho -->
     <VBox alignment="CENTER" spacing="5">
-        <Label text="Cadastrar Novo Funcionário" styleClass="titulo">
+        <Label text="Cadastrar Novo Funcionário" styleClass="form-title">
             <font>
                 <Font name="Segoe UI Bold" size="24"/>
             </font>
         </Label>
-        <Label text="Preencha os dados do novo funcionário" styleClass="subtitulo">
+        <Label text="Preencha os dados do novo funcionário" styleClass="form-subtitle">
             <font>
                 <Font name="Segoe UI" size="14"/>
             </font>
@@ -23,26 +23,26 @@
     </VBox>
 
     <!-- Formulário -->
-    <VBox styleClass="form-container" maxWidth="600">
-        <GridPane hgap="15" vgap="15" alignment="CENTER">
+    <VBox styleClass="form-content-container" maxWidth="600">
+        <GridPane hgap="15" vgap="50" alignment="CENTER">
             <padding>
-                <Insets top="20" right="20" bottom="20" left="20"/>
+                <Insets top="20" right="20" bottom="10" left="20"/>
             </padding>
 
             <!-- Campos -->
-            <Label text="Código:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-            <TextField fx:id="idField" promptText="Digite o código do funcionário"
+            <Label styleClass="form-label" text="Código:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <TextField fx:id="idField" promptText="Digite o código do funcionário" styleClass="form-field"
                        GridPane.rowIndex="0" GridPane.columnIndex="1"/>
 
-            <Label text="Nome:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-            <TextField fx:id="nomeField" promptText="Digite o nome completo"
+            <Label styleClass="form-label" text="Nome:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+            <TextField fx:id="nomeField" promptText="Digite o nome completo" styleClass="form-field"
                        GridPane.rowIndex="1" GridPane.columnIndex="1"/>
 
-            <Label text="Função:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-            <TextField fx:id="funcaoField" promptText="Digite o cargo/função"
+            <Label styleClass="form-label" text="Função:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+            <TextField fx:id="funcaoField" promptText="Digite o cargo/função" styleClass="form-field"
                        GridPane.rowIndex="2" GridPane.columnIndex="1"/>
 
-            <Label text="Data de Admissão:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+            <Label styleClass="form-label" text="Data de Admissão:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
             <DatePicker fx:id="dataAdmissaoField" promptText="Selecione a data"
                         GridPane.rowIndex="3" GridPane.columnIndex="1"/>
         </GridPane>

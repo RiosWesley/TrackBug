@@ -1,25 +1,31 @@
+// src/main/java/trackbug/model/entity/Avaria.java
 package trackbug.model.entity;
 
 import java.time.LocalDateTime;
 
 public class Avaria {
-    private int id;
+    private Integer id;
     private String idEquipamento;
-    private int quantidade;
+    private Integer quantidade;
     private String descricao;
     private LocalDateTime data;
-    private String gravidade;
-    private String status;
 
     // Construtores
     public Avaria() {}
 
+    public Avaria(String idEquipamento, Integer quantidade, String descricao) {
+        this.idEquipamento = idEquipamento;
+        this.quantidade = quantidade;
+        this.descricao = descricao;
+        this.data = LocalDateTime.now();
+    }
+
     // Getters e Setters
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -31,11 +37,11 @@ public class Avaria {
         this.idEquipamento = idEquipamento;
     }
 
-    public int getQuantidade() {
+    public Integer getQuantidade() {
         return quantidade;
     }
 
-    public void setQuantidade(int quantidade) {
+    public void setQuantidade(Integer quantidade) {
         this.quantidade = quantidade;
     }
 
@@ -53,21 +59,5 @@ public class Avaria {
 
     public void setData(LocalDateTime data) {
         this.data = data;
-    }
-
-    public String getGravidade() {
-        return gravidade;
-    }
-
-    public void setGravidade(String gravidade) {
-        this.gravidade = gravidade;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 }

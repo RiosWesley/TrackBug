@@ -26,6 +26,9 @@
 
     <!-- Tabela de Usuários -->
     <TableView fx:id="tabelaUsuarios" VBox.vgrow="ALWAYS">
+        <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+        </columnResizePolicy>
         <columns>
             <TableColumn fx:id="colunaUsername" text="Usuário"/>
             <TableColumn fx:id="colunaNome" text="Nome"/>

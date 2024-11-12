@@ -12,12 +12,16 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
+<?import java.net.URL?>
 <VBox alignment="CENTER" spacing="30" styleClass="form-container" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="trackbug.controller.EmprestimoController">
 
     <!-- Cabeçalho -->
     <VBox alignment="CENTER" styleClass="form-header">
         <Label styleClass="form-title" text="Registrar Novo Empréstimo" />
         <Label styleClass="form-subtitle" text="Preencha os dados do empréstimo abaixo" />
+        <stylesheets>
+            <URL value="@../styles/styles.css"/>
+        </stylesheets>
     </VBox>
 
     <!-- Container principal -->
@@ -67,5 +71,9 @@
             <Button onAction="#limparFormulario" styleClass="btn-secondary" text="Limpar" />
         </HBox>
     </VBox>
+
+    <stylesheets>
+        <URL value="@../styles/styles.css"/>
+    </stylesheets>
 
 </VBox>

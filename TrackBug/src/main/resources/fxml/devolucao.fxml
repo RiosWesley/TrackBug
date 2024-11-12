@@ -4,18 +4,18 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 
-<VBox spacing="30" alignment="TOP_CENTER" style="-fx-background-color: white;"
+<VBox spacing="30" alignment="TOP_CENTER" styleClass="form-container"
       xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
       fx:controller="trackbug.controller.DevolucaoController">
 
     <!-- Cabeçalho -->
     <VBox alignment="CENTER" spacing="5">
-        <Label text="Registrar Devolução" styleClass="titulo">
+        <Label text="Registrar Devolução" styleClass="form-title">
             <font>
                 <Font name="Segoe UI Bold" size="24"/>
             </font>
         </Label>
-        <Label text="Selecione o empréstimo para registrar a devolução" styleClass="subtitulo">
+        <Label text="Selecione o empréstimo para registrar a devolução" styleClass="form-subtitle">
             <font>
                 <Font name="Segoe UI" size="14"/>
             </font>
@@ -23,11 +23,11 @@
     </VBox>
 
     <!-- Container principal -->
-    <VBox styleClass="form-container" maxWidth="600">
+    <VBox styleClass="form-content-container" maxWidth="600">
         <!-- Seleção do empréstimo -->
-        <VBox spacing="10" styleClass="form-group">
+        <VBox styleClass="form-group">
             <Label text="Selecione o Empréstimo:" styleClass="form-label"/>
-            <ComboBox fx:id="emprestimoCombo" prefWidth="300"
+            <ComboBox fx:id="emprestimoCombo" prefWidth="300" styleClass="form-combo"
                       promptText="Selecione o código do empréstimo"/>
         </VBox>
 
@@ -35,10 +35,11 @@
         <VBox spacing="10" styleClass="details-card">
             <Label text="Detalhes do Empréstimo" styleClass="card-title"/>
             <TextArea fx:id="detalhesEmprestimo"
-                      prefRowCount="8"
-                      prefWidth="500"
+                      prefRowCount="20"
+                      prefWidth="700"
                       wrapText="true"
-                      editable="false"/>
+                      editable="false"
+                      />
         </VBox>
 
         <!-- Botões -->
