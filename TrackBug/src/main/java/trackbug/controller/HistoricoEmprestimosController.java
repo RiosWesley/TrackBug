@@ -91,7 +91,9 @@ public class HistoricoEmprestimosController implements Initializable {
             if (!data.getValue().isAtivo()) {
                 LocalDateTime dataEfetiva = data.getValue().getDataRetornoEfetiva();
                 LocalDateTime dataPrevista = data.getValue().getDataRetornoPrevista();
-                if (dataEfetiva.isAfter(dataPrevista)) {
+                if(data.getValue().isUsoUnico()){
+                    status = "Concluído";
+                } else if (dataEfetiva.isAfter(dataPrevista)) {
                     status = "Devolvido com atraso";
                 } else {
                     status = "Devolvido no prazo";
@@ -117,6 +119,7 @@ public class HistoricoEmprestimosController implements Initializable {
                 } else {
                     setText(item);
                     switch (item) {
+                        case "Concluído":
                         case "Devolvido no prazo":
                             setStyle("-fx-text-fill: #2e7d32;"); // Verde
                             break;

@@ -9,6 +9,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.scene.control.cell.PropertyValueFactory;
 import trackbug.model.entity.Emprestimo;
+import trackbug.model.entity.Equipamento;
 import trackbug.model.service.EmprestimoService;
 import trackbug.util.AlertHelper;
 import trackbug.util.DateUtils;
@@ -99,13 +100,17 @@ public class EmprestimosAtivosController implements Initializable {
                     setStyle("");
                 } else {
                     setText(item);
-                    setAlignment(Pos.CENTER);
-                    setStyle("-fx-padding: 0 10 0 10; " +
-                            switch (item) {
-                                case "Atrasado" -> "-fx-text-fill: #c62828;";
-                                case "Em dia" -> "-fx-text-fill: #2e7d32;";
-                                default -> "";
-                            });
+                    switch (item) {
+                        case "Em dia":
+                            setStyle("-fx-text-fill: #2e7d32;"); // Verde
+                            break;
+                        case "Atrasado":
+                            setStyle("-fx-text-fill: #c62828;"); // Vermelho
+                            break;
+                        default:
+                            setStyle("");
+                            break;
+                    }
                 }
             }
         });

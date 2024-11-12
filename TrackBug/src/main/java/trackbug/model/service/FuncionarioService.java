@@ -3,6 +3,8 @@ package trackbug.model.service;
 import trackbug.model.dao.interfaces.FuncionarioDAO;
 import trackbug.model.dao.impl.FuncionarioDAOImpl;
 import trackbug.model.entity.Funcionario;
+
+import java.time.LocalDate;
 import java.util.List;
 
 public class FuncionarioService {
@@ -108,6 +110,9 @@ public class FuncionarioService {
         }
         if (funcionario.getDataAdmissao() == null) {
             throw new IllegalArgumentException("Data de admissão é obrigatória");
+        }
+        if (funcionario.getDataAdmissao().isAfter(LocalDate.now())) {
+            throw new IllegalArgumentException("Data de admissão não pode ser futura");
         }
     }
 
