@@ -70,15 +70,27 @@ public class EquipamentoDAOImpl implements EquipamentoDAO {
 
         try {
             conn = ConnectionFactory.getConnection();
-            String sql = "SELECT * FROM equipamentos WHERE id = ?";
+
+            String sql = """
+                SELECT id, descricao, dataCompra, peso, largura, comprimento,
+                       tipo, quantidadeAtual, quantidadeEstoque, quantidadeMinima,
+                       tipo_uso, status
+                FROM equipamentos 
+                WHERE id = ?
+            """;
+
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, id);
+
             rs = stmt.executeQuery();
 
             if (rs.next()) {
                 return mapearResultSet(rs);
             }
             return null;
+
+        } catch (SQLException e) {
+            throw new Exception("Erro ao buscar equipamento: " + e.getMessage());
         } finally {
             ConnectionFactory.closeConnection(conn, stmt, rs);
         }
@@ -137,49 +149,67 @@ public class EquipamentoDAOImpl implements EquipamentoDAO {
 
         try {
             conn = ConnectionFactory.getConnection();
-            String sql = "UPDATE equipamentos SET descricao = ?, dataCompra = ?, " +
-                    "peso = ?, largura = ?, comprimento = ?, tipo = ?, " +
-                    "quantidadeAtual = ?, quantidadeEstoque = ?, quantidadeMinima = ?, " +
-                    "tipo_uso = ? WHERE id = ?";
+            conn.setAutoCommit(false); // Inicia transação
+
+            String sql = """
+            UPDATE equipamentos 
+            SET descricao = ?,
+                dataCompra = ?,
+                peso = ?,
+                largura = ?,
+                comprimento = ?,
+                tipo = ?,
+                quantidadeAtual = ?,
+                quantidadeEstoque = ?,
+                quantidadeMinima = ?,
+                tipo_uso = ?,
+                status = CASE 
+                    WHEN ? = 0 THEN 'Esgotado'
+                    ELSE 'Disponível'
+                END
+            WHERE id = ?
+        """;
 
             stmt = conn.prepareStatement(sql);
-            stmt.setString(1, equipamento.getDescricao());
-            stmt.setDate(2, Date.valueOf(equipamento.getDataCompra()));
+            int index = 1;
 
-            // Tratamento para valores nulos
-            Double peso = equipamento.getPeso();
-            if (peso != null) {
-                stmt.setDouble(3, peso);
-            } else {
-                stmt.setNull(3, Types.DOUBLE);
+            stmt.setString(index++, equipamento.getDescricao());
+            stmt.setDate(index++, Date.valueOf(equipamento.getDataCompra()));
+            stmt.setDouble(index++, equipamento.getPeso());
+            stmt.setDouble(index++, equipamento.getLargura());
+            stmt.setDouble(index++, equipamento.getComprimento());
+            stmt.setBoolean(index++, equipamento.isTipo());
+            stmt.setInt(index++, equipamento.getQuantidadeAtual());
+            stmt.setInt(index++, equipamento.getQuantidadeEstoque());
+            stmt.setInt(index++, equipamento.getQuantidadeMinima());
+            stmt.setString(index++, equipamento.getTipoUso());
+            // Parâmetro para o CASE do status
+            stmt.setInt(index++, equipamento.getQuantidadeAtual());
+            // ID do equipamento
+            stmt.setString(index++, equipamento.getId());
+
+            int rowsAffected = stmt.executeUpdate();
+
+            if (rowsAffected == 0) {
+                throw new SQLException("Falha ao atualizar equipamento: nenhum registro foi modificado.");
             }
 
-            Double largura = equipamento.getLargura();
-            if (largura != null) {
-                stmt.setDouble(4, largura);
-            } else {
-                stmt.setNull(4, Types.DOUBLE);
+            conn.commit();
+
+        } catch (SQLException e) {
+            try {
+                if (conn != null) {
+                    conn.rollback();
+                }
+            } catch (SQLException ex) {
+                throw new Exception("Erro ao realizar rollback: " + ex.getMessage());
             }
-
-            Double comprimento = equipamento.getComprimento();
-            if (comprimento != null) {
-                stmt.setDouble(5, comprimento);
-            } else {
-                stmt.setNull(5, Types.DOUBLE);
-            }
-
-            stmt.setBoolean(6, equipamento.isTipo());
-            stmt.setInt(7, equipamento.getQuantidadeAtual());
-            stmt.setInt(8, equipamento.getQuantidadeEstoque());
-            stmt.setInt(9, equipamento.getQuantidadeMinima());
-            stmt.setString(10, equipamento.getTipoUso());
-            stmt.setString(11, equipamento.getId());
-
-            stmt.executeUpdate();
+            throw new Exception("Erro ao atualizar equipamento: " + e.getMessage());
         } finally {
             ConnectionFactory.closeConnection(conn, stmt);
         }
     }
+
     @Override
     public void deletar(String id) throws Exception {
         Connection conn = null;
@@ -203,28 +233,40 @@ public class EquipamentoDAOImpl implements EquipamentoDAO {
 
         try {
             conn = ConnectionFactory.getConnection();
-            String sql = "UPDATE equipamentos SET quantidadeAtual = ? WHERE id = ?";
+            conn.setAutoCommit(false);
+
+            String sql = """
+                        UPDATE equipamentos 
+                        SET quantidadeAtual = ?,
+                            status = CASE 
+                                WHEN ? = 0 THEN 'Esgotado'
+                                ELSE 'Disponível'
+                            END
+                        WHERE id = ?
+                    """;
+
             stmt = conn.prepareStatement(sql);
             stmt.setInt(1, quantidade);
-            stmt.setString(2, id);
-            stmt.executeUpdate();
-        } finally {
-            ConnectionFactory.closeConnection(conn, stmt);
-        }
-    }
+            stmt.setInt(2, quantidade);
+            stmt.setString(3, id);
 
-    @Override
-    public void atualizarStatus(String id, String status) throws Exception {
-        Connection conn = null;
-        PreparedStatement stmt = null;
+            int rowsAffected = stmt.executeUpdate();
 
-        try {
-            conn = ConnectionFactory.getConnection();
-            String sql = "UPDATE equipamentos SET status = ? WHERE id = ?";
-            stmt = conn.prepareStatement(sql);
-            stmt.setString(1, status);
-            stmt.setString(2, id);
-            stmt.executeUpdate();
+            if (rowsAffected == 0) {
+                throw new SQLException("Falha ao atualizar quantidade: equipamento não encontrado.");
+            }
+
+            conn.commit();
+
+        } catch (SQLException e) {
+            try {
+                if (conn != null) {
+                    conn.rollback();
+                }
+            } catch (SQLException ex) {
+                throw new Exception("Erro ao realizar rollback: " + ex.getMessage());
+            }
+            throw new Exception("Erro ao atualizar quantidade: " + e.getMessage());
         } finally {
             ConnectionFactory.closeConnection(conn, stmt);
         }
@@ -238,15 +280,26 @@ public class EquipamentoDAOImpl implements EquipamentoDAO {
 
         try {
             conn = ConnectionFactory.getConnection();
-            String sql = "SELECT COUNT(*) FROM emprestimos WHERE idEquipamento = ? AND ativo = true";
+
+            String sql = """
+                SELECT COUNT(*) as total 
+                FROM emprestimos 
+                WHERE idEquipamento = ? 
+                AND ativo = true
+            """;
+
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, id);
+
             rs = stmt.executeQuery();
 
             if (rs.next()) {
-                return rs.getInt(1) > 0;
+                return rs.getInt("total") > 0;
             }
             return false;
+
+        } catch (SQLException e) {
+            throw new Exception("Erro ao verificar empréstimos ativos: " + e.getMessage());
         } finally {
             ConnectionFactory.closeConnection(conn, stmt, rs);
         }
@@ -255,26 +308,13 @@ public class EquipamentoDAOImpl implements EquipamentoDAO {
 
     private Equipamento mapearResultSet(ResultSet rs) throws SQLException {
         Equipamento equipamento = new Equipamento();
+
         equipamento.setId(rs.getString("id"));
         equipamento.setDescricao(rs.getString("descricao"));
         equipamento.setDataCompra(rs.getDate("dataCompra").toLocalDate());
-
-        // Tratamento para valores nulos vindos do banco
-        double peso = rs.getDouble("peso");
-        if (!rs.wasNull()) {
-            equipamento.setPeso(peso);
-        }
-
-        double largura = rs.getDouble("largura");
-        if (!rs.wasNull()) {
-            equipamento.setLargura(largura);
-        }
-
-        double comprimento = rs.getDouble("comprimento");
-        if (!rs.wasNull()) {
-            equipamento.setComprimento(comprimento);
-        }
-
+        equipamento.setPeso(rs.getDouble("peso"));
+        equipamento.setLargura(rs.getDouble("largura"));
+        equipamento.setComprimento(rs.getDouble("comprimento"));
         equipamento.setTipo(rs.getBoolean("tipo"));
         equipamento.setQuantidadeAtual(rs.getInt("quantidadeAtual"));
         equipamento.setQuantidadeEstoque(rs.getInt("quantidadeEstoque"));
@@ -283,6 +323,7 @@ public class EquipamentoDAOImpl implements EquipamentoDAO {
 
         return equipamento;
     }
+
     public String buscarNomePorId(String id) throws Exception {
         Connection conn = null;
         PreparedStatement stmt = null;

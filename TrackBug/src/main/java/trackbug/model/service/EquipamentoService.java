@@ -7,6 +7,7 @@ import trackbug.model.entity.Equipamento;
 import trackbug.model.dao.interfaces.LogEquipamentoDAO;
 import trackbug.model.dao.impl.LogEquipamentoDAOImpl;
 import trackbug.model.entity.LogEquipamento;
+import trackbug.util.SessionManager;
 
 import java.util.List;
 
@@ -109,6 +110,7 @@ public class EquipamentoService {
             throw new Exception("Erro ao excluir equipamento: " + e.getMessage());
         }
     }
+
     public void salvar(Equipamento equipamento) throws Exception {
         validarEquipamento(equipamento);
 
@@ -168,24 +170,130 @@ public class EquipamentoService {
         if (equipamento.getTipoUso() == null || equipamento.getTipoUso().trim().isEmpty()) {
             throw new IllegalArgumentException("Tipo de uso é obrigatório");
         }
+        // Validar medidas se presentes
+        if (Double.compare(equipamento.getPeso(), 0) < 0) {
+            throw new IllegalArgumentException("Peso não pode ser negativo");
+        }
+        if (Double.compare(equipamento.getLargura(), 0) < 0) {
+            throw new IllegalArgumentException("Largura não pode ser negativa");
+        }
+        if (Double.compare(equipamento.getComprimento(), 0) < 0) {
+            throw new IllegalArgumentException("Comprimento não pode ser negativo");
+        }
     }
 
-    public void editar(Equipamento equipamento) throws Exception {
-        validarEquipamento(equipamento);
-        Equipamento equipamentoAntigo = equipamentoDAO.buscarPorId(equipamento.getId());
+    private void validarRegrasEdicao(Equipamento equipamentoNovo, Equipamento equipamentoAntigo) throws Exception {
+        // Verificar se mudança de tipo é permitida
+        if (equipamentoAntigo.isTipo() != equipamentoNovo.isTipo() &&
+                equipamentoDAO.verificarEmprestimosAtivos(equipamentoNovo.getId())) {
+            throw new IllegalStateException(
+                    "Não é possível alterar o tipo do equipamento enquanto houver empréstimos ativos");
+        }
 
+        // Verificar se redução de quantidade é permitida
+        if (equipamentoNovo.getQuantidadeAtual() < equipamentoAntigo.getQuantidadeAtual() &&
+                equipamentoDAO.verificarEmprestimosAtivos(equipamentoNovo.getId())) {
+            throw new IllegalStateException(
+                    "Não é possível reduzir a quantidade enquanto houver empréstimos ativos");
+        }
+
+        // Validar alteração de tipo de uso
+        if (!equipamentoAntigo.getTipoUso().equals(equipamentoNovo.getTipoUso()) &&
+                equipamentoDAO.verificarEmprestimosAtivos(equipamentoNovo.getId())) {
+            throw new IllegalStateException(
+                    "Não é possível alterar o tipo de uso enquanto houver empréstimos ativos");
+        }
+    }
+
+    private void registrarLogAlteracoes(Equipamento equipamentoAntigo, Equipamento equipamentoNovo) {
+        try {
+            StringBuilder detalhes = new StringBuilder();
+            String usuarioNome = SessionManager.getUsuarioLogado().getNome();
+
+            // Comparar e registrar alterações
+            if (!equipamentoAntigo.getDescricao().equals(equipamentoNovo.getDescricao())) {
+                detalhes.append(String.format("Descrição: '%s' → '%s'\n",
+                        equipamentoAntigo.getDescricao(), equipamentoNovo.getDescricao()));
+            }
+
+            if (equipamentoAntigo.getQuantidadeAtual() != equipamentoNovo.getQuantidadeAtual()) {
+                detalhes.append(String.format("Quantidade: %d → %d\n",
+                        equipamentoAntigo.getQuantidadeAtual(), equipamentoNovo.getQuantidadeAtual()));
+            }
+
+            if (equipamentoAntigo.getQuantidadeMinima() != equipamentoNovo.getQuantidadeMinima()) {
+                detalhes.append(String.format("Quantidade Mínima: %d → %d\n",
+                        equipamentoAntigo.getQuantidadeMinima(), equipamentoNovo.getQuantidadeMinima()));
+            }
+
+            if (equipamentoAntigo.isTipo() != equipamentoNovo.isTipo()) {
+                detalhes.append(String.format("Tipo: %s → %s\n",
+                        equipamentoAntigo.isTipo() ? "Consumível" : "Emprestável",
+                        equipamentoNovo.isTipo() ? "Consumível" : "Emprestável"));
+            }
+
+            // Comparar medidas
+            compararMedidas(equipamentoAntigo, equipamentoNovo, detalhes);
+
+            // Se houve alterações, registrar no log
+            if (detalhes.length() > 0) {
+                LogEquipamento log = new LogEquipamento(
+                        equipamentoNovo.getId(),
+                        "Equipamento editado por " + usuarioNome,
+                        "EDICAO",
+                        detalhes.toString()
+                );
+                logEquipamentoDAO.registrar(log);
+            }
+        } catch (Exception e) {
+            // Log do erro, mas não impede a atualização do equipamento
+            System.err.println("Erro ao registrar log de alterações: " + e.getMessage());
+        }
+    }
+
+    private void compararMedidas(Equipamento antigo, Equipamento novo, StringBuilder detalhes) {
+        // Comparar peso
+        if (Double.compare(antigo.getPeso(), novo.getPeso()) != 0) {
+            detalhes.append(String.format("Peso: %.2f → %.2f\n",
+                    antigo.getPeso(), novo.getPeso()));
+        }
+
+        // Comparar largura
+        if (Double.compare(antigo.getLargura(), novo.getLargura()) != 0) {
+            detalhes.append(String.format("Largura: %.2f → %.2f\n",
+                    antigo.getLargura(), novo.getLargura()));
+        }
+
+        // Comparar comprimento
+        if (Double.compare(antigo.getComprimento(), novo.getComprimento()) != 0) {
+            detalhes.append(String.format("Comprimento: %.2f → %.2f\n",
+                    antigo.getComprimento(), novo.getComprimento()));
+        }
+    }
+
+    public void editar(Equipamento equipamentoNovo) throws Exception {
+        // Validações iniciais
+        validarEquipamento(equipamentoNovo);
+
+        // Buscar equipamento original para comparação
+        Equipamento equipamentoAntigo = equipamentoDAO.buscarPorId(equipamentoNovo.getId());
         if (equipamentoAntigo == null) {
             throw new IllegalArgumentException("Equipamento não encontrado");
         }
 
-        equipamentoDAO.atualizar(equipamento);
+        try {
+            // Validar regras de negócio específicas para edição
+            validarRegrasEdicao(equipamentoNovo, equipamentoAntigo);
 
-        // Registrar log de edição
-        LogEquipamento log = new LogEquipamento();
-        log.setIdEquipamento(equipamento.getId());
-        log.setAcao("EDICAO");
-        log.setDescricao("Equipamento editado");
-        logEquipamentoDAO.registrar(log);
+            // Atualizar equipamento
+            equipamentoDAO.atualizar(equipamentoNovo);
+
+            // Registrar log de alterações
+            registrarLogAlteracoes(equipamentoAntigo, equipamentoNovo);
+
+        } catch (Exception e) {
+            throw new Exception("Erro ao editar equipamento: " + e.getMessage());
+        }
     }
 
     public boolean possuiEmprestimosAtivos(String id) throws Exception {
@@ -276,6 +384,7 @@ public class EquipamentoService {
             throw new Exception("Erro ao buscar equipamento: " + e.getMessage());
         }
     }
+
     public String buscarNomePorId(String id) {
         try {
             Equipamento equipamento = equipamentoDAO.buscarPorId(id);

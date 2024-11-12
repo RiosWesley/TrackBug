@@ -1,17 +1,23 @@
 package trackbug.controller;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import trackbug.model.entity.Equipamento;
 import trackbug.model.service.EquipamentoService;
 import trackbug.util.AlertHelper;
 import trackbug.util.DateUtils;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -222,11 +228,32 @@ public class ListarEquipamentosController implements Initializable {
 
     private void editarEquipamento(Equipamento equipamento) {
         try {
-            equipamentoService.editar(equipamento);
-            carregarEquipamentos();
-            AlertHelper.showSuccess("Equipamento atualizado com sucesso!");
-        } catch (Exception e) {
-            AlertHelper.showError("Erro ao editar equipamento", e.getMessage());
+            // Carregar a tela de edição
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/editar-equipamento.fxml"));
+            Parent root = loader.load();
+
+            // Obter o controller e passar o equipamento
+            EditarEquipamentoController controller = loader.getController();
+            controller.setEquipamento(equipamento);
+
+            // Criar e configurar o Stage
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Editar Equipamento");
+            dialogStage.initModality(Modality.APPLICATION_MODAL);
+            dialogStage.setResizable(false);
+
+            // Criar a cena
+            Scene scene = new Scene(root);
+            dialogStage.setScene(scene);
+
+            // Configurar ação ao fechar (atualizar a lista)
+            dialogStage.setOnHiding(event -> carregarEquipamentos());
+
+            // Mostrar a tela
+            dialogStage.showAndWait();
+
+        } catch (IOException e) {
+            AlertHelper.showError("Erro", "Erro ao abrir formulário de edição: " + e.getMessage());
         }
     }
 
