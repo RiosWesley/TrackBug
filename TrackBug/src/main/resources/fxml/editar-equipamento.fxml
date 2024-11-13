@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<?import java.net.URL?>
+<VBox spacing="30" styleClass="form-container"
+      xmlns="http://javafx.com/javafx/19"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="trackbug.controller.EditarEquipamentoController">
+
+    <!-- Cabeçalho -->
+    <VBox styleClass="form-header" alignment="CENTER">
+        <Label text="Editar Equipamento" styleClass="form-title"/>
+        <Label text="Atualize os dados do equipamento" styleClass="form-subtitle"/>
+    </VBox>
+
+    <!-- Container principal -->
+    <VBox styleClass="form-content-container">
+        <!-- Grid para campos -->
+        <GridPane hgap="15" vgap="15" alignment="CENTER">
+            <!-- Código -->
+            <Label text="Código:" styleClass="form-label"
+                   GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+            <TextField fx:id="codigoField" editable="false"
+                       promptText="Código do equipamento"
+                       styleClass="form-field-disabled"
+                       GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+            <!-- Descrição -->
+            <Label text="Descrição:" styleClass="form-label"
+                   GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+            <TextField fx:id="descricaoField" promptText="Descrição do equipamento"
+                       styleClass="form-field"
+                       GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+            <!-- Data de Compra -->
+            <Label text="Data de Compra:" styleClass="form-label"
+                   GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+            <DatePicker fx:id="dataCompraField" promptText="Selecione a data"
+                        styleClass="form-date-picker"
+                        GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+            <!-- Tipo de Item -->
+            <Label text="Tipo de Item:" styleClass="form-label"
+                   GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+            <ComboBox fx:id="tipoItemCombo" promptText="Selecione o tipo"
+                      styleClass="form-combo"
+                      GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+
+            <!-- Tipo de Uso -->
+            <Label text="Tipo de Uso:" styleClass="form-label"
+                   GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+            <ComboBox fx:id="tipoUsoCombo" promptText="Selecione o tipo de uso"
+                      styleClass="form-combo"
+                      GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+
+            <!-- Quantidade Atual -->
+            <Label text="Quantidade Atual:" styleClass="form-label"
+                   GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+            <TextField fx:id="quantidadeAtualField" promptText="Quantidade atual"
+                       styleClass="form-field"
+                       GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+
+            <!-- Quantidade Mínima -->
+            <Label text="Quantidade Mínima:" styleClass="form-label"
+                   GridPane.columnIndex="0" GridPane.rowIndex="6"/>
+            <TextField fx:id="quantidadeMinimaField" promptText="Quantidade mínima"
+                       styleClass="form-field"
+                       GridPane.columnIndex="1" GridPane.rowIndex="6"/>
+
+            <!-- Checkbox Medidas -->
+            <CheckBox fx:id="medidasCheckBox" text="Incluir medidas"
+                      styleClass="form-checkbox"
+                      GridPane.columnSpan="2" GridPane.rowIndex="7"/>
+
+            <!-- Container de Medidas (visibilidade controlada pelo checkbox) -->
+            <VBox fx:id="medidasContainer" spacing="15" visible="false" managed="false"
+                  GridPane.columnSpan="2" GridPane.rowIndex="8">
+                <!-- Peso -->
+                <HBox spacing="10">
+                    <Label text="Peso (g):" styleClass="form-label"/>
+                    <TextField fx:id="pesoField" promptText="Digite o peso"
+                               styleClass="form-field"/>
+                </HBox>
+
+                <!-- Largura -->
+                <HBox spacing="10">
+                    <Label text="Largura (cm):" styleClass="form-label"/>
+                    <TextField fx:id="larguraField" promptText="Digite a largura"
+                               styleClass="form-field"/>
+                </HBox>
+
+                <!-- Comprimento -->
+                <HBox spacing="10">
+                    <Label text="Comprimento (cm):" styleClass="form-label"/>
+                    <TextField fx:id="comprimentoField" promptText="Digite o comprimento"
+                               styleClass="form-field"/>
+                </HBox>
+            </VBox>
+        </GridPane>
+
+        <!-- Área de Mensagens de Erro -->
+        <Label fx:id="mensagemErro" styleClass="error-label" visible="false"
+               wrapText="true" maxWidth="Infinity"/>
+
+        <!-- Botões -->
+        <HBox spacing="15" alignment="CENTER" styleClass="button-container">
+            <Button text="Salvar Alterações" onAction="#salvarAlteracoes"
+                    styleClass="btn-primary"/>
+            <Button text="Cancelar" onAction="#cancelar"
+                    styleClass="btn-secondary"/>
+        </HBox>
+    </VBox>
+
+    <!-- Estilos CSS específicos -->
+    <stylesheets>
+        <URL value="@../styles/styles.css"/>
+    </stylesheets>
+</VBox>

@@ -240,11 +240,31 @@ public class ListarEquipamentosController implements Initializable {
 
     private void editarEquipamento(Equipamento equipamento) {
         try {
-            equipamentoService.editar(equipamento);
-            carregarEquipamentos();
-            AlertHelper.showSuccess("Equipamento atualizado com sucesso!");
-        } catch (Exception e) {
-            AlertHelper.showError("Erro ao editar equipamento", e.getMessage());
+            // Carregar a tela de edição
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/editar-equipamento.fxml"));
+            Parent root = loader.load();
+
+            // Obter o controller e passar o equipamento
+            EditarEquipamentoController controller = loader.getController();
+            controller.setEquipamento(equipamento);
+
+            // Criar e configurar o Stage
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Editar Equipamento");
+            dialogStage.initModality(Modality.APPLICATION_MODAL);
+            dialogStage.setResizable(false);
+
+            // Criar a cena
+            Scene scene = new Scene(root);
+            dialogStage.setScene(scene);
+
+            // Configurar ação ao fechar (atualizar a lista)
+            dialogStage.setOnHiding(event -> carregarEquipamentos());
+
+            // Mostrar a tela
+            dialogStage.showAndWait();
+        } catch (IOException e) {
+            AlertHelper.showError("Erro", "Erro ao abrir formulário de edição: " + e.getMessage());
         }
     }
 
