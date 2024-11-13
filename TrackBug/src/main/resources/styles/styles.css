@@ -421,6 +421,13 @@
         -fx-max-width: 600px;
     }
 
+    .info-box{
+    -fx-background-color: white;
+    -fx-background-radius: 15px;
+    -fx-padding: 10 10 10 10;
+    -fx-effect: dropshadow(three-pass-box, rgba(112, 112, 112, 0.8), 5, 0.9, 0, 3);
+    }
+
     .form-header {
         -fx-spacing: 5px;
         -fx-padding: 0 0 20px 0;

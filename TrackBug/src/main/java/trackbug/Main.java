@@ -16,7 +16,7 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/login.fxml"));
         Scene scene = new Scene(root, 1200, 600);
 
-        // Carrega os estilos
+        // Carrega os estilosA
         scene.getStylesheets().add(getClass().getResource("/styles/styles.css").toExternalForm());
 
         primaryStage.setTitle("Login - TrackBug");

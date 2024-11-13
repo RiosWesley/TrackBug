@@ -7,7 +7,8 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.HBox?>
 <VBox styleClass="form-container" maxWidth="1200" maxHeight="2000" spacing="15" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/19"
-      xmlns:fx="http://javafx.com/fxml/1">
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="trackbug.controller.TelaPrincipalController">
     <padding>
         <Insets top="30" right="30" bottom="30" left="30"/>
     </padding>
@@ -39,40 +40,48 @@
                         -fx-text-fill: black;
                         -fx-font-family: 'Hind Gunter';
                         -fx-font-weight: bold;
-                        -fx-padding: 10 0 5 0;
+                        -fx-padding: 10 0 0 0;
                     </style>
                 </Label>
-                <HBox>
-                    <Label text="Bem-vindo ao Sistema de Gerenciamento de Equipamentos!">
-                        <style>
-                            -fx-font-size: 24px;
-                            -fx-font-weight: bold;
-                            -fx-text-fill: #00B393;
-                            -fx-font-family: 'Segoe UI';
-                        </style>
-                    </Label>
 
-                    <Label text="Selecione uma opção no menu lateral para navegar.">
-                        <style>
-                            -fx-font-size: 16px;
-                            -fx-text-fill: #757575;
-                            -fx-font-family: 'Segoe UI';
-                        </style>
-                    </Label>
+                <HBox style="-fx-padding: 15 20 20 20; -fx-spacing: 100">
+                    <VBox prefHeight="100" prefWidth="300" alignment="CENTER" styleClass="info-box">
+                        <Label styleClass="form-title" text="Funcionários" style="-fx-alignment: CENTER;"/>
+                        <Label fx:id="totalFuncionariosLabel" styleClass="stat-value" style="-fx-weight: bold;
+                        -fx-font-size: 40;
+                        -fx-padding: 5 20 5 20;
+                        -fx-background-color: #04b494;
+                        -fx-background-radius: 20px;
+                        -fx-text-fill: #f4f4f4;
+                        -fx-alignment: CENTER;"/>
+                    </VBox>
 
-                    <Label text="Informativos:">
-                        <style>
-                            -fx-font-size: 18px;
-                            -fx-text-fill: black;
-                            -fx-font-family: 'Hind Gunter';
-                            -fx-font-weight: bold;
-                            -fx-padding: 10 0 5 0;
-                        </style>
-                    </Label>
+                    <VBox prefHeight="100" prefWidth="300" alignment="CENTER" styleClass="info-box">
+                        <Label styleClass="form-title" text="Equipamentos" style="-fx-alignment: CENTER;"/>
+                        <Label fx:id="totalEquipamentosLabel" styleClass="stat-value" style="-fx-weight: bold;
+                        -fx-font-size: 40;
+                        -fx-padding: 5 20 5 20;
+                        -fx-background-color: #04b494;
+                        -fx-background-radius: 20px;
+                        -fx-text-fill: #f4f4f4;
+                        -fx-alignment: CENTER;"/>
+                    </VBox>
+
+                    <VBox prefHeight="100" prefWidth="300" alignment="CENTER" styleClass="info-box">
+                        <Label styleClass="form-title" text="Empréstimos" style="-fx-alignment: CENTER;"/>
+                        <Label fx:id="totalEmprestimosLabel" styleClass="stat-value" style="-fx-weight: bold;
+                        -fx-font-size: 40;
+                        -fx-padding: 5 20 5 20;
+                        -fx-background-color: #04b494;
+                        -fx-background-radius: 20px;
+                        -fx-text-fill: #f4f4f4;
+                        -fx-alignment: CENTER;"/>
+                    </VBox>
+
                 </HBox>
             </VBox>
             <padding>
-                <Insets bottom="0.0" left="0.0" right="0.0" top="0.0" />
+                <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
             </padding>
         </VBox>
     </VBox>
@@ -94,15 +103,6 @@
                     <style>
                         -fx-font-size: 16px;
                         -fx-text-fill: #757575;
-                        -fx-font-family: 'Segoe UI';
-                    </style>
-                </Label>
-
-                <!-- Para o nome do usuário, você precisará usar um bind -->
-                <Label fx:id="usuarioLabel">
-                    <style>
-                        -fx-font-size: 14px;
-                        -fx-text-fill: #424242;
                         -fx-font-family: 'Segoe UI';
                     </style>
                 </Label>
