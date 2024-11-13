@@ -2,19 +2,25 @@ package trackbug.controller;
 
 import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import trackbug.model.entity.Equipamento;
 import trackbug.model.service.EquipamentoService;
 import trackbug.util.AlertHelper;
 import trackbug.util.DateUtils;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -266,21 +272,62 @@ public class ListarEquipamentosController implements Initializable {
         }
     }
 
+    // No ListarEquipamentosController.java
+
+    private void configurarColunaAcoes() {
+        colunaAcoes.setCellFactory(column -> new TableCell<>() {
+            private final Button btnEditar = new Button("Editar");
+            private final Button btnDeletar = new Button("Deletar");
+            private final Button btnAvaria = new Button("Registrar Avaria");
+            private final HBox box = new HBox(5);
+
+            {
+                btnEditar.getStyleClass().add("btn-edit");
+                btnDeletar.getStyleClass().add("btn-delete");
+                btnAvaria.getStyleClass().add("btn-warning");
+
+                btnEditar.setOnAction(e -> editarEquipamento(getTableRow().getItem()));
+                btnDeletar.setOnAction(e -> deletarEquipamento(getTableRow().getItem()));
+                btnAvaria.setOnAction(e -> registrarAvaria(getTableRow().getItem()));
+
+                box.getChildren().addAll(btnEditar, btnDeletar, btnAvaria);
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                setGraphic(empty ? null : box);
+            }
+        });
+    }
+
     private void registrarAvaria(Equipamento equipamento) {
         try {
-            TextInputDialog dialog = new TextInputDialog();
-            dialog.setTitle("Registrar Avaria");
-            dialog.setHeaderText("Informe a descrição da avaria");
-            dialog.setContentText("Descrição:");
+            // Carregar a tela de edição
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/registrar-avaria.fxml"));
+            Parent root = loader.load();
 
-            Optional<String> result = dialog.showAndWait();
-            if (result.isPresent()) {
-                equipamentoService.registrarAvaria(equipamento, result.get());
-                carregarEquipamentos();
-                AlertHelper.showSuccess("Avaria registrada com sucesso!");
-            }
-        } catch (Exception e) {
-            AlertHelper.showError("Erro ao registrar avaria", e.getMessage());
+            // Obter o controller e passar o equipamento
+            RegistrarAvariaController controller = loader.getController();
+            controller.setEquipamento(equipamento);
+
+            // Criar e configurar o Stage
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Registrar Equipamento");
+            dialogStage.initModality(Modality.APPLICATION_MODAL);
+            dialogStage.setResizable(false);
+
+            // Criar a cena
+            Scene scene = new Scene(root);
+            dialogStage.setScene(scene);
+
+            // Configurar ação ao fechar (atualizar a lista)
+            dialogStage.setOnHiding(event -> carregarEquipamentos());
+
+            // Mostrar a tela
+            dialogStage.showAndWait();
+        } catch (IOException e) {
+            AlertHelper.showError("Erro", "Erro ao abrir formulário de registro de avaria: " + e.getMessage());
         }
     }
 

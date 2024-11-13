@@ -77,17 +77,7 @@ public class HistoricoAvariasController implements Initializable {
         ));
         filtroPeriodo.setValue("Todos os períodos");
 
-        filtroGravidade.setItems(FXCollections.observableArrayList(
-                "Todas",
-                "Baixa",
-                "Média",
-                "Alta",
-                "Crítica"
-        ));
-        filtroGravidade.setValue("Todas");
-
         filtroPeriodo.setOnAction(e -> aplicarFiltros());
-        filtroGravidade.setOnAction(e -> aplicarFiltros());
     }
 
     private void configurarColunas() {
@@ -161,7 +151,6 @@ public class HistoricoAvariasController implements Initializable {
         FilteredList<RegistroAvaria> dadosFiltrados = new FilteredList<>(avarias);
         String textoBusca = equipamentoField.getText().toLowerCase();
         String periodoSelecionado = filtroPeriodo.getValue();
-        String gravidadeSelecionada = filtroGravidade.getValue();
 
         dadosFiltrados.setPredicate(avaria -> {
             boolean matchTexto = textoBusca.isEmpty() ||
@@ -171,10 +160,7 @@ public class HistoricoAvariasController implements Initializable {
             boolean matchPeriodo = "Todos os períodos".equals(periodoSelecionado) ||
                     verificarPeriodo(avaria.getData(), periodoSelecionado);
 
-            boolean matchGravidade = "Todas".equals(gravidadeSelecionada) ||
-                    gravidadeSelecionada.equals(avaria.getGravidade());
-
-            return matchTexto && matchPeriodo && matchGravidade;
+            return matchTexto && matchPeriodo;
         });
 
         tabelaAvarias.setItems(dadosFiltrados);
@@ -251,20 +237,8 @@ public class HistoricoAvariasController implements Initializable {
     }
 
     private void atualizarStatusPorGravidade(ObservableList<RegistroAvaria> dadosFiltrados) {
-        Map<String, Long> contagemPorGravidade = dadosFiltrados.stream()
-                .collect(Collectors.groupingBy(
-                        RegistroAvaria::getGravidade,
-                        Collectors.counting()
-                ));
-
-        statusLabel.setText(String.format(
-                "Total: %d | Baixa: %d | Média: %d | Alta: %d | Crítica: %d",
-                dadosFiltrados.size(),
-                contagemPorGravidade.getOrDefault("Baixa", 0L),
-                contagemPorGravidade.getOrDefault("Média", 0L),
-                contagemPorGravidade.getOrDefault("Alta", 0L),
-                contagemPorGravidade.getOrDefault("Crítica", 0L)
-        ));
+        // Simplificando para mostrar apenas o total
+        statusLabel.setText(String.format("Total de registros: %d", dadosFiltrados.size()));
     }
 
     private String buscarNomeEquipamento(String id) {

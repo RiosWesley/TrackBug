@@ -271,12 +271,16 @@
 }
 
 .table-cell .btn-warning {
-    -fx-background-color: #FFA000;
-    -fx-text-fill: white;
+    -fx-background-color: #f57c00;
+        -fx-text-fill: white;
+        -fx-font-family: 'Segoe UI';
+        -fx-font-size: 12px;
+        -fx-padding: 5px 10px;
+        -fx-cursor: hand;
 }
 
 .table-cell .btn-warning:hover {
-    -fx-background-color: #FF8F00;
+    -fx-background-color: #ef6c00;
 }
 
 /* Status e indicadores */

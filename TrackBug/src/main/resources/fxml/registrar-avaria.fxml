@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<?import java.net.URL?>
+
+<VBox spacing="20" styleClass="form-container"
+      xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="trackbug.controller.RegistrarAvariaController">
+
+    <!-- Cabeçalho -->
+    <VBox styleClass="form-header" alignment="CENTER">
+        <Label text="Registrar Avaria" styleClass="form-title"/>
+        <Label fx:id="equipamentoLabel" styleClass="form-subtitle"/>
+    </VBox>
+
+    <!-- Formulário -->
+    <GridPane hgap="15" vgap="15" styleClass="form-grid">
+        <!-- Quantidade -->
+        <Label text="Quantidade:" styleClass="form-label"
+               GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+        <TextField fx:id="quantidadeField" promptText="Digite a quantidade"
+                   styleClass="form-field" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+        <!-- Info Quantidade Disponível -->
+        <Label fx:id="quantidadeDisponivel" styleClass="info-label"
+               GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+        <!-- Descrição -->
+        <Label text="Descrição:" styleClass="form-label"
+               GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+        <TextArea fx:id="descricaoArea" promptText="Descreva o motivo da avaria"
+                  styleClass="form-text-area" wrapText="true" prefRowCount="3"
+                  GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+    </GridPane>
+
+    <!-- Botões -->
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Button text="Cancelar" onAction="#cancelar"
+                styleClass="btn-secondary"/>
+        <Button text="Registrar" onAction="#registrarAvaria"
+                styleClass="btn-primary"/>
+    </HBox>
+
+    <stylesheets>
+        <URL value="@../styles/styles.css"/>
+    </stylesheets>
+</VBox>
