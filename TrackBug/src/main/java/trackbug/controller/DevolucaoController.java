@@ -13,7 +13,7 @@ import java.util.List;
 
 public class DevolucaoController {
     @FXML
-    private ComboBox<Integer> emprestimoCombo;
+    private ComboBox<String> emprestimoCombo;
 
     @FXML
     private TextArea detalhesEmprestimo;
@@ -33,9 +33,9 @@ public class DevolucaoController {
     private void initialize() {
         // Configurar listener para o ComboBox
         emprestimoCombo.setOnAction(e -> {
-            Integer selectedId = emprestimoCombo.getValue();
+            String selectedId = emprestimoCombo.getValue();
             if (selectedId != null) {
-                mostrarDetalhesEmprestimo(selectedId);
+                mostrarDetalhesEmprestimo(Integer.valueOf(selectedId));
             }
         });
 
@@ -48,7 +48,7 @@ public class DevolucaoController {
             List<Emprestimo> emprestimosAtivos = emprestimoService.listarEmprestimosAtivos();
             emprestimoCombo.setItems(FXCollections.observableArrayList(
                     emprestimosAtivos.stream()
-                            .map(Emprestimo::getId)
+                            .map(emprestimo -> String.valueOf(emprestimo.getId()) + " - " + emprestimo.getDescricaoEquipamento())
                             .toList()
             ));
         } catch (Exception e) {
@@ -90,7 +90,7 @@ public class DevolucaoController {
 
     @FXML
     private void confirmarDevolucao() {
-        Integer emprestimoId = emprestimoCombo.getValue();
+        String emprestimoId = emprestimoCombo.getValue();
         if (emprestimoId == null) {
             mostrarAlerta("Selecione um empréstimo",
                     "Por favor, selecione um empréstimo para registrar a devolução.");
@@ -98,7 +98,7 @@ public class DevolucaoController {
         }
 
         try {
-            emprestimoService.registrarDevolucao(emprestimoId);
+            emprestimoService.registrarDevolucao(Integer.valueOf(emprestimoId));
             mostrarSucesso("Devolução registrada com sucesso!");
             limparFormulario();
             carregarEmprestimosAtivos();

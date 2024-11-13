@@ -51,11 +51,7 @@
 }
 
 /* Estilos dos Formulários */
-.form-container {
-    -fx-background-color: #00B393;
-    -fx-padding: 30px;
-    -fx-spacing: 20px;
-}
+
 
 .form-title {
     -fx-font-size: 80px;
@@ -352,6 +348,8 @@
 
     .btn-primary:hover {
         -fx-background-color: #283593;
+        -fx-translate-y: -5px;
+        -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0, 0, 2); /* Aumenta a sombra ao passar o mouse */
     }
 
     .btn-secondary {
@@ -366,6 +364,9 @@
 
     .btn-secondary:hover {
         -fx-background-color: #bdbdbd;
+        -fx-background-color: #283593;
+        -fx-translate-y: -5px;
+        -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0, 0, 2); /* Aumenta a sombra ao passar o mouse */
     }
     /* Estilos para o cartão de detalhes */
     .details-card {
@@ -415,7 +416,7 @@
         -fx-background-color: #04b494;
         -fx-padding: 20px;
         -fx-spacing: 30px;
-        -fx-background-radius: 50px;
+        -fx-background-radius: 20px;
         -fx-effect: dropshadow(three-pass-box, rgba(112, 112, 112, 0.65), 1000, 0.5, 0, 15);
         -fx-max-width: 600px;
     }
