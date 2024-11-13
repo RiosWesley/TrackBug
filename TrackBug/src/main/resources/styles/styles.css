@@ -95,7 +95,7 @@
 .form-content-container {
     -fx-background-color: #F8F9FA;
     -fx-padding: 10px;
-    -fx-background-radius: 10px;
+    -fx-background-radius: 40px;
     -fx-effect: dropshadow(three-pass-box, rgba(15, 94, 171, 0.2), 15, 0.2, 0, 0);
     -fx-max-width: 600px
 }
@@ -526,4 +526,15 @@
 .dashboard-table .table-row-cell:hover {
     -fx-background-color: #E3F2FD;
 }
+.menu-item-collapsed {
+    -fx-padding: 10 15 10 15;
+    -fx-alignment: CENTER;
+}
 
+.menu-item-collapsed .label {
+    -fx-visibility: hidden;
+}
+
+.menu-item-collapsed .button-icon {
+    -fx-font-size: 18px;
+}

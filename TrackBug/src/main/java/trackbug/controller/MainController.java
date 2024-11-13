@@ -4,6 +4,7 @@ import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -13,24 +14,66 @@ import trackbug.model.NivelAcesso;
 import trackbug.util.SessionManager;
 import trackbug.util.AlertHelper;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class MainController {
 
     @FXML private VBox areaPrincipal;
     @FXML private Label labelAdministracao;
     @FXML private Button btnGerenciarUsuarios;
     @FXML private ScrollPane menuScrollPane;
+    private static final double EXPANDED_WIDTH = 250;
+    private static final double COLLAPSED_WIDTH = 30;
+    private double currentMenuWidth = EXPANDED_WIDTH;
+    private List<Node> menuItems;
 
     @FXML
     private void initialize() {
         verificarPermissoes();
         addMenuSlideInAnimation();
+        menuScrollPane.setOnMouseEntered(event -> expandMenu());
+        menuScrollPane.setOnMouseExited(event -> collapseMenu());
+        addMenuSlideInAnimation();
+        menuItems = menuScrollPane.getChildrenUnmodifiable().stream()
+                .filter(node -> node instanceof Button)
+                .collect(Collectors.toList());
         mostrarDashboard();
     }
     private void addMenuSlideInAnimation() {
-        TranslateTransition tt = new TranslateTransition(Duration.millis(500), menuScrollPane);
+        TranslateTransition tt = new TranslateTransition(Duration.millis(400), menuScrollPane);
         tt.setFromX(-200);
         tt.setToX(0);
         tt.play();
+    }
+    private void expandMenu() {
+        TranslateTransition tt = new TranslateTransition(Duration.millis(1000), menuScrollPane);
+        tt.setToX(0);
+        tt.play();
+
+        currentMenuWidth = EXPANDED_WIDTH;
+        menuScrollPane.setPrefWidth(currentMenuWidth);
+
+        // Remover a classe de menu retraído
+        menuItems.forEach(item -> {
+            item.getStyleClass().remove("menu-item-collapsed");
+            item.getStyleClass().add("menu-item");
+        });
+    }
+
+    private void collapseMenu() {
+        TranslateTransition tt = new TranslateTransition(Duration.millis(300), menuScrollPane);
+        tt.setToX(-COLLAPSED_WIDTH + 50);
+        tt.play();
+
+        currentMenuWidth = COLLAPSED_WIDTH;
+        menuScrollPane.setPrefWidth(currentMenuWidth);
+
+        // Adicionar a classe de menu retraído
+        menuItems.forEach(item -> {
+            item.getStyleClass().add("menu-item-collapsed");
+            item.getStyleClass().remove("menu-item");
+        });
     }
     private void verificarPermissoes() {
         boolean isAdmin = SessionManager.getUsuarioLogado().getNivelAcesso() ==

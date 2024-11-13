@@ -18,51 +18,43 @@
                     <padding>
                         <Insets bottom="20.0" />
                     </padding>
-                    <Label text="TrackBug" textFill="WHITE">
+                    <Label style="-fx-effect: dropshadow(three-pass-box, rgba(15, 94, 171, 0.8), 15, 0.8, 0, 0);;" text="TrackBug" textFill="WHITE">
                         <font>
                             <Font name="Segoe UI Bold" size="28.0" />
-                        </font>
-                    </Label>
-                    <Label style="-fx-font-weight: bold" text="Colégio Estadual Hilda Carneiro" textFill="black">
-                        <font>
-                            <Font name="Segoe UI" size="14.0" />
                         </font>
                     </Label>
                 </VBox>
 
                 <!-- Menu Items -->
-                <Label styleClass="menu-section" text="INÍCIO" />
+                <Label style="-fx-effect: dropshadow(three-pass-box, rgba(15, 94, 171, 0.9), 10, 0.2, 0, 0);" styleClass="menu-section" text="INÍCIO" />
 
-                <Button fx:id="btnDashboard" onAction="#mostrarDashboard" styleClass="menu-button" text="⚙️ Painel de Controle" />
+                <Button fx:id="btnDashboard" onAction="#mostrarDashboard" style="-fx-effect: dropshadow(three-pass-box, rgba(15, 94, 171, 0.8), 15, 0.5, 0, 0);" styleClass="menu-button, menu-item" text="📈 Dashboard" />
 
-                <Label fx:id="labelEmprestimos" styleClass="menu-section" text="EMPRÉSTIMOS" />
+                <Label fx:id="labelEmprestimos" style="-fx-effect: dropshadow(three-pass-box, rgba(15, 94, 171, 0.9), 10, 0.2, 0, 0);" styleClass="menu-section" text="EMPRÉSTIMOS" />
 
-                <Button fx:id="btnEmprestimos" onAction="#mostrarEmprestimos" styleClass="menu-button" text="➕ Registrar Empréstimo">
-               <font>
-                  <Font name="Segoe UI" size="12.0" />
-               </font></Button>
-                <Button fx:id="btnDevolucao" onAction="#mostrarDevolucao" styleClass="menu-button" text="↩ Registrar Devolução" />
-                <Button fx:id="btnListarAtivos" onAction="#mostrarEmprestimosAtivos" styleClass="menu-button" text="📊 Empréstimos Ativos" />
-                <Button fx:id="btnListarAtrasos" onAction="#mostrarEmprestimosAtraso" styleClass="menu-button" text="⚠ Empréstimos em Atraso" />
+                <Button fx:id="btnEmprestimos" onAction="#mostrarEmprestimos" style="-fx-effect: dropshadow(three-pass-box, rgba(15, 94, 171, 0.8), 15, 0.5, 0, 0);" styleClass="menu-button, menu-item" text="➕ Empréstimos" />
+                <Button fx:id="btnDevolucao" onAction="#mostrarDevolucao" style="-fx-effect: dropshadow(three-pass-box, rgba(15, 94, 171, 0.8), 15, 0.5, 0, 0);" styleClass="menu-button, menu-item" text="↩ Registrar Devolução" />
+                <Button fx:id="btnListarAtivos" onAction="#mostrarEmprestimosAtivos" style="-fx-effect: dropshadow(three-pass-box, rgba(15, 94, 171, 0.8), 15, 0.5, 0, 0);" styleClass="menu-button, menu-item" text="📊 Empréstimos Ativos" />
+                <Button fx:id="btnListarAtrasos" onAction="#mostrarEmprestimosAtraso" style="-fx-effect: dropshadow(three-pass-box, rgba(15, 94, 171, 0.8), 15, 0.5, 0, 0);" styleClass="menu-button, menu-item" text="⚠ Empréstimos em Atraso" />
 
-                <Label fx:id="labelEquipamentos" styleClass="menu-section" text="EQUIPAMENTOS" />
-                <Button fx:id="btnRegistrarEquip" onAction="#mostrarRegistroEquipamento" styleClass="menu-button" text="📦 Registrar Equipamento" />
-                <Button fx:id="btnListarEquip" onAction="#mostrarListaEquipamentos" styleClass="menu-button" text="📋 Listar Equipamentos" />
+                <Label fx:id="labelEquipamentos" style="-fx-effect: dropshadow(three-pass-box, rgba(15, 94, 171, 0.9), 10, 0.2, 0, 0);" styleClass="menu-section" text="EQUIPAMENTOS" />
+                <Button fx:id="btnRegistrarEquip" onAction="#mostrarRegistroEquipamento" style="-fx-effect: dropshadow(three-pass-box, rgba(15, 94, 171, 0.8), 15, 0.5, 0, 0);" styleClass="menu-button, menu-item" text="📦 Registrar Equipamento" />
+                <Button fx:id="btnListarEquip" onAction="#mostrarListaEquipamentos" style="-fx-effect: dropshadow(three-pass-box, rgba(15, 94, 171, 0.8), 15, 0.5, 0, 0);" styleClass="menu-button, menu-item" text="📑 Listar Equipamentos" />
 
 
-                <Label fx:id="labelFuncionarios" styleClass="menu-section" text="FUNCIONÁRIOS" />
-                <Button fx:id="btnCadastrarFunc" onAction="#mostrarCadastroFuncionario" styleClass="menu-button" text="👤 Cadastrar Funcionários" />
-                <Button fx:id="btnListarFunc" onAction="#mostrarListaFuncionarios" styleClass="menu-button" text="👥 Listar Funcionários" />
+                <Label fx:id="labelFuncionarios" style="-fx-effect: dropshadow(three-pass-box, rgba(15, 94, 171, 0.9), 10, 0.2, 0, 0);" styleClass="menu-section" text="FUNCIONÁRIOS" />
+                <Button fx:id="btnCadastrarFunc" onAction="#mostrarCadastroFuncionario" style="-fx-effect: dropshadow(three-pass-box, rgba(15, 94, 171, 0.8), 15, 0.5, 0, 0);" styleClass="menu-button, menu-item" text="👤 Cadastrar Funcionários" />
+                <Button fx:id="btnListarFunc" onAction="#mostrarListaFuncionarios" style="-fx-effect: dropshadow(three-pass-box, rgba(15, 94, 171, 0.8), 15, 0.5, 0, 0);" styleClass="menu-button, menu-item" text="👥 Listar Funcionários" />
 
 
-                <Label fx:id="labelRelatorios" styleClass="menu-section" text="RELATÓRIOS" />
-                <Button fx:id="btnHistorico" onAction="#mostrarHistorico" styleClass="menu-button" text="📅 Histórico" />
-                <Button fx:id="btnHistoricoAlteracoes" onAction="#mostrarHistoricoAlteracoes" styleClass="menu-button" text="📋 Histórico de Alterações" />
-                <Button fx:id="btnHistoricoAvarias" onAction="#mostrarHistoricoAvarias" styleClass="menu-button" text="📋 Histórico de Avarias" />
+                <Label fx:id="labelRelatorios" style="-fx-effect: dropshadow(three-pass-box, rgba(15, 94, 171, 0.9), 10, 0.2, 0, 0);" styleClass="menu-section" text="RELATÓRIOS" />
+                <Button fx:id="btnHistorico" onAction="#mostrarHistorico" style="-fx-effect: dropshadow(three-pass-box, rgba(15, 94, 171, 0.8), 15, 0.5, 0, 0);" styleClass="menu-button, menu-item" text="📅 Histórico" />
+                <Button fx:id="btnHistoricoAlteracoes" onAction="#mostrarHistoricoAlteracoes" style="-fx-effect: dropshadow(three-pass-box, rgba(15, 94, 171, 0.8), 15, 0.5, 0, 0);" styleClass="menu-button, menu-item" text="📑 Histórico de Alterações" />
+                <Button fx:id="btnHistoricoAvarias" onAction="#mostrarHistoricoAvarias" style="-fx-effect: dropshadow(three-pass-box, rgba(15, 94, 171, 0.8), 15, 0.5, 0, 0);" styleClass="menu-button, menu-item" text="📑 Histórico de Avarias" />
 
 
-                <Label fx:id="labelAdministracao" styleClass="menu-section" text="ADMINISTRAÇÃO" />
-                <Button fx:id="btnGerenciarUsuarios" onAction="#mostrarGerenciamentoUsuarios" styleClass="menu-button" text="👥 Gerenciar Usuários" />
+                <Label fx:id="labelAdministracao" style="-fx-effect: dropshadow(three-pass-box, rgba(15, 94, 171, 0.9), 10, 0.2, 0, 0);" styleClass="menu-section" text="ADMINISTRAÇÃO" />
+                <Button fx:id="btnGerenciarUsuarios" onAction="#mostrarGerenciamentoUsuarios" style="-fx-effect: dropshadow(three-pass-box, rgba(15, 94, 171, 0.8), 15, 0.5, 0, 0);" styleClass="menu-button, menu-item" text="👥 Gerenciar Usuários" />
             </VBox>
         </ScrollPane>
     </left>
