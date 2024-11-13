@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.text.Text?>
+
+<ScrollPane fitToWidth="true" styleClass="dashboard-container"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="trackbug.controller.DashboardController">
+
+    <VBox spacing="20">
+        <!-- Cabeçalho -->
+        <VBox styleClass="dashboard-header" alignment="CENTER">
+            <Text styleClass="dashboard-title" text="Dashboard"/>
+            <Text styleClass="dashboard-subtitle" text="Visão geral do sistema"/>
+        </VBox>
+
+        <!-- Cards de Métricas -->
+        <GridPane hgap="15" vgap="15" styleClass="metrics-grid">
+            <columnConstraints>
+                <ColumnConstraints percentWidth="25"/>
+                <ColumnConstraints percentWidth="25"/>
+                <ColumnConstraints percentWidth="25"/>
+                <ColumnConstraints percentWidth="25"/>
+            </columnConstraints>
+
+            <!-- Card 1: Empréstimos Ativos -->
+            <VBox styleClass="metric-card" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                <Label styleClass="metric-title" text="Empréstimos Ativos"/>
+                <Label fx:id="emprestimosAtivosLabel" styleClass="metric-value"/>
+                <Label fx:id="emprestimosAtivosTendencia" styleClass="metric-trend"/>
+            </VBox>
+
+            <!-- Card 2: Equipamentos -->
+            <VBox styleClass="metric-card" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                <Label styleClass="metric-title" text="Equipamentos Cadastrados"/>
+                <Label fx:id="equipamentosLabel" styleClass="metric-value"/>
+                <Label fx:id="equipamentosTendencia" styleClass="metric-trend"/>
+            </VBox>
+
+            <!-- Card 3: Atrasos -->
+            <VBox styleClass="metric-card" GridPane.columnIndex="2" GridPane.rowIndex="0">
+                <Label styleClass="metric-title" text="Devoluções Atrasadas"/>
+                <Label fx:id="atrasosLabel" styleClass="metric-value"/>
+                <Label fx:id="atrasosTendencia" styleClass="metric-trend"/>
+            </VBox>
+
+            <!-- Card 4: Funcionários -->
+            <VBox styleClass="metric-card" GridPane.columnIndex="3" GridPane.rowIndex="0">
+                <Label styleClass="metric-title" text="Funcionários com Empréstimos"/>
+                <Label fx:id="funcionariosLabel" styleClass="metric-value"/>
+                <Label fx:id="funcionariosTendencia" styleClass="metric-trend"/>
+            </VBox>
+        </GridPane>
+
+        <!-- Gráficos e Tabelas -->
+        <HBox spacing="15">
+            <!-- Gráfico de Empréstimos -->
+            <VBox styleClass="chart-container" HBox.hgrow="ALWAYS">
+                <Label styleClass="section-title" text="Empréstimos por Mês"/>
+                <BarChart fx:id="emprestimosPorMes" legendVisible="false">
+                    <xAxis>
+                        <CategoryAxis label="Mês"/>
+                    </xAxis>
+                    <yAxis>
+                        <NumberAxis label="Quantidade"/>
+                    </yAxis>
+                </BarChart>
+            </VBox>
+
+            <!-- Tabela de Empréstimos Recentes -->
+            <VBox styleClass="table-container" HBox.hgrow="ALWAYS">
+                <Label styleClass="section-title" text="Empréstimos Recentes"/>
+                <TableView fx:id="emprestimosRecentes" VBox.vgrow="ALWAYS">
+                    <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                    </columnResizePolicy>
+                    <columns>
+                        <TableColumn fx:id="funcionarioColumn" text="Funcionário"/>
+                        <TableColumn fx:id="equipamentoColumn" text="Equipamento"/>
+                        <TableColumn fx:id="dataColumn" text="Devolução"/>
+                        <TableColumn fx:id="statusColumn" text="Status"/>
+                    </columns>
+                </TableView>
+            </VBox>
+        </HBox>
+
+        <!-- Alerta de Equipamentos -->
+        <VBox fx:id="alertaContainer" styleClass="alerta-container" visible="false" managed="false">
+            <Label styleClass="alerta-titulo" text="Alertas de Estoque"/>
+            <ListView fx:id="alertasList" maxHeight="150"/>
+        </VBox>
+    </VBox>
+
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+</ScrollPane>

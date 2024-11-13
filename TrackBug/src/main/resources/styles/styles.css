@@ -332,4 +332,198 @@
     -fx-font-size: 12px;
     -fx-text-fill: #666666;
 }
+/* Estilos da Dashboard */
+.dashboard-container {
+    -fx-background-color: #f4f4f4;
+}
+
+.dashboard-header {
+    -fx-padding: 20px;
+}
+
+.dashboard-title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-fill: #1a237e;
+}
+
+.dashboard-subtitle {
+    -fx-font-size: 14px;
+    -fx-fill: #757575;
+}
+
+.metrics-grid {
+    -fx-padding: 10px;
+}
+
+.metric-card {
+    -fx-background-color: white;
+    -fx-padding: 15px;
+    -fx-spacing: 10;
+    -fx-background-radius: 8;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0);
+}
+
+.metric-title {
+    -fx-font-size: 14px;
+    -fx-text-fill: #757575;
+}
+
+.metric-value {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1a237e;
+}
+
+.metric-trend {
+    -fx-font-size: 12px;
+}
+
+.chart-container, .table-container {
+    -fx-background-color: white;
+    -fx-padding: 15px;
+    -fx-background-radius: 8;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0);
+}
+
+.section-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1976D2;
+    -fx-padding: 0 0 10 0;
+}
+
+/* Estilos do Gráfico */
+.chart {
+    -fx-padding: 10px;
+}
+
+.chart-plot-background {
+    -fx-background-color: transparent;
+}
+
+.chart-vertical-grid-lines {
+    -fx-stroke: #f0f0f0;
+}
+
+.chart-horizontal-grid-lines {
+    -fx-stroke: #f0f0f0;
+}
+
+.default-color0.chart-bar {
+    -fx-bar-fill: #1976D2;
+}
+
+/* Alertas da Dashboard */
+.alerta-container {
+    -fx-background-color: #FFF3CD;
+    -fx-padding: 15px;
+    -fx-background-radius: 8;
+    -fx-border-color: #FFEEBA;
+    -fx-border-radius: 8;
+    -fx-spacing: 10;
+}
+
+.alerta-titulo {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #856404;
+}
+
+/* Status dos empréstimos na dashboard */
+.status-em-dia {
+    -fx-text-fill: #2E7D32;
+    -fx-font-weight: bold;
+}
+
+.status-atrasado {
+    -fx-text-fill: #D32F2F;
+    -fx-font-weight: bold;
+}
+
+/* Ajustes específicos para os cards da dashboard */
+.metric-card {
+    -fx-background-color: white;
+    -fx-padding: 15px;
+    -fx-spacing: 10;
+    -fx-background-radius: 8;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0);
+    -fx-border-color: #E0E0E0;
+    -fx-border-radius: 8;
+}
+
+.metric-title {
+    -fx-font-size: 14px;
+    -fx-text-fill: #757575;
+}
+
+.metric-value {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1976D2;
+}
+
+.metric-trend {
+    -fx-font-size: 12px;
+}
+
+.metric-trend.positive {
+    -fx-text-fill: #2E7D32;
+}
+
+.metric-trend.negative {
+    -fx-text-fill: #D32F2F;
+}
+
+/* Grid de métricas */
+.metrics-grid {
+    -fx-padding: 10px;
+    -fx-hgap: 15;
+    -fx-vgap: 15;
+}
+
+/* Container principal da dashboard */
+.dashboard-container {
+    -fx-background-color: #F8F9FA;
+    -fx-padding: 20px;
+}
+
+.dashboard-header {
+    -fx-padding: 20px;
+    -fx-background-color: white;
+    -fx-background-radius: 8;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0);
+    -fx-margin-bottom: 20px;
+}
+
+.dashboard-title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1976D2;
+}
+
+.dashboard-subtitle {
+    -fx-font-size: 14px;
+    -fx-text-fill: #757575;
+}
+
+/* Ajustes para tabela na dashboard */
+.dashboard-table {
+    -fx-background-color: transparent;
+}
+
+.dashboard-table .column-header {
+    -fx-background-color: #F5F5F5;
+    -fx-padding: 10px;
+}
+
+.dashboard-table .table-row-cell {
+    -fx-background-color: white;
+    -fx-border-color: transparent transparent #E0E0E0 transparent;
+    -fx-border-width: 0 0 1 0;
+}
+
+.dashboard-table .table-row-cell:hover {
+    -fx-background-color: #E3F2FD;
+}
 

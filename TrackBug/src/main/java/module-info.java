@@ -5,6 +5,9 @@ module trackbug {
     requires mysql.connector.j;
     requires javafx.graphics;
     requires javafx.base;
+    requires javafx.swt;
+    requires javafx.web;
+    requires jdk.jsobject;
 
     opens trackbug to javafx.fxml;
     opens trackbug.controller to javafx.fxml;

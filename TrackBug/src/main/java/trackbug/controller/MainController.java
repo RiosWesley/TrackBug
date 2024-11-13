@@ -24,7 +24,7 @@ public class MainController {
     private void initialize() {
         verificarPermissoes();
         addMenuSlideInAnimation();
-
+        mostrarDashboard();
     }
     private void addMenuSlideInAnimation() {
         TranslateTransition tt = new TranslateTransition(Duration.millis(500), menuScrollPane);
@@ -49,7 +49,10 @@ public class MainController {
                     "Não foi possível carregar a tela solicitada: " + e.getMessage());
         }
     }
-
+    @FXML
+    private void mostrarDashboard() {
+        carregarFXML("/fxml/dashboard.fxml");
+    }
     @FXML
     private void mostrarEmprestimos() {
         carregarFXML("/fxml/emprestimo.fxml");

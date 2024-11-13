@@ -7,7 +7,7 @@
 
 <BorderPane style="-fx-background-color: #f4f4f4;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="trackbug.controller.MainController">
     <left>
-        <ScrollPane fitToWidth="true" style="-fx-background: transparent; -fx-background-color: transparent;" styleClass="menu-scroll-pane">
+        <ScrollPane fx:id="menuScrollPane" fitToWidth="true" style="-fx-background: transparent; -fx-background-color: transparent;" styleClass="menu-scroll-pane">
             <VBox prefWidth="250" spacing="5" style="-fx-background-color: #1976D2; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 10, 0, 0, 0);">
                 <padding>
                     <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
@@ -31,6 +31,10 @@
                 </VBox>
 
                 <!-- Menu Items -->
+                <Label styleClass="menu-section" text="INÍCIO" />
+
+                <Button fx:id="btnDashboard" onAction="#mostrarDashboard" styleClass="menu-button" text="⚙️ Painel de Controle" />
+
                 <Label fx:id="labelEmprestimos" styleClass="menu-section" text="EMPRÉSTIMOS" />
 
                 <Button fx:id="btnEmprestimos" onAction="#mostrarEmprestimos" styleClass="menu-button" text="➕ Registrar Empréstimo">
@@ -71,30 +75,6 @@
                 </padding>
 
                 <VBox alignment="CENTER" spacing="15">
-                    <Label text="Bem-vindo ao Sistema de Gerenciamento de Equipamentos" textFill="#792323">
-                        <style>
-                            -fx-font-size: 24px;
-                            -fx-font-weight: bold;
-                            -fx-text-fill: #0f5eab;
-                            -fx-font-family: 'Segoe UI';
-                        </style>
-                    </Label>
-
-                    <Label text="Selecione uma opção no menu lateral para começar">
-                        <style>
-                            -fx-font-size: 16px;
-                            -fx-text-fill: #757575;
-                            -fx-font-family: 'Segoe UI';
-                        </style>
-                    </Label>
-
-                    <Label text="Usuário: Administrador">
-                        <style>
-                            -fx-font-size: 14px;
-                            -fx-text-fill: #424242;
-                            -fx-font-family: 'Segoe UI';
-                        </style>
-                    </Label>
                 </VBox>
             </VBox>
         </ScrollPane>
