@@ -10,12 +10,12 @@
 
     <!-- Cabeçalho -->
     <VBox alignment="CENTER" spacing="5">
-        <Label text="Registrar Devolução" styleClass="titulo">
+        <Label text="Registrar Devolução" styleClass="form-title">
             <font>
                 <Font name="Segoe UI Bold" size="24"/>
             </font>
         </Label>
-        <Label text="Selecione o empréstimo para registrar a devolução" styleClass="subtitulo">
+        <Label text="Selecione o empréstimo para registrar a devolução" styleClass="form-subtitle">
             <font>
                 <Font name="Segoe UI" size="14"/>
             </font>
@@ -23,7 +23,7 @@
     </VBox>
 
     <!-- Container principal -->
-    <VBox styleClass="form-container" maxWidth="600">
+    <VBox styleClass="form-content-container" maxWidth="600">
         <!-- Seleção do empréstimo -->
         <VBox spacing="10" styleClass="form-group">
             <Label text="Selecione o Empréstimo:" styleClass="form-label"/>

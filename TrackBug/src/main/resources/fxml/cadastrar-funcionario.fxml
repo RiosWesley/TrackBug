@@ -1,56 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.geometry.Insets?>
+
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.*?>
 
-<VBox fx:id="formContainer" spacing="30" alignment="TOP_CENTER" style="-fx-background-color: white;"
-      xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="trackbug.controller.CadastrarFuncionarioController">
+<VBox fx:id="formContainer" alignment="TOP_CENTER" spacing="30" styleClass="form-content-container" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="trackbug.controller.CadastrarFuncionarioController">
 
     <!-- Cabeçalho -->
     <VBox alignment="CENTER" spacing="5">
-        <Label text="Cadastrar Novo Funcionário" styleClass="titulo">
+        <Label styleClass="titulo" text="Cadastrar Novo Funcionário">
             <font>
-                <Font name="Segoe UI Bold" size="24"/>
+                <Font name="Segoe UI Bold" size="24" />
             </font>
         </Label>
-        <Label text="Preencha os dados do novo funcionário" styleClass="subtitulo">
+        <Label styleClass="subtitulo" text="Preencha os dados do novo funcionário">
             <font>
-                <Font name="Segoe UI" size="14"/>
+                <Font name="Segoe UI" size="14" />
             </font>
         </Label>
     </VBox>
 
     <!-- Formulário -->
-    <VBox styleClass="form-container" maxWidth="600">
-        <GridPane hgap="15" vgap="15" alignment="CENTER">
+    <VBox maxWidth="600" styleClass="#e1ecf7">
+        <GridPane alignment="CENTER" hgap="15" vgap="15">
             <padding>
-                <Insets top="20" right="20" bottom="20" left="20"/>
+                <Insets bottom="20" left="20" right="20" top="20" />
             </padding>
 
             <!-- Campos -->
-            <Label text="Código:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-            <TextField fx:id="idField" promptText="Digite o código do funcionário"
-                       GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+            <Label text="Código:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <TextField fx:id="idField" promptText="Digite o código do funcionário" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
-            <Label text="Nome:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-            <TextField fx:id="nomeField" promptText="Digite o nome completo"
-                       GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+            <Label text="Nome:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+            <TextField fx:id="nomeField" promptText="Digite o nome completo" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
-            <Label text="Função:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-            <TextField fx:id="funcaoField" promptText="Digite o cargo/função"
-                       GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+            <Label text="Função:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+            <TextField fx:id="funcaoField" promptText="Digite o cargo/função" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
-            <Label text="Data de Admissão:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
-            <DatePicker fx:id="dataAdmissaoField" promptText="Selecione a data"
-                        GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+            <Label text="Data de Admissão:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+            <DatePicker fx:id="dataAdmissaoField" promptText="Selecione a data" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+         <columnConstraints>
+            <ColumnConstraints />
+            <ColumnConstraints />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+         </rowConstraints>
         </GridPane>
 
         <!-- Botões -->
         <HBox alignment="CENTER" spacing="15">
-            <Button text="Salvar" onAction="#salvarFuncionario" styleClass="btn-primary"/>
-            <Button text="Cancelar" onAction="#cancelar" styleClass="btn-secondary"/>
+            <Button onAction="#salvarFuncionario" styleClass="btn-primary" text="Salvar" />
+            <Button onAction="#cancelar" styleClass="btn-secondary" text="Cancelar" />
         </HBox>
     </VBox>
 </VBox>

@@ -93,10 +93,10 @@
 }
 
 .form-content-container {
-    -fx-background-color: #F8F9FA;
+    -fx-background-color: #e1ecf7;
     -fx-padding: 10px;
-    -fx-background-radius: 40px;
-    -fx-effect: dropshadow(three-pass-box, rgba(15, 94, 171, 0.2), 15, 0.2, 0, 0);
+    -fx-background-radius: 15px;
+    -fx-effect: dropshadow(three-pass-box, rgba(15, 94, 171, 0.2), 40, 0.1, 0, 0);
     -fx-max-width: 600px
 }
 
