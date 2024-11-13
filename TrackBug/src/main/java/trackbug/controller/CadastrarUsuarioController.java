@@ -1,9 +1,12 @@
 package trackbug.controller;
 
+import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import trackbug.model.entity.Usuario;
 import trackbug.model.service.UsuarioService;
 import trackbug.util.AlertHelper;
@@ -21,7 +24,7 @@ public class CadastrarUsuarioController implements Initializable {
     @FXML private Label mensagemErro;
     @FXML private Label tituloLabel;
     @FXML private Label subtituloLabel;
-
+    @FXML private VBox formContainer;
     private final UsuarioService usuarioService;
     private Usuario usuarioParaEditar;
     private boolean modoEdicao;
@@ -34,6 +37,14 @@ public class CadastrarUsuarioController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         configurarComboNivelAcesso();
         configurarValidacoes();
+        addFadeInAnimation();
+    }
+
+    private void addFadeInAnimation() {
+        FadeTransition ft = new FadeTransition(Duration.millis(500), formContainer);
+        ft.setFromValue(0.0);
+        ft.setToValue(1.0);
+        ft.play();
     }
 
     public void setUsuario(Usuario usuario) {

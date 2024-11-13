@@ -33,7 +33,7 @@
                 <!-- Menu Items -->
                 <Label fx:id="labelEmprestimos" styleClass="menu-section" text="EMPRÉSTIMOS" />
 
-                <Button fx:id="btnEmprestimos" onAction="#mostrarEmprestimos" style="-fx-background-color: transparent;" styleClass="menu-button" text="➕ Registrar Empréstimo">
+                <Button fx:id="btnEmprestimos" onAction="#mostrarEmprestimos" styleClass="menu-button" text="➕ Registrar Empréstimo">
                <font>
                   <Font name="Segoe UI" size="12.0" />
                </font></Button>

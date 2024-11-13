@@ -1,11 +1,14 @@
 package trackbug.controller;
 
+import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 import trackbug.model.entity.RegistroAvaria;
 import trackbug.model.service.AvariaService;
 import trackbug.model.service.EquipamentoService;
@@ -37,6 +40,7 @@ public class HistoricoAvariasController implements Initializable {
     @FXML private Label totalAvariasLabel;
     @FXML private Label totalQuantidadeLabel;
     @FXML private Label periodoMaisCriticoLabel;
+    @FXML private VBox formContainer;
 
     private final AvariaService avariaService;
     private final EquipamentoService equipamentoService;
@@ -53,6 +57,14 @@ public class HistoricoAvariasController implements Initializable {
         configurarColunas();
         configurarPesquisa();
         carregarAvarias("");
+        addFadeInAnimation();
+    }
+
+    private void addFadeInAnimation() {
+        FadeTransition ft = new FadeTransition(Duration.millis(500), formContainer);
+        ft.setFromValue(0.0);
+        ft.setToValue(1.0);
+        ft.play();
     }
 
     private void configurarFiltros() {

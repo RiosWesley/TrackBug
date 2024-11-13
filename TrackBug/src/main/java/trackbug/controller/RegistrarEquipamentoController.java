@@ -1,10 +1,13 @@
 package trackbug.controller;
 
+import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.collections.FXCollections;
+import javafx.util.Duration;
 import trackbug.model.entity.Equipamento;
 import trackbug.model.service.EquipamentoService;
 import trackbug.util.AlertHelper;
@@ -28,6 +31,7 @@ public class RegistrarEquipamentoController implements Initializable {
     @FXML private TextField pesoField;
     @FXML private TextField larguraField;
     @FXML private TextField comprimentoField;
+    @FXML private StackPane formContainer;
 
     private final EquipamentoService equipamentoService;
 
@@ -40,6 +44,14 @@ public class RegistrarEquipamentoController implements Initializable {
         configurarCampos();
         configurarValidacoes();
         configurarBindings();
+        addFadeInAnimation();
+    }
+
+    private void addFadeInAnimation() {
+        FadeTransition ft = new FadeTransition(Duration.millis(500), formContainer);
+        ft.setFromValue(0.0);
+        ft.setToValue(1.0);
+        ft.play();
     }
 
     @FXML

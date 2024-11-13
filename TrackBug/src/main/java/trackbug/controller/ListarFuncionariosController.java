@@ -1,5 +1,6 @@
 package trackbug.controller;
 
+import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -13,6 +14,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Duration;
 import trackbug.model.entity.Funcionario;
 import trackbug.model.service.FuncionarioService;
 import trackbug.model.service.EmprestimoService;
@@ -34,6 +36,7 @@ public class ListarFuncionariosController implements Initializable {
     @FXML private TableColumn<Funcionario, String> colunaData;
     @FXML private TableColumn<Funcionario, Void> colunaAcoes;
     @FXML private Label statusLabel;
+    @FXML private VBox formContainer;
 
     private final FuncionarioService funcionarioService;
     private final EmprestimoService emprestimoService;
@@ -49,6 +52,14 @@ public class ListarFuncionariosController implements Initializable {
         configurarColunas();
         configurarPesquisa();
         carregarFuncionarios();
+        addFadeInAnimation();
+    }
+
+    private void addFadeInAnimation() {
+        FadeTransition ft = new FadeTransition(Duration.millis(500), formContainer);
+        ft.setFromValue(0.0);
+        ft.setToValue(1.0);
+        ft.play();
     }
 
     private void configurarColunas() {

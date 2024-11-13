@@ -1,8 +1,11 @@
 package trackbug.controller;
 
+import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.collections.FXCollections;
+import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 import trackbug.model.entity.Emprestimo;
 import trackbug.model.service.EmprestimoService;
 import trackbug.model.service.FuncionarioService;
@@ -22,12 +25,12 @@ public class DevolucaoController {
     private final FuncionarioService funcionarioService;
     private final EquipamentoService equipamentoService;
     private final DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-
+    @FXML private VBox formContainer;
     public DevolucaoController() {
         this.emprestimoService = new EmprestimoService();
         this.funcionarioService = new FuncionarioService();
         this.equipamentoService = new EquipamentoService();
-    }
+        }
 
     @FXML
     private void initialize() {
@@ -41,6 +44,14 @@ public class DevolucaoController {
 
         // Carregar empréstimos ativos
         carregarEmprestimosAtivos();
+        addFadeInAnimation();
+    }
+
+    private void addFadeInAnimation() {
+        FadeTransition ft = new FadeTransition(Duration.millis(500), formContainer);
+        ft.setFromValue(0.0);
+        ft.setToValue(1.0);
+        ft.play();
     }
 
     private void carregarEmprestimosAtivos() {

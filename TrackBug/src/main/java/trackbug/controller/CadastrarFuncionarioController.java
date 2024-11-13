@@ -1,8 +1,11 @@
 package trackbug.controller;
 
+import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import trackbug.model.entity.Funcionario;
 import trackbug.model.service.FuncionarioService;
 import java.time.LocalDate;
@@ -16,7 +19,8 @@ public class CadastrarFuncionarioController {
     private TextField funcaoField;
     @FXML
     private DatePicker dataAdmissaoField;
-
+    @FXML
+    private VBox formContainer;
     private final FuncionarioService funcionarioService;
 
     public CadastrarFuncionarioController() {
@@ -34,6 +38,14 @@ public class CadastrarFuncionarioController {
                 idField.setText(old);
             }
         });
+        addFadeInAnimation();
+    }
+
+    private void addFadeInAnimation() {
+        FadeTransition ft = new FadeTransition(Duration.millis(500), formContainer);
+        ft.setFromValue(0.0);
+        ft.setToValue(1.0);
+        ft.play();
     }
 
     @FXML

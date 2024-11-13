@@ -24,6 +24,7 @@ public class MainController {
     private void initialize() {
         verificarPermissoes();
         addMenuSlideInAnimation();
+
     }
     private void addMenuSlideInAnimation() {
         TranslateTransition tt = new TranslateTransition(Duration.millis(500), menuScrollPane);

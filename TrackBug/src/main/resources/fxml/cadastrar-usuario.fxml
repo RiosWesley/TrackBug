@@ -2,7 +2,9 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<VBox spacing="20" styleClass="form-container"
+
+
+<VBox fx:id="formContainer" spacing="20" styleClass="form-container"
       xmlns="http://javafx.com/javafx/19"
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="trackbug.controller.CadastrarUsuarioController">
