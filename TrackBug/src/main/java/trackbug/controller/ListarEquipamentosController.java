@@ -6,12 +6,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import trackbug.Main;
 import trackbug.model.entity.Equipamento;
 import trackbug.model.service.EquipamentoService;
 import trackbug.util.AlertHelper;
@@ -235,6 +237,7 @@ public class ListarEquipamentosController implements Initializable {
             // Obter o controller e passar o equipamento
             EditarEquipamentoController controller = loader.getController();
             controller.setEquipamento(equipamento);
+            Image icon = new Image(Main.class.getResourceAsStream("/images/icon.png"));
 
             // Criar e configurar o Stage
             Stage dialogStage = new Stage();
@@ -245,6 +248,7 @@ public class ListarEquipamentosController implements Initializable {
             // Criar a cena
             Scene scene = new Scene(root);
             dialogStage.setScene(scene);
+            dialogStage.getIcons().add(icon);
 
             // Configurar ação ao fechar (atualizar a lista)
             dialogStage.setOnHiding(event -> carregarEquipamentos());

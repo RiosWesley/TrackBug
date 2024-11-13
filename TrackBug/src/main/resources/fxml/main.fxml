@@ -21,11 +21,10 @@
                     <padding>
                         <Insets bottom="20.0" />
                     </padding>
-                    <Label text="TrackBug" textFill="WHITE">
-                        <font>
-                            <Font name="Segoe UI Bold" size="28.0" />
-                        </font>
-                    </Label>
+                    <Button fx:id="btnTrackbug" onAction="#telaPrincipal" styleClass="menu-button" style="-fx-font-size: 36;
+                    -fx-font-family: 'Segoe UI'; -fx-font-weight: bold; -fx-alignment: CENTER;"
+                                   text="TrackBug" textFill="WHITE">
+                    </Button>
                     <Label text="Colégio Estadual Hilda Carneiro" textFill="black" style="-fx-font-weight: bold">
                         <font>
                             <Font name="Segoe UI" size="14.0" />

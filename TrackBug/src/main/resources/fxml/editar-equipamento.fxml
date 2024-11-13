@@ -5,21 +5,23 @@
 <?import javafx.scene.text.Font?>
 
 <?import java.net.URL?>
-<VBox spacing="30" styleClass="form-container"
+<VBox spacing="5" styleClass="form-container" style="-fx-padding: 10px;
+        -fx-spacing: 5px;" maxHeight="700" maxWidth="700"
       xmlns="http://javafx.com/javafx/19"
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="trackbug.controller.EditarEquipamentoController">
 
     <!-- Cabeçalho -->
-    <VBox styleClass="form-header" alignment="CENTER">
+    <VBox styleClass="form-header" style="-fx-padding: 0px 0px 5px 0px" alignment="CENTER">
         <Label text="Editar Equipamento" styleClass="form-title"/>
         <Label text="Atualize os dados do equipamento" styleClass="form-subtitle"/>
     </VBox>
 
     <!-- Container principal -->
-    <VBox styleClass="form-content-container">
+    <VBox styleClass="form-content-container" style="-fx-padding: 50px 20px 50px 20px;
+        -fx-spacing: 10px;">
         <!-- Grid para campos -->
-        <GridPane hgap="15" vgap="15" alignment="CENTER">
+        <GridPane hgap="15" vgap="10" alignment="CENTER" style="-fx-padding: 0px 10px 0px 10px;">
             <!-- Código -->
             <Label text="Código:" styleClass="form-label"
                    GridPane.columnIndex="0" GridPane.rowIndex="0"/>
@@ -72,11 +74,11 @@
 
             <!-- Checkbox Medidas -->
             <CheckBox fx:id="medidasCheckBox" text="Incluir medidas"
-                      styleClass="form-checkbox"
-                      GridPane.columnSpan="2" GridPane.rowIndex="7"/>
+                      styleClass="form-checkbox" style="-fx-padding: 0px 5px 0px 0px;"
+                      GridPane.columnSpan="2" GridPane.rowIndex="7" />
 
             <!-- Container de Medidas (visibilidade controlada pelo checkbox) -->
-            <VBox fx:id="medidasContainer" spacing="15" visible="false" managed="false"
+            <VBox fx:id="medidasContainer" spacing="5" visible="false" managed="false" style="-fx-padding: 0px 5px 0px 0px;"
                   GridPane.columnSpan="2" GridPane.rowIndex="8">
 
                 <!-- Peso -->
@@ -107,7 +109,7 @@
                wrapText="true" maxWidth="Infinity"/>
 
         <!-- Botões -->
-        <HBox spacing="15" alignment="CENTER" styleClass="button-container">
+        <HBox spacing="15" alignment="CENTER" styleClass="button-container" style="-fx-padding: 0px 0px 75px 0px">
             <Button text="Salvar Alterações" onAction="#salvarAlteracoes"
                     styleClass="btn-primary"/>
             <Button text="Cancelar" onAction="#cancelar"

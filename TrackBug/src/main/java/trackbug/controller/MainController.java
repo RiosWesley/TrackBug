@@ -41,6 +41,11 @@ public class MainController {
     }
 
     @FXML
+    private void telaPrincipal() {
+        carregarFXML("/fxml/tela-principal.fxml");
+    }
+
+    @FXML
     private void mostrarEmprestimos() {
         carregarFXML("/fxml/emprestimo.fxml");
     }
