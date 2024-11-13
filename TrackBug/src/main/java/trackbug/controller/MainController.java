@@ -15,11 +15,11 @@ public class MainController {
     @FXML private VBox areaPrincipal;
     @FXML private Label labelAdministracao;
     @FXML private Button btnGerenciarUsuarios;
-
+    @FXML private Label usuarioLabel;
     @FXML
     private void initialize() {
         verificarPermissoes();
-        mostrarTelaBoasVindas();
+        usuarioLabel.setText("Usuário: " + SessionManager.getUsuarioLogado().getNome());
     }
 
     private void verificarPermissoes() {
@@ -98,37 +98,6 @@ public class MainController {
     @FXML
     private void mostrarHistoricoAlteracoes() {
         carregarFXML("/fxml/historico-alteracoes.fxml");
-    }
-
-    private void mostrarTelaBoasVindas() {
-        VBox welcomeBox = new VBox(15);
-        welcomeBox.setAlignment(Pos.CENTER);
-
-        Label bemVindo = new Label("Bem-vindo ao Sistema de Gerenciamento de Equipamentos");
-        bemVindo.setStyle(
-                "-fx-font-size: 24px;" +
-                        "-fx-font-weight: bold;" +
-                        "-fx-text-fill: #00B393;" +
-                        "-fx-font-family: 'Segoe UI';"
-        );
-
-        Label instrucoes = new Label("Selecione uma opção no menu lateral para começar");
-        instrucoes.setStyle(
-                "-fx-font-size: 16px;" +
-                        "-fx-text-fill: #757575;" +
-                        "-fx-font-family: 'Segoe UI';"
-        );
-
-        Label usuario = new Label("Usuário: " +
-                SessionManager.getUsuarioLogado().getNome());
-        usuario.setStyle(
-                "-fx-font-size: 14px;" +
-                        "-fx-text-fill: #424242;" +
-                        "-fx-font-family: 'Segoe UI';"
-        );
-
-        welcomeBox.getChildren().addAll(bemVindo, instrucoes, usuario);
-        areaPrincipal.getChildren().setAll(welcomeBox);
     }
 
     @FXML

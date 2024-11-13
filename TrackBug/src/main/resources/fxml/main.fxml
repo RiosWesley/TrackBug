@@ -79,6 +79,33 @@
         <ScrollPane fitToHeight="true" fitToWidth="true" style="-fx-background-color: #f4f4f4;">
             <VBox fx:id="areaPrincipal" alignment="CENTER" spacing="20" style="-fx-background-color: white;
                   -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0);">
+                <VBox alignment="CENTER" spacing="15">
+                    <Label text="Bem-vindo ao Sistema de Gerenciamento de Equipamentos">
+                        <style>
+                            -fx-font-size: 24px;
+                            -fx-font-weight: bold;
+                            -fx-text-fill: #00B393;
+                            -fx-font-family: 'Segoe UI';
+                        </style>
+                    </Label>
+
+                    <Label text="Selecione uma opção no menu lateral para começar">
+                        <style>
+                            -fx-font-size: 16px;
+                            -fx-text-fill: #757575;
+                            -fx-font-family: 'Segoe UI';
+                        </style>
+                    </Label>
+
+                    <!-- Para o nome do usuário, você precisará usar um bind -->
+                    <Label fx:id="usuarioLabel">
+                        <style>
+                            -fx-font-size: 14px;
+                            -fx-text-fill: #424242;
+                            -fx-font-family: 'Segoe UI';
+                        </style>
+                    </Label>
+                </VBox>
                 <padding>
                     <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
                 </padding>
