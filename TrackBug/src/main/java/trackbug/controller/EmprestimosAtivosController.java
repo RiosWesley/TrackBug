@@ -1,5 +1,6 @@
 package trackbug.controller;
 
+import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
@@ -8,6 +9,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 import trackbug.model.entity.Emprestimo;
 import trackbug.model.service.EmprestimoService;
 import trackbug.util.AlertHelper;
@@ -29,6 +32,7 @@ public class EmprestimosAtivosController implements Initializable {
     @FXML private TableColumn<Emprestimo, String> colunaStatus;
     @FXML private TextField campoBusca;
     @FXML private Label statusLabel;
+    @FXML private VBox formContainer;
 
     private final EmprestimoService emprestimoService;
     private ObservableList<Emprestimo> emprestimos;
@@ -42,13 +46,15 @@ public class EmprestimosAtivosController implements Initializable {
         configurarColunas();
         configurarPesquisa();
         carregarEmprestimos();
-        configurarAlinhamentoCentral(colunaId);
-        configurarAlinhamentoCentral(colunaFuncionario);
-        configurarAlinhamentoCentral(colunaEquipamento);
-        configurarAlinhamentoCentral(colunaQuantidade);
-        configurarAlinhamentoCentral(colunaDataSaida);
-        configurarAlinhamentoCentral(colunaDataPrevista);
-        configurarAlinhamentoCentral(colunaStatus);
+        configurarAlinhamentoCentral();
+        addFadeInAnimation();
+    }
+
+    private void addFadeInAnimation() {
+        FadeTransition ft = new FadeTransition(Duration.millis(500), formContainer);
+        ft.setFromValue(0.0);
+        ft.setToValue(1.0);
+        ft.play();
     }
 
     private void configurarColunas() {
@@ -158,6 +164,16 @@ public class EmprestimosAtivosController implements Initializable {
         statusLabel.setText(String.format(
                 "Total de empréstimos ativos: %d | Atrasados: %d", total, atrasados
         ));
+    }
+
+    private void configurarAlinhamentoCentral() {
+        configurarAlinhamentoCentral(colunaId);
+        configurarAlinhamentoCentral(colunaFuncionario);
+        configurarAlinhamentoCentral(colunaEquipamento);
+        configurarAlinhamentoCentral(colunaQuantidade);
+        configurarAlinhamentoCentral(colunaDataSaida);
+        configurarAlinhamentoCentral(colunaDataPrevista);
+        configurarAlinhamentoCentral(colunaStatus);
     }
 
     private <T> void configurarAlinhamentoCentral(TableColumn<Emprestimo, T> coluna) {

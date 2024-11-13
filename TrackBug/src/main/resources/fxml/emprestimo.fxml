@@ -1,18 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<VBox alignment="CENTER" spacing="30" styleClass="form-container" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="trackbug.controller.EmprestimoController">
+<VBox fx:id="formContainer" alignment="CENTER" spacing="20.0" styleClass="form-container" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="trackbug.controller.EmprestimoController">
 
     <!-- Cabeçalho -->
     <VBox alignment="CENTER" styleClass="form-header">
@@ -30,7 +21,7 @@
             <ComboBox fx:id="funcionarioCombo" promptText="Selecione o funcionário" styleClass="form-combo" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
             <!-- Seleção de Equipamento -->
-            <Label styleClass="form-label" text="Equipamento:" GridPane.columnIndex="0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
+            <Label styleClass="form-label" text="Equipamento:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
             <ComboBox fx:id="equipamentoCombo" promptText="Selecione o equipamento" styleClass="form-combo" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
             <!-- Informações do Equipamento -->
@@ -47,24 +38,24 @@
             <!-- Observações -->
             <Label styleClass="form-label" text="Observações:" GridPane.columnIndex="0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="5" />
             <TextArea fx:id="observacoes" prefRowCount="3" promptText="Observações sobre o empréstimo" styleClass="form-text-area" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-         <columnConstraints>
-            <ColumnConstraints hgrow="ALWAYS" maxWidth="1000.0" minWidth="190.0" prefWidth="200.0" />
-            <ColumnConstraints />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-         </rowConstraints>
+            <columnConstraints>
+                <ColumnConstraints hgrow="ALWAYS" maxWidth="1000.0" minWidth="190.0" prefWidth="200.0" />
+                <ColumnConstraints />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+            </rowConstraints>
         </GridPane>
 
         <!-- Botões -->
         <HBox alignment="CENTER" spacing="15" styleClass="button-container">
-            <Button onAction="#registrarEmprestimo" styleClass="btn-primary" text="Registrar Empréstimo" />
-            <Button onAction="#limparFormulario" styleClass="btn-secondary" text="Limpar" />
+            <Button fx:id="btnPrimary" onAction="#registrarEmprestimo" styleClass="btn-primary" text="Registrar Empréstimo" />
+            <Button fx:id="btnSecondary" onAction="#limparFormulario" styleClass="btn-secondary" text="Limpar" />
         </HBox>
     </VBox>
 

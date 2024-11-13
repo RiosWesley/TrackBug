@@ -1,157 +1,15 @@
-/* styles.css */
-
-/* Estilos gerais */
+/* Reset e estilos gerais */
 .root {
     -fx-font-family: 'Segoe UI';
-}
-
-/* Estilos do Login */
-.login-field {
-    -fx-font-size: 14px;
-    -fx-background-color: white;
-    -fx-border-color: #90caf9;
-    -fx-border-radius: 4px;
-    -fx-background-radius: 4px;
-    -fx-padding: 10px;
-}
-
-.login-button {
-    -fx-background-color: #1a237e;
-    -fx-text-fill: white;
-    -fx-font-weight: bold;
-    -fx-padding: 10px 20px;
-    -fx-background-radius: 5px;
-    -fx-cursor: hand;
-}
-
-.login-button:hover {
-    -fx-background-color: #283593;
-}
-
-/* Estilos do Menu */
-.menu-section {
-    -fx-text-fill: black;
-    -fx-font-size: 12px;
-    -fx-font-weight: bold;
-    -fx-padding: 15 0 5 0;
-}
-
-.menu-button {
-    -fx-background-color: transparent;
-    -fx-text-fill: white;
-    -fx-font-size: 14px;
-    -fx-alignment: CENTER_LEFT;
-    -fx-padding: 10px;
-    -fx-cursor: hand;
-    -fx-max-width: infinity;
-}
-
-.menu-button:hover {
-    -fx-background-color: rgba(255,255,255,0.1);
-}
-
-/* Estilos dos Formulários */
-.form-container {
-    -fx-background-color: white;
-    -fx-padding: 30px;
-    -fx-spacing: 20px;
-}
-
-.form-title {
-    -fx-font-size: 24px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #1a237e;
-}
-
-.form-subtitle {
-    -fx-font-size: 14px;
-    -fx-text-fill: #757575;
-}
-
-.form-field {
-    -fx-font-size: 14px;
-    -fx-background-color: white;
-    -fx-border-color: #e0e0e0;
-    -fx-border-radius: 4px;
-    -fx-padding: 8px;
-}
-
-.form-label {
-    -fx-font-size: 14px;
-    -fx-text-fill: #424242;
-}
-
-/* Estilos dos Botões */
-.primary-button {
-    -fx-background-color: #1a237e;
-    -fx-text-fill: white;
-    -fx-font-size: 14px;
-    -fx-padding: 10px 20px;
-    -fx-font-weight: bold;
-    -fx-cursor: hand;
-}
-
-.primary-button:hover {
-    -fx-background-color: #283593;
-}
-
-.secondary-button {
-    -fx-background-color: #e0e0e0;
-    -fx-text-fill: #424242;
-    -fx-font-size: 14px;
-    -fx-padding: 10px 20px;
-    -fx-font-weight: bold;
-    -fx-cursor: hand;
-}
-
-.secondary-button:hover {
-    -fx-background-color: #bdbdbd;
-}
-
-/* Estilos das Tabelas */
-.table-view {
-    -fx-background-color: transparent;
-    -fx-table-cell-border-color: transparent;
-}
-
-.table-view .table-column {
-    -fx-alignment: CENTER;
-}
-
-.table-view .column-header {
-    -fx-background-color: #f5f5f5;
-    -fx-padding: 10px;
-    -fx-alignment: CENTER;
-}
-
-.table-view .column-header-background {
-    -fx-background-color: #f5f5f5;
-}
-
-.table-view .table-cell {
-    -fx-padding: 10px;
-    -fx-alignment: CENTER;
-}
-
-.table-row-cell:odd {
-    -fx-background-color: #f8f9fa;
-}
-
-.table-row-cell:even {
     -fx-background-color: white;
 }
 
-.table-row-cell:hover {
-    -fx-background-color: #e3f2fd;
-}
-
-/* Adicione estas regras ao seu arquivo styles.css */
-
-/* Estilo para a ScrollPane do menu */
+/* Menu Lateral */
 .menu-scroll-pane {
-    -fx-background-color: transparent;
-    -fx-background: transparent;
+    -fx-background-color: #00B393;
+    -fx-background: #00B393;
     -fx-border-color: transparent;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 10, 0, 0, 0);
 }
 
 .menu-scroll-pane > .viewport {
@@ -160,7 +18,7 @@
 
 .menu-scroll-pane > .scroll-bar:vertical {
     -fx-background-color: transparent;
-    -fx-padding: 0 0 0 1;
+    -fx-padding: 0;
 }
 
 .menu-scroll-pane > .scroll-bar:vertical > .track {
@@ -170,552 +28,307 @@
 
 .menu-scroll-pane > .scroll-bar:vertical > .thumb {
     -fx-background-color: rgba(255, 255, 255, 0.3);
+    -fx-background-radius: 5em;
 }
 
 .menu-scroll-pane > .scroll-bar > .increment-button,
 .menu-scroll-pane > .scroll-bar > .decrement-button {
-    -fx-padding: 0;
     -fx-background-color: transparent;
+    -fx-padding: 0;
 }
 
+.menu-section {
+    -fx-text-fill: black;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-padding: 15 15 5 15;
+    -fx-opacity: 0.9;
+}
+
+.menu-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 10 15 10 15;
+    -fx-cursor: hand;
+    -fx-max-width: infinity;
+}
+
+.menu-button:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.1);
+}
+
+.menu-button:pressed {
+    -fx-background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Formulários */
 .form-container {
     -fx-background-color: white;
-    -fx-padding: 20px;
+    -fx-padding: 30px;
+    -fx-spacing: 20px;
+    -fx-background-radius: 10px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0);
 }
 
-.form-header {
-    -fx-padding: 0 0 20px 0;
+.form-combo{
+    -fx-background-color: black;
+    -fx-padding: 0px;
+    -fx-spacing: 10px;
+    -fx-background-radius: 10px;
+
 }
 
 .form-title {
-    -fx-font-size: 24px;
+    -fx-font-size: 22px;
     -fx-font-weight: bold;
-    -fx-text-fill: #1a237e;
+    -fx-text-fill: #1976D2;
 }
 
 .form-subtitle {
-    -fx-font-size: 14px;
+    -fx-font-size: 15px;
     -fx-text-fill: #757575;
+    -fx-padding: 0 0 20 0;
 }
 
-.form-field {
-    -fx-pref-width: 300px;
-    -fx-max-width: infinity;
-    -fx-min-width: 200px;
+.form-content-container {
+    -fx-background-color: #F8F9FA;
+    -fx-padding: 10px;
+    -fx-background-radius: 10px;
+    -fx-effect: dropshadow(three-pass-box, rgba(15, 94, 171, 0.2), 15, 0.2, 0, 0);
+    -fx-max-width: 600px
+}
+
+/* Campos de formulário */
+.form-field, .text-field, .text-area, .combo-box, .date-picker {
     -fx-font-size: 14px;
+    -fx-background-color: #F8F9FA;
+    -fx-border-color: #E0E0E0;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-padding: 8px;
+    -fx-pref-height: 35px;
+}
+
+.form-field:focused, .text-field:focused, .combo-box:focused, .date-picker:focused {
     -fx-background-color: white;
-    -fx-border-color: #e0e0e0;
+    -fx-border-color: #1976D2;
+    -fx-effect: dropshadow(three-pass-box, #BBDEFB, 5, 0, 0, 0);
+}
+
+.text-area {
+    -fx-pref-height: 100px;
+}
+
+.text-area .content {
+    -fx-background-color: #F8F9FA;
+    -fx-background-radius: 5px;
+}
+
+.text-area:focused .content {
+    -fx-background-color: white;
+}
+
+/* ComboBox */
+.combo-box {
+    -fx-background-color: #F8F9FA;
+    -fx-border-color: #E0E0E0;
+}
+
+.combo-box:hover {
+    -fx-border-color: #1976D2;
+}
+
+.combo-box .list-cell {
+    -fx-background-color: transparent;
+    -fx-padding: 8px;
+    -fx-text-fill: #333333;
+}
+
+.combo-box .arrow-button {
+    -fx-background-color: transparent;
+}
+
+.combo-box .arrow {
+    -fx-background-color: #1976D2;
+}
+
+/* DatePicker */
+.date-picker {
+    -fx-background-color: #F8F9FA;
+    -fx-border-color: #E0E0E0;
+}
+
+.date-picker:focused {
+    -fx-border-color: #1976D2;
+}
+
+.date-picker .arrow-button {
+    -fx-background-color: transparent;
+}
+
+.date-picker .arrow-button:hover {
+    -fx-background-color: #BBDEFB;
+}
+
+/* Labels */
+.form-label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #424242;
+    -fx-font-weight: bold;
+    -fx-padding: 0 0 5 0;
+
+}
+
+/* Botões */
+.btn-primary {
+    -fx-background-color: #1976D2;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 10 20 10 20;
+    -fx-cursor: hand;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5px;
+}
+
+.btn-primary:hover {
+    -fx-background-color: #1565C0;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 8, 0, 0, 0);
+}
+
+.btn-secondary {
+    -fx-background-color: #E0E0E0;
+    -fx-text-fill: #424242;
+    -fx-font-size: 14px;
+    -fx-padding: 10 20 10 20;
+    -fx-cursor: hand;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5px;
+}
+
+.btn-secondary:hover {
+    -fx-background-color: #BDBDBD;
+}
+
+/* Tabelas */
+.table-view {
+    -fx-background-color: transparent;
+    -fx-table-cell-border-color: transparent;
+}
+
+.table-view .column-header {
+    -fx-background-color: #F5F5F5;
+    -fx-padding: 10px;
+    -fx-alignment: CENTER;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #F5F5F5;
+}
+
+.table-view .table-cell {
+    -fx-padding: 10px;
+    -fx-alignment: CENTER;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #F8F9FA;
+}
+
+.table-row-cell:even {
+    -fx-background-color: white;
+}
+
+.table-row-cell:hover {
+    -fx-background-color: #BBDEFB;
+}
+
+/* Botões nas tabelas */
+.table-cell .button {
+    -fx-background-radius: 3px;
+    -fx-padding: 5 10 5 10;
+    -fx-font-size: 12px;
+    -fx-cursor: hand;
+}
+
+.table-cell .btn-edit {
+    -fx-background-color: #1976D2;
+    -fx-text-fill: white;
+}
+
+.table-cell .btn-edit:hover {
+    -fx-background-color: #1565C0;
+}
+
+.table-cell .btn-delete {
+    -fx-background-color: #D32F2F;
+    -fx-text-fill: white;
+}
+
+.table-cell .btn-delete:hover {
+    -fx-background-color: #C62828;
+}
+
+.table-cell .btn-warning {
+    -fx-background-color: #FFA000;
+    -fx-text-fill: white;
+}
+
+.table-cell .btn-warning:hover {
+    -fx-background-color: #FF8F00;
+}
+
+/* Status e indicadores */
+.status-success {
+    -fx-text-fill: #2E7D32;
+}
+
+.status-warning {
+    -fx-text-fill: #FFA000;
+}
+
+.status-error {
+    -fx-text-fill: #D32F2F;
+}
+
+/* Mensagens de erro */
+.error-label {
+    -fx-text-fill: #D32F2F;
+    -fx-font-size: 12px;
+    -fx-padding: 5px;
+    -fx-background-color: #FFEBEE;
+    -fx-background-radius: 4px;
+    -fx-border-color: #FFCDD2;
     -fx-border-radius: 4px;
 }
 
-.form-label {
-    -fx-font-family: 'Segoe UI';
-    -fx-font-size: 14px;
-    -fx-text-fill: #2c3e50;
+/* Barra de ferramentas */
+.toolbar-container {
+    -fx-background-color: #F8F9FA;
+    -fx-background-radius: 5px;
+    -fx-padding: 10px;
+    -fx-spacing: 10px;
 }
 
-.form-checkbox {
-    -fx-font-family: 'Segoe UI';
-    -fx-font-size: 14px;
+.search-field {
+    -fx-pref-width: 300px;
+    -fx-background-color: white;
+    -fx-border-color: #E0E0E0;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-padding: 8px;
 }
 
-.form-grid {
-    -fx-hgap: 15;
-    -fx-vgap: 15;
-    -fx-padding: 20px;
+/* Status bar */
+.status-bar {
+    -fx-background-color: #F8F9FA;
+    -fx-border-color: #E0E0E0;
+    -fx-border-width: 1 0 0 0;
+    -fx-padding: 10px;
 }
 
-/* Estilização da ScrollPane */
-.scroll-pane {
-    -fx-background-color: transparent;
-    -fx-padding: 0;
-}
-
-.scroll-pane > .viewport {
-    -fx-background-color: transparent;
-}
-
-/* Responsividade para diferentes tamanhos de tela */
-@media screen and (max-width: 800px) {
-    .form-field {
-        -fx-pref-width: 250px;
-    }
-
-    .form-title {
-        -fx-font-size: 20px;
-    }
-
-    .form-container {
-        -fx-padding: 15px;
-    }
-}
-
-@media screen and (max-width: 600px) {
-    .form-field {
-        -fx-pref-width: 200px;
-    }
-
-    .form-container {
-        -fx-padding: 10px;
-    }
-
-    .form-label {
-        -fx-font-size: 12px;
-    }
-    /* Estilos para ComboBox */
-    .combo-box-popup > .list-view {
-        -fx-pref-height: 400px;
-        -fx-max-height: 400px;
-    }
-
-    .combo-box-popup > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell {
-        -fx-padding: 8px;
-        -fx-font-family: 'Segoe UI';
-        -fx-font-size: 14px;
-    }
-
-    .combo-box-popup > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:selected,
-    .combo-box-popup > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:selected:hover {
-        -fx-background-color: #1a237e;
-        -fx-text-fill: white;
-    }
-
-    .combo-box-popup > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:hover {
-        -fx-background-color: #e3f2fd;
-    }
-
-    /* Estilo da barra de rolagem do ComboBox */
-    .combo-box-popup > .list-view > .virtual-flow > .scroll-bar:vertical {
-        -fx-pref-width: 12;
-        -fx-background-color: transparent;
-    }
-
-    .combo-box-popup > .list-view > .virtual-flow > .scroll-bar:vertical > .thumb {
-        -fx-background-color: #9e9e9e;
-        -fx-background-radius: 6px;
-    }
-
-    .combo-box-popup > .list-view > .virtual-flow > .scroll-bar:vertical > .thumb:hover {
-        -fx-background-color: #757575;
-    }
-    /* Títulos e subtítulos */
-    .titulo {
-        -fx-font-size: 24px;
-        -fx-font-weight: bold;
-        -fx-text-fill: #1a237e;
-        -fx-font-family: 'Segoe UI';
-    }
-
-    .subtitulo {
-        -fx-font-size: 14px;
-        -fx-text-fill: #757575;
-        -fx-font-family: 'Segoe UI';
-    }
-
-    /* Container do formulário */
-    .form-container {
-        -fx-background-color: #f8f9fa;
-        -fx-padding: 20px;
-        -fx-background-radius: 5px;
-        -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0);
-    }
-
-    /* Campos do formulário */
-    .form-container TextField,
-    .form-container DatePicker {
-        -fx-font-family: 'Segoe UI';
-        -fx-font-size: 14px;
-        -fx-background-color: white;
-        -fx-border-color: #e0e0e0;
-        -fx-border-radius: 4px;
-        -fx-pref-width: 300;
-    }
-
-    /* Labels */
-    .form-container Label {
-        -fx-font-family: 'Segoe UI';
-        -fx-font-size: 14px;
-        -fx-text-fill: #2c3e50;
-    }
-
-    /* Botões */
-    .btn-primary {
-        -fx-font-family: 'Segoe UI';
-        -fx-font-size: 14px;
-        -fx-background-color: #1a237e;
-        -fx-text-fill: white;
-        -fx-padding: 10px 20px;
-        -fx-cursor: hand;
-        -fx-font-weight: bold;
-    }
-
-    .btn-primary:hover {
-        -fx-background-color: #283593;
-    }
-
-    .btn-secondary {
-        -fx-font-family: 'Segoe UI';
-        -fx-font-size: 14px;
-        -fx-background-color: #e0e0e0;
-        -fx-text-fill: #424242;
-        -fx-padding: 10px 20px;
-        -fx-cursor: hand;
-        -fx-font-weight: bold;
-    }
-
-    .btn-secondary:hover {
-        -fx-background-color: #bdbdbd;
-    }
-    /* Estilos para o cartão de detalhes */
-    .details-card {
-        -fx-background-color: white;
-        -fx-padding: 15px;
-        -fx-border-color: #e0e0e0;
-        -fx-border-radius: 4px;
-    }
-
-    .card-title {
-        -fx-font-size: 16px;
-        -fx-font-weight: bold;
-        -fx-text-fill: #2c3e50;
-        -fx-font-family: 'Segoe UI';
-    }
-
-    /* Estilos para ComboBox */
-    .combo-box {
-        -fx-font-family: 'Segoe UI';
-        -fx-font-size: 14px;
-        -fx-background-color: white;
-        -fx-border-color: #e0e0e0;
-        -fx-border-radius: 4px;
-    }
-
-    .combo-box:hover {
-        -fx-border-color: #1a237e;
-    }
-
-    .form-group {
-        -fx-spacing: 5;
-        -fx-padding: 0 0 10 0;
-    }
-    /* Estilos existentes permanecem... */
-
-    /* Novos estilos para formulários */
-    .form-container {
-        -fx-background-color: white;
-        -fx-padding: 30px;
-        -fx-spacing: 30px;
-    }
-
-    .form-content-container {
-        -fx-background-color: #f8f9fa;
-        -fx-padding: 20px;
-        -fx-background-radius: 5px;
-        -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0);
-        -fx-max-width: 600px;
-    }
-
-    .form-header {
-        -fx-spacing: 5px;
-        -fx-padding: 0 0 20px 0;
-    }
-
-    .form-title {
-        -fx-font-size: 24px;
-        -fx-font-weight: bold;
-        -fx-text-fill: #1a237e;
-        -fx-font-family: 'Segoe UI';
-    }
-
-    .form-subtitle {
-        -fx-font-size: 14px;
-        -fx-text-fill: #757575;
-        -fx-font-family: 'Segoe UI';
-    }
-
-    .form-label {
-        -fx-font-family: 'Segoe UI';
-        -fx-font-size: 14px;
-        -fx-text-fill: #2c3e50;
-    }
-
-    .form-field {
-        -fx-font-family: 'Segoe UI';
-        -fx-font-size: 14px;
-        -fx-background-color: white;
-        -fx-border-color: #e0e0e0;
-        -fx-border-radius: 4px;
-        -fx-padding: 8px;
-    }
-
-    .form-combo {
-        -fx-font-family: 'Segoe UI';
-        -fx-font-size: 14px;
-        -fx-background-color: white;
-        -fx-border-color: #e0e0e0;
-        -fx-border-radius: 4px;
-        -fx-padding: 4px;
-    }
-
-    .form-combo .list-cell {
-        -fx-padding: 8px;
-    }
-
-    .form-date-picker {
-        -fx-font-family: 'Segoe UI';
-        -fx-font-size: 14px;
-    }
-
-    .form-date-picker .text-field {
-        -fx-background-color: white;
-        -fx-border-color: #e0e0e0;
-        -fx-border-radius: 4px;
-        -fx-padding: 8px;
-    }
-
-    .form-text-area {
-        -fx-font-family: 'Segoe UI';
-        -fx-font-size: 14px;
-        -fx-background-color: white;
-        -fx-border-color: #e0e0e0;
-        -fx-border-radius: 4px;
-        -fx-padding: 8px;
-    }
-
-    .info-label {
-        -fx-font-size: 12px;
-        -fx-text-fill: #666666;
-        -fx-font-family: 'Segoe UI';
-    }
-
-    .button-container {
-        -fx-padding: 20px 0 0 0;
-    }
-
-    .btn-primary {
-        -fx-font-family: 'Segoe UI';
-        -fx-font-size: 14px;
-        -fx-background-color: #1a237e;
-        -fx-text-fill: white;
-        -fx-padding: 10px 20px;
-        -fx-cursor: hand;
-        -fx-font-weight: bold;
-    }
-
-    .btn-primary:hover {
-        -fx-background-color: #283593;
-    }
-
-    .btn-secondary {
-        -fx-font-family: 'Segoe UI';
-        -fx-font-size: 14px;
-        -fx-background-color: #e0e0e0;
-        -fx-text-fill: #424242;
-        -fx-padding: 10px 20px;
-        -fx-cursor: hand;
-        -fx-font-weight: bold;
-    }
-
-    .btn-secondary:hover {
-        -fx-background-color: #bdbdbd;
-    }
-
-    /* Estilização do ComboBox */
-    .form-combo .combo-box-popup .list-view {
-        -fx-background-color: white;
-        -fx-border-color: #e0e0e0;
-    }
-
-    .form-combo .combo-box-popup .list-cell {
-        -fx-padding: 8px;
-        -fx-background-color: white;
-    }
-
-    .form-combo .combo-box-popup .list-cell:hover {
-        -fx-background-color: #f5f5f5;
-    }
-
-    .form-combo .combo-box-popup .list-cell:selected {
-        -fx-background-color: #e3f2fd;
-    }
-
-    /* Estilização do ScrollPane */
-    .form-container .scroll-pane {
-        -fx-background-color: transparent;
-        -fx-background: transparent;
-    }
-
-    .form-container .scroll-pane > .viewport {
-        -fx-background-color: transparent;
-    }
-
-    .form-container .scroll-pane .scroll-bar:vertical {
-        -fx-background-color: transparent;
-    }
-
-    .form-container .scroll-pane .scroll-bar:vertical .thumb {
-        -fx-background-color: #90a4ae;
-        -fx-background-radius: 4px;
-    }
-    /* Estilos para a lista de funcionários */
-    .toolbar-container {
-        -fx-background-color: #f8f9fa;
-        -fx-background-radius: 5px;
-    }
-
-    .search-field {
-        -fx-pref-width: 300px;
-        -fx-font-family: 'Segoe UI';
-        -fx-font-size: 14px;
-        -fx-background-color: white;
-        -fx-border-color: #e0e0e0;
-        -fx-border-radius: 4px;
-        -fx-padding: 8px;
-    }
-
-    .status-bar {
-        -fx-background-color: #f8f9fa;
-        -fx-border-color: #e0e0e0;
-        -fx-border-width: 1 0 0 0;
-    }
-
-    .status-label {
-        -fx-font-family: 'Segoe UI';
-        -fx-font-size: 12px;
-        -fx-text-fill: #666666;
-    }
-
-    /* Botões da tabela */
-    .btn-edit {
-        -fx-background-color: #1976d2;
-        -fx-text-fill: white;
-        -fx-font-family: 'Segoe UI';
-        -fx-font-size: 12px;
-        -fx-padding: 5px 10px;
-        -fx-cursor: hand;
-    }
-
-    .btn-edit:hover {
-        -fx-background-color: #1565c0;
-    }
-
-    .btn-delete {
-        -fx-background-color: #d32f2f;
-        -fx-text-fill: white;
-        -fx-font-family: 'Segoe UI';
-        -fx-font-size: 12px;
-        -fx-padding: 5px 10px;
-        -fx-cursor: hand;
-    }
-
-    .btn-delete:hover {
-        -fx-background-color: #c62828;
-    }
-
-    /* Estilos da tabela */
-    .table-row-cell:hover {
-        -fx-background-color: #e3f2fd;
-    }
-
-    .table-row-cell:selected {
-        -fx-background-color: #bbdefb;
-    }
-
-    .table-row-cell:selected .table-cell {
-        -fx-text-fill: #1a237e;
-    }
-    /* Estilos para diálogos */
-    .dialog-container {
-        -fx-background-color: white;
-        -fx-min-width: 500px;
-    }
-
-    .dialog-header {
-        -fx-padding: 0 0 20px 0;
-    }
-
-    .dialog-title {
-        -fx-font-size: 20px;
-        -fx-font-weight: bold;
-        -fx-text-fill: #1a237e;
-        -fx-font-family: 'Segoe UI';
-    }
-
-    .dialog-subtitle {
-        -fx-font-size: 14px;
-        -fx-text-fill: #757575;
-        -fx-font-family: 'Segoe UI';
-    }
-
-    .error-label {
-        -fx-text-fill: #d32f2f;
-        -fx-font-size: 12px;
-        -fx-font-family: 'Segoe UI';
-        -fx-padding: 5px;
-        -fx-background-color: #ffebee;
-        -fx-background-radius: 4px;
-        -fx-border-color: #ffcdd2;
-        -fx-border-radius: 4px;
-    }
-
-    .form-grid {
-        -fx-alignment: center;
-    }
-
-    .form-grid .form-field {
-        -fx-min-width: 300px;
-    }
-
-    .form-grid .form-date-picker {
-        -fx-min-width: 300px;
-    }
-
-    /* Animação de shake para erros */
-    .shake {
-        -fx-animation: shake 0.3s;
-    }
-
-    @keyframes shake {
-        0%, 100% { -fx-translate-x: 0; }
-        25% { -fx-translate-x: -5px; }
-        75% { -fx-translate-x: 5px; }
-    }
-    /* Estilos para empréstimos ativos */
-    .table-row-cell:status-atrasado {
-        -fx-background-color: #ffebee;
-    }
-
-    .table-row-cell:status-atrasado:hover {
-        -fx-background-color: #ffcdd2;
-    }
-
-    .table-row-cell:status-em-dia {
-        -fx-background-color: #e8f5e9;
-    }
-
-    .table-row-cell:status-em-dia:hover {
-        -fx-background-color: #c8e6c9;
-    }
-
-    .status-bar {
-        -fx-background-color: #f8f9fa;
-        -fx-border-color: #e0e0e0;
-        -fx-border-width: 1 0 0 0;
-    }
-
-    .status-label {
-        -fx-font-family: 'Segoe UI';
-        -fx-font-size: 12px;
-        -fx-text-fill: #424242;
-    }
-
-    .toolbar-container {
-        -fx-background-color: #f8f9fa;
-        -fx-background-radius: 5px;
-        -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 4, 0, 0, 0);
-    }
-
-    .search-field {
-        -fx-pref-width: 300px;
-    }
+.status-label {
+    -fx-font-size: 12px;
+    -fx-text-fill: #666666;
 }

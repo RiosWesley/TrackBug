@@ -1,10 +1,14 @@
 package trackbug.controller;
 
+import javafx.animation.FadeTransition;
+import javafx.animation.ScaleTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 import javafx.util.StringConverter;
 import trackbug.model.entity.Equipamento;
 import trackbug.model.entity.Funcionario;
@@ -27,6 +31,9 @@ public class EmprestimoController implements Initializable {
     @FXML private DatePicker dataDevolucao;
     @FXML private TextArea observacoes;
     @FXML private Label equipamentoInfoLabel;
+    @FXML private VBox  formContainer;
+    @FXML private Button btnPrimary;
+    @FXML private Button btnSecondary;
 
     private final EmprestimoService emprestimoService;
     private final EquipamentoService equipamentoService;
@@ -43,7 +50,28 @@ public class EmprestimoController implements Initializable {
         configurarComboBoxes();
         carregarDados();
         configurarListeners();
+        addFadeInAnimation();
+        addButtonHoverAnimation(btnPrimary, btnSecondary);
     }
+    private void addButtonHoverAnimation(Button button, Button btnSecondary) {
+        button.setOnMouseEntered(event -> {
+            ScaleTransition st = new ScaleTransition(Duration.millis(200), button);
+            st.setFromX(1.0);
+            st.setFromY(1.0);
+            st.setToX(1.1);
+            st.setToY(1.1);
+            st.setCycleCount(2);
+            st.setAutoReverse(true);
+            st.play();
+        });
+    }
+    private void addFadeInAnimation() {
+        FadeTransition ft = new FadeTransition(Duration.millis(500), formContainer);
+        ft.setFromValue(0.0);
+        ft.setToValue(1.0);
+        ft.play();
+    }
+
 
     private void configurarComboBoxes() {
         // Configurar exibição dos itens nos ComboBoxes

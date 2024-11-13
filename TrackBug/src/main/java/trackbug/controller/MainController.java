@@ -1,11 +1,14 @@
 package trackbug.controller;
 
+import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 import trackbug.model.NivelAcesso;
 import trackbug.util.SessionManager;
 import trackbug.util.AlertHelper;
@@ -15,13 +18,19 @@ public class MainController {
     @FXML private VBox areaPrincipal;
     @FXML private Label labelAdministracao;
     @FXML private Button btnGerenciarUsuarios;
+    @FXML private ScrollPane menuScrollPane;
 
     @FXML
     private void initialize() {
         verificarPermissoes();
-        mostrarTelaBoasVindas();
+        addMenuSlideInAnimation();
     }
-
+    private void addMenuSlideInAnimation() {
+        TranslateTransition tt = new TranslateTransition(Duration.millis(500), menuScrollPane);
+        tt.setFromX(-200);
+        tt.setToX(0);
+        tt.play();
+    }
     private void verificarPermissoes() {
         boolean isAdmin = SessionManager.getUsuarioLogado().getNivelAcesso() ==
                 NivelAcesso.ADMIN.getNivel();
@@ -100,36 +109,6 @@ public class MainController {
         carregarFXML("/fxml/historico-alteracoes.fxml");
     }
 
-    private void mostrarTelaBoasVindas() {
-        VBox welcomeBox = new VBox(15);
-        welcomeBox.setAlignment(Pos.CENTER);
-
-        Label bemVindo = new Label("Bem-vindo ao Sistema de Gerenciamento de Equipamentos");
-        bemVindo.setStyle(
-                "-fx-font-size: 24px;" +
-                        "-fx-font-weight: bold;" +
-                        "-fx-text-fill: #00B393;" +
-                        "-fx-font-family: 'Segoe UI';"
-        );
-
-        Label instrucoes = new Label("Selecione uma opção no menu lateral para começar");
-        instrucoes.setStyle(
-                "-fx-font-size: 16px;" +
-                        "-fx-text-fill: #757575;" +
-                        "-fx-font-family: 'Segoe UI';"
-        );
-
-        Label usuario = new Label("Usuário: " +
-                SessionManager.getUsuarioLogado().getNome());
-        usuario.setStyle(
-                "-fx-font-size: 14px;" +
-                        "-fx-text-fill: #424242;" +
-                        "-fx-font-family: 'Segoe UI';"
-        );
-
-        welcomeBox.getChildren().addAll(bemVindo, instrucoes, usuario);
-        areaPrincipal.getChildren().setAll(welcomeBox);
-    }
 
     @FXML
     private void logout() {
