@@ -25,7 +25,8 @@ CREATE TABLE funcionarios (
     id VARCHAR(200) PRIMARY KEY,
     nome VARCHAR(200),
     funcao VARCHAR(200),
-    dt DATE
+    dt DATE,
+    cpf VARCHAR(11)
 );
 
 CREATE TABLE emprestimos (

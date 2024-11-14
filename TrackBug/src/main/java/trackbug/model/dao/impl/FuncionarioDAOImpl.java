@@ -16,13 +16,14 @@ public class FuncionarioDAOImpl implements FuncionarioDAO {
         PreparedStatement stmt = null;
         try {
             conn = ConnectionFactory.getConnection();
-            String sql = "INSERT INTO funcionarios (id, nome, funcao, dt) VALUES (?, ?, ?, ?)";
+            String sql = "INSERT INTO funcionarios (id, nome, funcao, dt, cpf) VALUES (?, ?, ?, ?, ?)";
 
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, funcionario.getId());
             stmt.setString(2, funcionario.getNome());
             stmt.setString(3, funcionario.getFuncao());
             stmt.setDate(4, Date.valueOf(funcionario.getDataAdmissao()));
+            stmt.setString(5, funcionario.getCpf());
 
             stmt.executeUpdate();
         } finally {
@@ -40,6 +41,26 @@ public class FuncionarioDAOImpl implements FuncionarioDAO {
             String sql = "SELECT * FROM funcionarios WHERE id = ?";
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, id);
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return mapearResultSet(rs);
+            }
+            return null;
+        } finally {
+            ConnectionFactory.closeConnection(conn, stmt, rs);
+        }
+    }
+
+    public Funcionario buscarPorCPF(String cpf) throws Exception {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+            conn = ConnectionFactory.getConnection();
+            String sql = "SELECT * FROM funcionarios WHERE cpf = ?";
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, cpf);
             rs = stmt.executeQuery();
 
             if (rs.next()) {
@@ -160,6 +181,7 @@ public class FuncionarioDAOImpl implements FuncionarioDAO {
         Funcionario funcionario = new Funcionario();
         funcionario.setId(rs.getString("id"));
         funcionario.setNome(rs.getString("nome"));
+        funcionario.setCpf(rs.getString("cpf"));
         funcionario.setFuncao(rs.getString("funcao"));
         funcionario.setDataAdmissao(rs.getDate("dt").toLocalDate());
         return funcionario;

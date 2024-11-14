@@ -18,7 +18,11 @@ public class FuncionarioService {
         validarFuncionario(funcionario);
 
         if (existePorId(funcionario.getId())) {
-            throw new IllegalArgumentException("Já existe um funcionário com este ID");
+            throw new IllegalArgumentException("Já existe um funcionário com este ID.");
+        }
+
+        if (existePorCPF(funcionario.getCpf())) {
+            throw new IllegalArgumentException("Já existe um funcionário com este CPF.");
         }
 
         try {
@@ -95,6 +99,14 @@ public class FuncionarioService {
         }
     }
 
+    public boolean existePorCPF(String cpf) throws Exception {
+        try {
+            return funcionarioDAO.buscarPorCPF(cpf) != null;
+        } catch (Exception e) {
+            throw new Exception("Erro ao verificar existência do funcionário: " + e.getMessage());
+        }
+    }
+
     private void validarFuncionario(Funcionario funcionario) {
         if (funcionario == null) {
             throw new IllegalArgumentException("Funcionário não pode ser nulo");
@@ -104,6 +116,9 @@ public class FuncionarioService {
         }
         if (funcionario.getNome() == null || funcionario.getNome().trim().isEmpty()) {
             throw new IllegalArgumentException("Nome é obrigatório");
+        }
+        if (funcionario.getCpf() == null || funcionario.getCpf().trim().isEmpty()) {
+            throw new IllegalArgumentException("CPF é obrigatório");
         }
         if (funcionario.getFuncao() == null || funcionario.getFuncao().trim().isEmpty()) {
             throw new IllegalArgumentException("Função é obrigatória");

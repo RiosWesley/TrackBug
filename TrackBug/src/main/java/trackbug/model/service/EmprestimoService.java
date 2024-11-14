@@ -66,6 +66,10 @@ public class EmprestimoService {
         return emprestimoDAO.listarAtrasados();
     }
 
+    public List<Emprestimo> listarEmprestimosDoDia() throws Exception {
+        return emprestimoDAO.listarDoDia();
+    }
+
     public List<Emprestimo> buscarPorPeriodo(LocalDateTime inicio, LocalDateTime fim) throws Exception {
         if (inicio == null || fim == null) {
             throw new IllegalArgumentException("Datas não podem ser nulas");

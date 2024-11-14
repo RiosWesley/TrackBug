@@ -266,6 +266,35 @@ public class EmprestimoDAOImpl implements EmprestimoDAO {
         }
     }
 
+    public List<Emprestimo> listarDoDia() throws Exception {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<Emprestimo> emprestimos = new ArrayList<>();
+
+        try {
+            conn = ConnectionFactory.getConnection();
+            String sql = "SELECT e.*, f.nome as nome_funcionario, eq.descricao as descricao_equipamento" +
+                    " FROM emprestimos e " +
+                    "JOIN equipamentos eq ON e.idEquipamento = eq.id " +
+                    "JOIN funcionarios f ON e.idFuncionario = f.id " +
+                    "WHERE e.ativo = true " +
+                    "AND DATE(e.dataRetornoPrevista) = DATE(NOW()) " +
+                    "AND eq.tipo_uso = 'Reutilizável' " +
+                    "ORDER BY e.dataRetornoPrevista ASC";
+            stmt = conn.prepareStatement(sql);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                emprestimos.add(mapearResultSet(rs));
+            }
+
+            return emprestimos;
+        } finally {
+            ConnectionFactory.closeConnection(conn, stmt, rs);
+        }
+    }
+
     @Override
     public List<Emprestimo> buscarPorPeriodo(LocalDateTime inicio, LocalDateTime fim) throws Exception {
         Connection conn = null;

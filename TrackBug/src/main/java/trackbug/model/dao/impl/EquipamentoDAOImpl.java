@@ -142,6 +142,50 @@ public class EquipamentoDAOImpl implements EquipamentoDAO {
         }
     }
 
+    public List<Equipamento> listarEmprestados() throws Exception {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<Equipamento> equipamentos = new ArrayList<>();
+
+        try {
+            conn = ConnectionFactory.getConnection();
+            String sql = "SELECT * FROM equipamentos WHERE quantidadeAtual != quantidadeEstoque  ORDER BY descricao";
+            stmt = conn.prepareStatement(sql);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                equipamentos.add(mapearResultSet(rs));
+            }
+
+            return equipamentos;
+        } finally {
+            ConnectionFactory.closeConnection(conn, stmt, rs);
+        }
+    }
+
+    public List<Equipamento> listarEstoqueBaixo() throws Exception {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<Equipamento> equipamentos = new ArrayList<>();
+
+        try {
+            conn = ConnectionFactory.getConnection();
+            String sql = "SELECT * FROM equipamentos WHERE quantidadeEstoque < quantidadeMinima  ORDER BY descricao";
+            stmt = conn.prepareStatement(sql);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                equipamentos.add(mapearResultSet(rs));
+            }
+
+            return equipamentos;
+        } finally {
+            ConnectionFactory.closeConnection(conn, stmt, rs);
+        }
+    }
+
     @Override
     public void atualizar(Equipamento equipamento) throws Exception {
         Connection conn = null;

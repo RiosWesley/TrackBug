@@ -13,6 +13,8 @@ public class CadastrarFuncionarioController {
     @FXML
     private TextField nomeField;
     @FXML
+    private TextField cpfField;
+    @FXML
     private TextField funcaoField;
     @FXML
     private DatePicker dataAdmissaoField;
@@ -34,6 +36,15 @@ public class CadastrarFuncionarioController {
                 idField.setText(old);
             }
         });
+
+        cpfField.textProperty().addListener((obs, old, novo) -> {
+            if (!novo.matches("[0-9-]*")) {
+                cpfField.setText(old);
+            }
+            else if (novo.length() > 11) {
+                cpfField.setText(old);
+            }
+        });
     }
 
     @FXML
@@ -46,6 +57,7 @@ public class CadastrarFuncionarioController {
             Funcionario funcionario = new Funcionario();
             funcionario.setId(idField.getText().trim());
             funcionario.setNome(nomeField.getText().trim());
+            funcionario.setCpf(cpfField.getText().trim());
             funcionario.setFuncao(funcaoField.getText().trim());
             funcionario.setDataAdmissao(dataAdmissaoField.getValue()); // Agora passa o LocalDate diretamente
 
@@ -67,6 +79,11 @@ public class CadastrarFuncionarioController {
         }
         if (nomeField.getText().trim().isEmpty()) {
             erros.append("- O nome é obrigatório\n");
+        }
+        if (cpfField.getText().trim().isEmpty()) {
+            erros.append("- O cpf é obrigatório\n");
+        } else if (cpfField.getText().trim().length() < 11) {
+            erros.append("- O CPF deve ter 11 dígitos\n");
         }
         if (funcaoField.getText().trim().isEmpty()) {
             erros.append("- A função é obrigatória\n");
@@ -91,6 +108,7 @@ public class CadastrarFuncionarioController {
     private void limparFormulario() {
         idField.clear();
         nomeField.clear();
+        cpfField.clear();
         funcaoField.clear();
         dataAdmissaoField.setValue(LocalDate.now());
     }

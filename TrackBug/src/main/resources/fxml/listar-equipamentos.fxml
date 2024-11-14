@@ -33,15 +33,14 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
         </columnResizePolicy>
         <columns>
-            <TableColumn fx:id="colunaId" text="Código" prefWidth="100"/>
-            <TableColumn fx:id="colunaDescricao" text="Descrição" prefWidth="150"/>
-            <TableColumn fx:id="colunaDataCompra" text="Data de Compra" prefWidth="120"/>
-            <TableColumn fx:id="colunaQuantidadeAtual" text="Qtd. Atual" prefWidth="100"/>
-            <TableColumn fx:id="colunaQuantidadeEstoque" text="Qtd. Total" prefWidth="100"/>
-            <TableColumn fx:id="colunaQuantidadeMinima" text="Qtd. Mínima" prefWidth="100"/>
-            <TableColumn fx:id="colunaTipo" text="Tipo" prefWidth="100"/>
-            <TableColumn fx:id="colunaStatus" text="Status" prefWidth="100"/>
-            <TableColumn fx:id="colunaAcoes" text="Ações" prefWidth="150"/>
+            <TableColumn fx:id="colunaId" text="Código" minWidth="80" maxWidth="100"/>
+            <TableColumn fx:id="colunaDescricao" text="Descrição" minWidth="150" maxWidth="300"/>
+            <TableColumn fx:id="colunaQuantidadeAtual" text="Qtd. Atual" minWidth="125" maxWidth="100"/>
+            <TableColumn fx:id="colunaQuantidadeEstoque" text="Qtd. Total" minWidth="125" maxWidth="100"/>
+            <TableColumn fx:id="colunaQuantidadeMinima" text="Qtd. Mínima" minWidth="125" maxWidth="150"/>
+            <TableColumn fx:id="colunaTipo" text="Tipo" minWidth="100" maxWidth="100"/>
+            <TableColumn fx:id="colunaStatus" text="Status" minWidth="100" maxWidth="100"/>
+            <TableColumn fx:id="colunaAcoes" text="Ações" minWidth="220" maxWidth="300"/>
         </columns>
         <placeholder>
             <Label text="Nenhum equipamento encontrado"/>

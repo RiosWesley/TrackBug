@@ -24,7 +24,7 @@
 
     <!-- Formulário -->
     <VBox styleClass="form-content-container" maxWidth="600">
-        <GridPane hgap="15" vgap="50" alignment="CENTER">
+        <GridPane hgap="15" vgap="30" alignment="CENTER">
             <padding>
                 <Insets top="20" right="20" bottom="10" left="20"/>
             </padding>
@@ -38,13 +38,17 @@
             <TextField fx:id="nomeField" promptText="Digite o nome completo" styleClass="form-field"
                        GridPane.rowIndex="1" GridPane.columnIndex="1"/>
 
-            <Label styleClass="form-label" text="Função:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-            <TextField fx:id="funcaoField" promptText="Digite o cargo/função" styleClass="form-field"
+            <Label styleClass="form-label" text="CPF:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+            <TextField fx:id="cpfField" promptText="Digite o CPF do funcionário" styleClass="form-field"
                        GridPane.rowIndex="2" GridPane.columnIndex="1"/>
 
-            <Label styleClass="form-label" text="Data de Admissão:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+            <Label styleClass="form-label" text="Função:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+            <TextField fx:id="funcaoField" promptText="Digite o cargo/função" styleClass="form-field"
+                       GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+            <Label styleClass="form-label" text="Data de Admissão:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
             <DatePicker fx:id="dataAdmissaoField" promptText="Selecione a data"
-                        GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+                        GridPane.rowIndex="4" GridPane.columnIndex="1"/>
         </GridPane>
 
         <!-- Botões -->

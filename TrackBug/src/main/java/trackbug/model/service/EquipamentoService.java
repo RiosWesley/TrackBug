@@ -369,6 +369,22 @@ public class EquipamentoService {
         }
     }
 
+    public List<Equipamento> listarEmprestados() throws Exception {
+        try {
+            return equipamentoDAO.listarEmprestados();
+        } catch (Exception e) {
+            throw new Exception("Erro ao listar equipamentos disponíveis: " + e.getMessage());
+        }
+    }
+
+    public List<Equipamento> listarEstoqueBaixo() throws Exception {
+        try {
+            return equipamentoDAO.listarEstoqueBaixo();
+        } catch (Exception e) {
+            throw new Exception("Erro ao listar equipamentos disponíveis: " + e.getMessage());
+        }
+    }
+
     public List<Equipamento> listarTodos() throws Exception {
         try {
             return equipamentoDAO.listarTodos();

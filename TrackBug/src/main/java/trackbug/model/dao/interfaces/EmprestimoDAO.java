@@ -11,6 +11,7 @@ public interface EmprestimoDAO {
     List<Emprestimo> listarTodos() throws Exception;
     List<Emprestimo> listarAtivos() throws Exception;
     List<Emprestimo> listarAtrasados() throws Exception;
+    List<Emprestimo> listarDoDia() throws Exception;
     List<Emprestimo> buscarPorPeriodo(LocalDateTime inicio, LocalDateTime fim) throws Exception;
     List<Emprestimo> buscarPorFuncionario(String idFuncionario) throws Exception;
     List<Emprestimo> buscarPorEquipamento(String idEquipamento) throws Exception;

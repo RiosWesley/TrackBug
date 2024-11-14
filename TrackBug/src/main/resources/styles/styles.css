@@ -13,19 +13,24 @@
     -fx-border-radius: 4px;
     -fx-background-radius: 4px;
     -fx-padding: 10px;
+    -fx-alignment: CENTER;
 }
 
 .login-button {
-    -fx-background-color: #1a237e;
+    -fx-background-color: #009177;
     -fx-text-fill: white;
     -fx-font-weight: bold;
     -fx-padding: 10px 20px;
-    -fx-background-radius: 5px;
+    -fx-background-radius: 50px
+    -fx-border-width: 0;
     -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(40, 40, 40, 0.9), 2, 0.9, 0, 2);
 }
 
 .login-button:hover {
-    -fx-background-color: #283593;
+    -fx-background-color: #166b5c;
+    -fx-translate-y: -5px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0, 0, 2);
 }
 
 /* Estilos do Menu */
@@ -107,21 +112,32 @@
 /* Estilos das Tabelas */
 .table-view {
     -fx-background-color: transparent;
-    -fx-table-cell-border-color: transparent;
+    -fx-table-cell-border-color: #f6f6f6;
+    -fx-background-radius: 15px;
 }
 
 .table-view .table-column {
     -fx-alignment: CENTER;
 }
 
+.table-view .placeholder {
+    -fx-alignment: CENTER;
+    -fx-font-weight: bold;
+}
+
 .table-view .column-header {
     -fx-background-color: #f5f5f5;
     -fx-padding: 10px;
     -fx-alignment: CENTER;
+    -fx-border-color: #999999;
 }
 
 .table-view .column-header-background {
     -fx-background-color: #f5f5f5;
+}
+
+.table-view .column-header-background .label {
+    -fx-text-fill: #00B393; /* Define a cor do texto do cabeçalho */
 }
 
 .table-view .table-cell {
@@ -134,44 +150,166 @@
 }
 
 .table-row-cell:even {
-    -fx-background-color: white;
+    -fx-background-color: rgba(0, 179, 147, 0.4);
 }
 
 .table-row-cell:hover {
     -fx-background-color: #e3f2fd;
 }
 
-/* Adicione estas regras ao seu arquivo styles.css */
+/* Estilo para a barra de rolagem horizontal do TableView */
+.table-view .scroll-bar:horizontal {
+    -fx-background-color: transparent; /* Cor de fundo da barra de rolagem */
+}
+
+/* Estilo para a pista da barra de rolagem */
+.table-view .scroll-bar:horizontal .track {
+    -fx-background-color: rgba(0, 179, 147, 0.2); /* Cor do "trilho" da barra de rolagem */
+    -fx-padding: 5px;
+}
+
+/* Estilo para o botão de rolagem (thumb) */
+.table-view .scroll-bar:horizontal .thumb {
+    -fx-background-color: #00B393; /* Cor do botão de rolagem */
+    -fx-background-radius: 5px;
+    -fx-padding: 5px;
+}
+
+/* Estilo para os botões de incremento e decremento */
+.table-view .scroll-bar:horizontal .increment-button,
+.table-view .scroll-bar:horizontal .decrement-button {
+    -fx-background-color: transparent; /* Cor dos botões de incremento e decremento */
+}
+
+/* Estilo para a barra de rolagem vertical do TableView */
+.table-view .scroll-bar:vertical {
+    -fx-background-color: transparent; /* Cor de fundo da barra de rolagem */
+}
+
+/* Estilo para a pista da barra de rolagem */
+.table-view .scroll-bar:vertical .track {
+    -fx-background-color: rgba(0, 179, 147, 0.2); /* Cor do "trilho" da barra de rolagem */
+    -fx-padding: 5px;
+}
+
+/* Estilo para o botão de rolagem (thumb) */
+.table-view .scroll-bar:vertical .thumb {
+    -fx-background-color: #00B393; /* Cor do botão de rolagem */
+    -fx-background-radius: 5px;
+    -fx-padding: 5px;
+}
+
+/* Estilo para os botões de incremento e decremento */
+.table-view .scroll-bar:vertical .increment-button,
+.table-view .scroll-bar:vertical .decrement-button {
+    -fx-background-color: transparent; /* Cor dos botões de incremento e decremento */
+}
+
+
 
 /* Estilo para a ScrollPane do menu */
-.menu-scroll-pane {
-    -fx-background-color: transparent;
+/* Estilo para a barra de rolagem horizontal do TableView */
+.menu-scroll-pane .scroll-bar:horizontal {
+    -fx-background-color: transparent; /* Cor de fundo da barra de rolagem */
+}
+
+/* Estilo para a pista da barra de rolagem */
+.menu-scroll-pane .scroll-bar:horizontal .track {
+    -fx-background-color: rgba(0, 179, 147, 0.2); /* Cor do "trilho" da barra de rolagem */
+    -fx-padding: 5px;
+}
+
+/* Estilo para o botão de rolagem (thumb) */
+.menu-scroll-pane .scroll-bar:horizontal .thumb {
+    -fx-background-color: #00B393; /* Cor do botão de rolagem */
+    -fx-background-radius: 5px;
+    -fx-padding: 5px;
+}
+
+/* Estilo para os botões de incremento e decremento */
+.menu-scroll-pane .scroll-bar:horizontal .increment-button,
+.menu-scroll-pane .scroll-bar:horizontal .decrement-button {
+    -fx-background-color: transparent; /* Cor dos botões de incremento e decremento */
+}
+
+/* Estilo para a barra de rolagem vertical do TableView */
+.menu-scroll-pane .scroll-bar:vertical {
+    -fx-background-color: transparent; /* Cor de fundo da barra de rolagem */
+}
+
+/* Estilo para a pista da barra de rolagem */
+.menu-scroll-pane .scroll-bar:vertical .track {
+    -fx-background-color: rgba(0, 179, 147, 0.2); /* Cor do "trilho" da barra de rolagem */
+    -fx-padding: 5px;
+}
+
+/* Estilo para o botão de rolagem (thumb) */
+.menu-scroll-pane .scroll-bar:vertical .thumb {
+    -fx-background-color: #00B393; /* Cor do botão de rolagem */
+    -fx-background-radius: 5px;
+    -fx-padding: 5px;
+}
+
+/* Estilo para os botões de incremento e decremento */
+.menu-scroll-pane .scroll-bar:vertical .increment-button,
+.menu-scroll-pane .scroll-bar:vertical .decrement-button {
+    -fx-background-color: transparent; /* Cor dos botões de incremento e decremento */
+}
+
+tela-principal{
     -fx-background: transparent;
-    -fx-border-color: transparent;
-}
-
-.menu-scroll-pane > .viewport {
     -fx-background-color: transparent;
-}
-
-.menu-scroll-pane > .scroll-bar:vertical {
-    -fx-background-color: transparent;
-    -fx-padding: 0 0 0 1;
-}
-
-.menu-scroll-pane > .scroll-bar:vertical > .track {
-    -fx-background-color: transparent;
-    -fx-border-color: transparent;
-}
-
-.menu-scroll-pane > .scroll-bar:vertical > .thumb {
-    -fx-background-color: rgba(255, 255, 255, 0.3);
-}
-
-.menu-scroll-pane > .scroll-bar > .increment-button,
-.menu-scroll-pane > .scroll-bar > .decrement-button {
     -fx-padding: 0;
-    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+
+}
+
+/* Estilo para a barra de rolagem horizontal do TableView */
+.tela-principal .scroll-bar:horizontal {
+    -fx-background-color: transparent; /* Cor de fundo da barra de rolagem */
+}
+
+/* Estilo para a pista da barra de rolagem */
+.tela-principal .scroll-bar:horizontal .track {
+    -fx-background-color: rgba(0, 179, 147, 0.2); /* Cor do "trilho" da barra de rolagem */
+    -fx-padding: 5px;
+}
+
+/* Estilo para o botão de rolagem (thumb) */
+.tela-principal .scroll-bar:horizontal .thumb {
+    -fx-background-color: #00B393; /* Cor do botão de rolagem */
+    -fx-background-radius: 5px;
+    -fx-padding: 5px;
+}
+
+/* Estilo para os botões de incremento e decremento */
+.tela-principal .scroll-bar:horizontal .increment-button,
+.tela-principal .scroll-bar:horizontal .decrement-button {
+    -fx-background-color: transparent; /* Cor dos botões de incremento e decremento */
+}
+
+/* Estilo para a barra de rolagem vertical do TableView */
+.tela-principal .scroll-bar:vertical {
+    -fx-background-color: transparent; /* Cor de fundo da barra de rolagem */
+}
+
+/* Estilo para a pista da barra de rolagem */
+.tela-principal .scroll-bar:vertical .track {
+    -fx-background-color: rgba(0, 179, 147, 0.2); /* Cor do "trilho" da barra de rolagem */
+    -fx-padding: 5px;
+}
+
+/* Estilo para o botão de rolagem (thumb) */
+.tela-principal .scroll-bar:vertical .thumb {
+    -fx-background-color: #00B393; /* Cor do botão de rolagem */
+    -fx-background-radius: 5px;
+    -fx-padding: 5px;
+}
+
+/* Estilo para os botões de incremento e decremento */
+.tela-principal .scroll-bar:vertical .increment-button,
+.tela-principal .scroll-bar:vertical .decrement-button {
+    -fx-background-color: transparent; /* Cor dos botões de incremento e decremento */
 }
 
 .form-container {
@@ -218,8 +356,6 @@
 .form-grid {
     -fx-hgap: 15;
     -fx-vgap: 15;
-    -fx-padding: 20px;
-    -fx-background-color: #283593;
 }
 
 /* Estilização da ScrollPane */
@@ -409,7 +545,7 @@
         -fx-padding: 30px;
         -fx-spacing: 50px;
         -fx-background-radius: 50px;
-        -fx-effect: dropshadow(three-pass-box, rgba(255, 235, 205, 0.8), 1000, 0.5, 0, 10);
+        -fx-effect: dropshadow(three-pass-box, rgba(255, 235, 205, 1), 1000, 0.7, 0, 10);
     }
 
     .form-content-container {
@@ -424,7 +560,8 @@
     .info-box{
     -fx-background-color: white;
     -fx-background-radius: 15px;
-    -fx-padding: 10 10 10 10;
+    -fx-padding: 10 10 7 10;
+    -fx-spacing: 2;
     -fx-effect: dropshadow(three-pass-box, rgba(112, 112, 112, 0.8), 5, 0.9, 0, 3);
     }
 
@@ -575,7 +712,7 @@
     }
     /* Estilos para a lista de funcionários */
     .toolbar-container {
-        -fx-background-color: #f8f9fa;
+        -fx-background-color: rgba(0, 179, 147, 0.4);
         -fx-background-radius: 5px;
     }
 
@@ -587,6 +724,17 @@
         -fx-border-color: #e0e0e0;
         -fx-border-radius: 4px;
         -fx-padding: 8px;
+    }
+
+    .info-title{
+        -fx-font-weight: bold;
+        -fx-font-family: 'Segoe UI';
+        -fx-font-size: 40;
+        -fx-padding: 5 20 5 20;
+        -fx-background-color: #04b494;
+        -fx-background-radius: 20px;
+        -fx-text-fill: #f4f4f4;
+        -fx-alignment: CENTER;
     }
 
     .status-bar {
@@ -609,6 +757,7 @@
         -fx-font-size: 12px;
         -fx-padding: 5px 10px;
         -fx-cursor: hand;
+        -fx-effect: dropshadow(three-pass-box, rgba(112, 112, 112, 0.9), 2, 0.9, 0, 2);
     }
 
     .btn-edit:hover {
@@ -622,10 +771,25 @@
         -fx-font-size: 12px;
         -fx-padding: 5px 10px;
         -fx-cursor: hand;
+        -fx-effect: dropshadow(three-pass-box, rgba(112, 112, 112, 0.9), 2, 0.9, 0, 2);
     }
 
     .btn-delete:hover {
         -fx-background-color: #c62828;
+    }
+
+    .btn-avaria {
+        -fx-background-color: rgba(219, 169, 18, 0.8);
+        -fx-text-fill: white;
+        -fx-font-family: 'Segoe UI';
+        -fx-font-size: 12px;
+        -fx-padding: 5px 10px;
+        -fx-cursor: hand;
+        -fx-effect: dropshadow(three-pass-box, rgba(112, 112, 112, 0.9), 2, 0.9, 0, 2);
+    }
+
+    .btn-avaria:hover {
+         -fx-background-color: #ab8513;
     }
 
     /* Estilos da tabela */
@@ -679,7 +843,13 @@
     }
 
     .form-grid .form-field {
-        -fx-min-width: 300px;
+        -fx-max-width: 200px;
+        -fx-min-width: 200px;
+    }
+
+    .form-grid .form-label {
+             -fx-max-width: 120px;
+             -fx-min-width: 120px;
     }
 
     .form-grid .form-date-picker {
@@ -726,7 +896,7 @@
     }
 
     .toolbar-container {
-        -fx-background-color: #f8f9fa;
+        -fx-background-color: rgba(0, 179, 147, 0.4);
         -fx-background-radius: 5px;
         -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 4, 0, 0, 0);
     }
@@ -767,7 +937,7 @@
         }
 
         .search-field {
-            -fx-pref-width: 250px;
+            -fx-pref-width: 400px;
         }
     }
 }

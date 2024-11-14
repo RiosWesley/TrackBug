@@ -32,7 +32,6 @@ public class ListarEquipamentosController implements Initializable {
     @FXML private TableView<Equipamento> tabelaEquipamentos;
     @FXML private TableColumn<Equipamento, String> colunaId;
     @FXML private TableColumn<Equipamento, String> colunaDescricao;
-    @FXML private TableColumn<Equipamento, String> colunaDataCompra;
     @FXML private TableColumn<Equipamento, Integer> colunaQuantidadeAtual;
     @FXML private TableColumn<Equipamento, Integer> colunaQuantidadeEstoque;
     @FXML private TableColumn<Equipamento, Integer> colunaQuantidadeMinima;
@@ -83,11 +82,6 @@ public class ListarEquipamentosController implements Initializable {
         colunaDescricao.setCellValueFactory(data ->
                 new javafx.beans.property.SimpleStringProperty(data.getValue().getDescricao()));
 
-        colunaDataCompra.setCellValueFactory(data ->
-                new javafx.beans.property.SimpleStringProperty(
-                        DateUtils.formatarData(data.getValue().getDataCompra())
-                ));
-
         colunaQuantidadeAtual.setCellValueFactory(data ->
                 new javafx.beans.property.SimpleIntegerProperty(
                         data.getValue().getQuantidadeAtual()
@@ -131,7 +125,7 @@ public class ListarEquipamentosController implements Initializable {
             {
                 btnEditar.getStyleClass().add("btn-edit");
                 btnDeletar.getStyleClass().add("btn-delete");
-                btnAvaria.getStyleClass().add("btn-warning");
+                btnAvaria.getStyleClass().add("btn-avaria");
 
                 btnEditar.setOnAction(e -> editarEquipamento(getTableRow().getItem()));
                 btnDeletar.setOnAction(e -> deletarEquipamento(getTableRow().getItem()));

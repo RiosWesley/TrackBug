@@ -7,7 +7,11 @@
 
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
-<BorderPane style="-fx-background-color: #FFFFFF;"
+<BorderPane style="-fx-background-color: radial-gradient(
+        radius 90%,                /* Define o raio do gradiente */
+        rgba(0, 179, 147, 0.9),    /* Cor mais intensa nas bordas */
+        rgba(0, 179, 147, 0.5)     /* Cor transparente no centro */
+    );"
             xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="trackbug.controller.LoginController">
     <!-- Definindo padding geral do BorderPane -->
@@ -31,7 +35,7 @@
                 </font>
             </Label>
 
-            <Separator prefWidth="1000" style="-fx-background-color: #A09C9CD9; -fx-pref-height: 3; -fx-border-width: 0;" />
+            <HBox prefWidth="1000" style="-fx-background-color: black; -fx-background-radius: 5px; -fx-pref-height: 5; -fx-border-width: 0;" />
         </VBox>
     </top>
 
@@ -46,7 +50,7 @@
             <VBox alignment="CENTER" maxWidth="400">
                 <!-- VBox principal com espaçamento distribuído -->
                 <VBox alignment="TOP_CENTER"
-                      style="-fx-background-color: #04b494; -fx-padding: 20; -fx-background-radius: 50; -fx-effect: dropshadow(three-pass-box, rgba(48, 179, 155, 0.8), 1000, 0.5, 0, 10);"
+                      style="-fx-background-color: #04b494; -fx-padding: 20; -fx-background-radius: 50; -fx-effect: dropshadow(three-pass-box, rgba(40, 40, 40, 0.8), 1000, 0.5, 0, 5);"
                       >
 
                     <!-- Seção superior -->
@@ -103,10 +107,7 @@
                     <VBox alignment="BOTTOM_CENTER">
                         <!-- Campo de botão e suas definições -->
                         <Button fx:id="loginButton" maxWidth="300" maxHeight="80" mnemonicParsing="false" onAction="#realizarLogin"
-                                styleClass="login-button" text="Entrar"
-                                style= "-fx-background-radius: 50;
-                                    -fx-background-color: #FFEBC5; -fx-text-fill: #FF6853;
-                                    -fx-border-width: 0;">
+                                styleClass="login-button" text="Entrar">
                             <!-- Configurações da fonte -->
                             <font>
                                 <Font name="Hind Guntur" size="18.75" />
@@ -121,7 +122,7 @@
     <bottom>
         <HBox alignment="BOTTOM_CENTER">
             <!-- Imagem da esquerda -->
-            <ImageView fx:id="leftImage" fitHeight="130" fitWidth="130" preserveRatio="true">
+            <ImageView fx:id="leftImage" fitHeight="200" fitWidth="200" preserveRatio="true">
                 <VBox.margin>
                     <Insets bottom="-50"/>
                 </VBox.margin>
@@ -130,7 +131,7 @@
             <Region HBox.hgrow="ALWAYS"/>
 
             <!-- Imagem da direita -->
-            <ImageView fx:id="rightImage" fitHeight="150" fitWidth="150" preserveRatio="true">
+            <ImageView fx:id="rightImage" fitHeight="200" fitWidth="200" preserveRatio="true">
                 <VBox.margin>
                     <Insets bottom="-50"/>
                 </VBox.margin>
