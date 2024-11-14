@@ -21,19 +21,28 @@ public class EmprestimoDAOImpl implements EmprestimoDAO {
             conn.setAutoCommit(false);
 
             String sql = "INSERT INTO emprestimos (idFuncionario, idEquipamento, dataSaida, " +
-                    "dataRetornoPrevista, observacoes, ativo, quantidadeEmprestimo, " +
-                    "tipoOperacao, usoUnico) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    "dataRetornoPrevista, dataRetornoEfetiva, observacoes, ativo, quantidadeEmprestimo, " +
+                    "tipoOperacao, usoUnico) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, emprestimo.getIdFuncionario());
             stmt.setString(2, emprestimo.getIdEquipamento());
             stmt.setTimestamp(3, Timestamp.valueOf(emprestimo.getDataSaida()));
             stmt.setTimestamp(4, Timestamp.valueOf(emprestimo.getDataRetornoPrevista()));
-            stmt.setString(5, emprestimo.getObservacoes());
-            stmt.setBoolean(6, emprestimo.isAtivo());
-            stmt.setInt(7, emprestimo.getQuantidadeEmprestimo());
-            stmt.setString(8, emprestimo.getTipoOperacao());
-            stmt.setBoolean(9, emprestimo.isUsoUnico());
+
+            // Para itens de uso único, a data de devolução efetiva é a mesma da saída
+            if (emprestimo.isUsoUnico()) {
+                stmt.setTimestamp(5, Timestamp.valueOf(emprestimo.getDataSaida()));
+            } else {
+                stmt.setTimestamp(5, emprestimo.getDataRetornoEfetiva() != null ?
+                        Timestamp.valueOf(emprestimo.getDataRetornoEfetiva()) : null);
+            }
+
+            stmt.setString(6, emprestimo.getObservacoes());
+            stmt.setBoolean(7, emprestimo.isAtivo());
+            stmt.setInt(8, emprestimo.getQuantidadeEmprestimo());
+            stmt.setString(9, emprestimo.getTipoOperacao());
+            stmt.setBoolean(10, emprestimo.isUsoUnico());
 
             stmt.executeUpdate();
 

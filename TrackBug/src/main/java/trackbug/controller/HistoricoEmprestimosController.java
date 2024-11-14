@@ -1,6 +1,7 @@
 package trackbug.controller;
 
 import javafx.animation.FadeTransition;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -93,9 +94,14 @@ public class HistoricoEmprestimosController implements Initializable {
 
         colunaEfetiva.setCellValueFactory(data -> {
             LocalDateTime dataRetorno = data.getValue().getDataRetornoEfetiva();
-            return new javafx.beans.property.SimpleStringProperty(
-                    dataRetorno != null ? DateUtils.formatarDataHora(dataRetorno) : "Pendente"
-            );
+            String valor;
+            if (data.getValue().isUsoUnico()) {
+                // Para itens de uso único, mostra a data de saída como data efetiva
+                valor = DateUtils.formatarDataHora(data.getValue().getDataSaida());
+            } else {
+                valor = dataRetorno != null ? DateUtils.formatarDataHora(dataRetorno) : "Pendente";
+            }
+            return new SimpleStringProperty(valor);
         });
 
         colunaStatus.setCellValueFactory(data -> {
@@ -213,12 +219,14 @@ public class HistoricoEmprestimosController implements Initializable {
     }
 
     private void atualizarEstatisticas(ObservableList<Emprestimo> lista) {
+        if (lista == null) return;
+
         // Total de empréstimos
         totalEmprestimosLabel.setText(String.valueOf(lista.size()));
 
-        // Média de atraso
+        // Média de atraso (excluindo itens de uso único)
         double mediaAtraso = lista.stream()
-                .filter(emp -> emp.getDataRetornoEfetiva() != null &&
+                .filter(emp -> !emp.isUsoUnico() && emp.getDataRetornoEfetiva() != null &&
                         emp.getDataRetornoEfetiva().isAfter(emp.getDataRetornoPrevista()))
                 .mapToLong(emp -> ChronoUnit.DAYS.between(
                         emp.getDataRetornoPrevista(),
@@ -227,16 +235,18 @@ public class HistoricoEmprestimosController implements Initializable {
                 .orElse(0.0);
         mediaAtrasoLabel.setText(String.format("%.1f", mediaAtraso));
 
-        // Taxa de devolução no prazo
-        long devolvidos = lista.stream()
-                .filter(emp -> emp.getDataRetornoEfetiva() != null)
+        // Taxa de devolução no prazo (apenas para itens reutilizáveis)
+        long devolucoesReutilizaveis = lista.stream()
+                .filter(emp -> !emp.isUsoUnico() && emp.getDataRetornoEfetiva() != null)
                 .count();
-        long devolvidosNoPrazo = lista.stream()
-                .filter(emp -> emp.getDataRetornoEfetiva() != null &&
+
+        long devolucoesNoPrazo = lista.stream()
+                .filter(emp -> !emp.isUsoUnico() && emp.getDataRetornoEfetiva() != null &&
                         !emp.getDataRetornoEfetiva().isAfter(emp.getDataRetornoPrevista()))
                 .count();
-        double taxaDevolucao = devolvidos > 0 ?
-                (double) devolvidosNoPrazo / devolvidos * 100 : 0;
+
+        double taxaDevolucao = devolucoesReutilizaveis > 0 ?
+                (double) devolucoesNoPrazo / devolucoesReutilizaveis * 100 : 0;
         taxaDevolucaoLabel.setText(String.format("%.1f%%", taxaDevolucao));
 
         // Item mais emprestado
