@@ -35,6 +35,7 @@
                             -fx-font-weight: bold;
                             -fx-text-fill: #00B393;
                             -fx-font-family: 'Segoe UI';
+                            -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.9), 3, 0.6, 0, 1);
                         </style>
                     </Label>
 
@@ -56,20 +57,27 @@
                         </style>
                     </Label>
 
-                    <HBox style="-fx-padding: 15 20 20 20; -fx-spacing: 100">
+                    <HBox style="-fx-padding: 15 20 20 20; -fx-spacing: 100;">
                         <VBox prefHeight="100" prefWidth="300" alignment="CENTER" styleClass="info-box">
                             <Label styleClass="form-title" text="Funcionários" style="-fx-alignment: CENTER; -fx-font-size: 30;"/>
-                            <Label fx:id="totalFuncionariosLabel" styleClass="info-title"/>
+                            <HBox styleClass="info-container">
+                                <Label fx:id="totalFuncionariosLabel" styleClass="info-number"/>
+                            </HBox>
                         </VBox>
 
                         <VBox prefHeight="100" prefWidth="300" alignment="CENTER" styleClass="info-box">
                             <Label styleClass="form-title" text="Equipamentos" style="-fx-alignment: CENTER; -fx-font-size: 30;"/>
-                            <Label fx:id="totalEquipamentosLabel" styleClass="info-title"/>
+                            <HBox styleClass="info-container">
+                            <Label fx:id="totalEquipamentosLabel" styleClass="info-number"/>
+                            </HBox>
+
                         </VBox>
 
                         <VBox prefHeight="100" prefWidth="300" alignment="CENTER" styleClass="info-box">
                             <Label styleClass="form-title" text="Empréstimos Ativos" style="-fx-alignment: CENTER; -fx-font-size: 26;"/>
-                            <Label fx:id="totalEmprestimosAtivosLabel" styleClass="info-title"/>
+                            <HBox styleClass="info-container">
+                                <Label fx:id="totalEmprestimosAtivosLabel" styleClass="info-number"/>
+                            </HBox>
                         </VBox>
 
                     </HBox>
@@ -77,17 +85,23 @@
                     <HBox style="-fx-padding: 15 20 20 20; -fx-spacing: 100">
                         <VBox prefHeight="100" prefWidth="300" alignment="CENTER" styleClass="info-box">
                                 <Label styleClass="form-title" text="Empréstimos Atrasados" style="-fx-alignment: CENTER; -fx-font-size: 25;"/>
-                            <Label fx:id="totalEmprestimosAtrasadosLabel" styleClass="info-title"/>
+                            <HBox styleClass="info-container">
+                                <Label fx:id="totalEmprestimosAtrasadosLabel" styleClass="info-number"/>
+                            </HBox>
                         </VBox>
 
                         <VBox prefHeight="100" prefWidth="300" alignment="CENTER" styleClass="info-box">
                             <Label styleClass="form-title" text="Equipamentos com Empréstimos Ativos" style="-fx-alignment: CENTER; -fx-font-size: 15;"/>
-                            <Label fx:id="totalEquipamentosEmprestadosLabel" styleClass="info-title"/>
+                            <HBox styleClass="info-container">
+                                <Label fx:id="totalEquipamentosEmprestadosLabel" styleClass="info-number"/>
+                            </HBox>
                         </VBox>
 
                         <VBox prefHeight="100" prefWidth="300" alignment="CENTER" styleClass="info-box">
                             <Label styleClass="form-title" text="Equipamentos com Estoque Baixo" style="-fx-alignment: CENTER; -fx-font-size: 17;"/>
-                            <Label fx:id="totalEquipamentosEstoqueLabel" styleClass="info-title"/>
+                            <HBox styleClass="info-container">
+                                <Label fx:id="totalEquipamentosEstoqueLabel" styleClass="info-number"/>
+                            </HBox>
                         </VBox>
 
                     </HBox>
@@ -106,7 +120,11 @@
                          -fx-background-radius: 0px 0px 0px 0px;" alignment="TOP_CENTER"
                       minWidth="670" maxWidth="800" maxHeight="200">
                     <Label text="Empréstimos Atrasados" styleClass="form-subtitle"
-                           style="-fx-font-weight: bold; -fx-font-size: 20; -fx-font-family: 'Hind Gunter'; -fx-text-fill: #00B393;"/>
+                           style="-fx-font-weight: bold;
+                           -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.9), 3, 0.6, 0, 1);
+                           -fx-font-size: 20;
+                           -fx-font-family: 'Hind Gunter';
+                           -fx-text-fill: #00B393;"/>
                     <TableView fx:id="tabelaAtrasos" VBox.vgrow="ALWAYS">
                         <columnResizePolicy>
                             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
@@ -130,7 +148,11 @@
                          -fx-background-radius: 0px 0px 0px 0px;" alignment="TOP_CENTER"
                       minWidth="460" maxWidth="800" maxHeight="200">
                     <Label text="Equipamentos com Estoque Baixo" styleClass="form-subtitle"
-                           style="-fx-font-weight: bold; -fx-font-size: 20; -fx-font-family: 'Hind Gunter'; -fx-text-fill: #00B393;"/>
+                           style="-fx-font-weight: bold;
+                           -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.9), 3, 0.6, 0, 1);
+                           -fx-font-size: 20;
+                           -fx-font-family: 'Hind Gunter';
+                           -fx-text-fill: #00B393;"/>
                     <TableView fx:id="tabelaEstoqueBaixo" VBox.vgrow="ALWAYS">
                         <columnResizePolicy>
                             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
@@ -153,7 +175,11 @@
                          -fx-background-radius: 0px 0px 15px 15px;" alignment="TOP_CENTER"
                   minWidth="1148" maxWidth="1148" maxHeight="300">
                 <Label text="Devoluções Esperadas Hoje" styleClass="form-subtitle"
-                       style="-fx-font-weight: bold; -fx-font-size: 20; -fx-font-family: 'Hind Gunter'; -fx-text-fill: #00B393;"/>
+                       style="-fx-font-weight: bold;
+                       -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.9), 3, 0.6, 0, 1);
+                       -fx-font-size: 20;
+                       -fx-font-family: 'Hind Gunter';
+                       -fx-text-fill: #00B393;"/>
                 <TableView fx:id="tabelaEmprestimosDia" VBox.vgrow="ALWAYS">
                     <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>

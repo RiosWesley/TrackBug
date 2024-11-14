@@ -47,7 +47,7 @@
                        GridPane.rowIndex="3" GridPane.columnIndex="1"/>
 
             <Label styleClass="form-label" text="Data de Admissão:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
-            <DatePicker fx:id="dataAdmissaoField" promptText="Selecione a data"
+            <DatePicker fx:id="dataAdmissaoField" promptText="Selecione a data" styleClass="form-date-picker"
                         GridPane.rowIndex="4" GridPane.columnIndex="1"/>
         </GridPane>
 
