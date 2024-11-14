@@ -12,6 +12,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class DevolucaoController {
+
+    private int idEmprestimoSelecionado;
+
     @FXML
     private ComboBox<String> emprestimoCombo;
 
@@ -33,9 +36,11 @@ public class DevolucaoController {
     private void initialize() {
         // Configurar listener para o ComboBox
         emprestimoCombo.setOnAction(e -> {
-            String selectedId = emprestimoCombo.getValue();
-            if (selectedId != null) {
-                mostrarDetalhesEmprestimo(Integer.valueOf(selectedId));
+            String selectedValue = emprestimoCombo.getValue();
+            if (selectedValue != null) {
+                // Extrair o ID do valor selecionado e armazená-lo na variável
+                idEmprestimoSelecionado = Integer.parseInt(selectedValue.split(" - ")[0]);
+                mostrarDetalhesEmprestimo(idEmprestimoSelecionado);
             }
         });
 
@@ -48,7 +53,7 @@ public class DevolucaoController {
             List<Emprestimo> emprestimosAtivos = emprestimoService.listarEmprestimosAtivos();
             emprestimoCombo.setItems(FXCollections.observableArrayList(
                     emprestimosAtivos.stream()
-                            .map(emprestimo -> String.valueOf(emprestimo.getId()) + " - " + emprestimo.getDescricaoEquipamento())
+                            .map(emprestimo -> emprestimo.getId() + " - " + emprestimo.getDescricaoEquipamento())
                             .toList()
             ));
         } catch (Exception e) {
