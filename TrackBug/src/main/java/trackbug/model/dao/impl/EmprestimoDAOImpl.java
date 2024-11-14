@@ -204,6 +204,7 @@ public class EmprestimoDAOImpl implements EmprestimoDAO {
         }
     }
 
+    @Override
     public List<Emprestimo> listarAtivos() throws Exception {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -212,11 +213,13 @@ public class EmprestimoDAOImpl implements EmprestimoDAO {
 
         try {
             conn = ConnectionFactory.getConnection();
+            // Modificar a query para não retornar empréstimos de itens de uso único
             String sql = "SELECT e.*, f.nome as nome_funcionario, eq.descricao as descricao_equipamento " +
                     "FROM emprestimos e " +
                     "JOIN funcionarios f ON e.idFuncionario = f.id " +
                     "JOIN equipamentos eq ON e.idEquipamento = eq.id " +
-                    "WHERE e.ativo = true AND eq.tipo = false " +
+                    "WHERE e.ativo = true " +
+                    "AND e.usoUnico = false " + // Adiciona condição para filtrar itens de uso único
                     "ORDER BY e.dataSaida DESC";
 
             stmt = conn.prepareStatement(sql);

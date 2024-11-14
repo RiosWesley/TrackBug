@@ -13,7 +13,7 @@ public class EmprestimoService {
         this.emprestimoDAO = new EmprestimoDAOImpl();
     }
     public void realizarEmprestimo(Emprestimo emprestimo) throws Exception {
-        // Validações antes de realizar o empréstimo
+        // Validações existentes...
         if (emprestimo == null) {
             throw new IllegalArgumentException("Empréstimo não pode ser nulo");
         }
@@ -28,6 +28,16 @@ public class EmprestimoService {
 
         if (emprestimo.getQuantidadeEmprestimo() <= 0) {
             throw new IllegalArgumentException("Quantidade deve ser maior que zero");
+        }
+
+        // Verificar se é item de uso único
+        if (emprestimo.isUsoUnico()) {
+            // Para itens de uso único, já define a data de devolução como a data atual
+            emprestimo.setDataRetornoEfetiva(LocalDateTime.now());
+            // Define como inativo já que será finalizado automaticamente
+            emprestimo.setAtivo(false);
+            // Define tipo de operação como BAIXA para itens de uso único
+            emprestimo.setTipoOperacao("BAIXA");
         }
 
         // Criar o empréstimo no banco de dados

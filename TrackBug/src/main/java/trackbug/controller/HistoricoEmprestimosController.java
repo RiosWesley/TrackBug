@@ -103,10 +103,19 @@ public class HistoricoEmprestimosController implements Initializable {
             if (!data.getValue().isAtivo()) {
                 LocalDateTime dataEfetiva = data.getValue().getDataRetornoEfetiva();
                 LocalDateTime dataPrevista = data.getValue().getDataRetornoPrevista();
-                if (dataEfetiva.isAfter(dataPrevista)) {
-                    status = "Devolvido com atraso";
+
+                // Verifica se é um item de uso único
+                if (data.getValue().isUsoUnico()) {
+                    status = "Baixado";
+                } else if (dataEfetiva != null && dataPrevista != null) {
+                    // Só compara as datas se ambas não forem nulas
+                    if (dataEfetiva.isAfter(dataPrevista)) {
+                        status = "Devolvido com atraso";
+                    } else {
+                        status = "Devolvido no prazo";
+                    }
                 } else {
-                    status = "Devolvido no prazo";
+                    status = "Finalizado";
                 }
             } else {
                 if (LocalDateTime.now().isAfter(data.getValue().getDataRetornoPrevista())) {
@@ -129,23 +138,16 @@ public class HistoricoEmprestimosController implements Initializable {
                 } else {
                     setText(item);
                     switch (item) {
-                        case "Devolvido no prazo":
-                            setStyle("-fx-text-fill: #2e7d32;"); // Verde
-                            break;
-                        case "Em andamento":
-                            setStyle("-fx-text-fill: #1976d2;"); // Azul
-                            break;
-                        case "Devolvido com atraso":
-                        case "Em atraso":
-                            setStyle("-fx-text-fill: #d32f2f;"); // Vermelho
-                            break;
-                        default:
-                            setStyle("");
-                            break;
+                        case "Devolvido no prazo" -> setStyle("-fx-text-fill: #2e7d32;"); // Verde
+                        case "Em andamento" -> setStyle("-fx-text-fill: #1976d2;"); // Azul
+                        case "Baixado" -> setStyle("-fx-text-fill: #757575;"); // Cinza
+                        case "Devolvido com atraso", "Em atraso" -> setStyle("-fx-text-fill: #d32f2f;"); // Vermelho
+                        default -> setStyle("");
                     }
                 }
             }
         });
+
     }
 
     private void configurarFiltros() {
