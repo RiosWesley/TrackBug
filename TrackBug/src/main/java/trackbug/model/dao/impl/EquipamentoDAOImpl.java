@@ -187,11 +187,38 @@ public class EquipamentoDAOImpl implements EquipamentoDAO {
 
         try {
             conn = ConnectionFactory.getConnection();
+            conn.setAutoCommit(false); // Inicia transação
+
+            // Deletar o equipamento (as outras tabelas têm ON DELETE CASCADE)
             String sql = "DELETE FROM equipamentos WHERE id = ?";
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, id);
-            stmt.executeUpdate();
+
+            int rowsAffected = stmt.executeUpdate();
+
+            if (rowsAffected == 0) {
+                throw new IllegalArgumentException("Equipamento não encontrado para exclusão");
+            }
+
+            conn.commit(); // Confirma a transação
+        } catch (SQLException e) {
+            if (conn != null) {
+                try {
+                    conn.rollback(); // Desfaz alterações em caso de erro
+                } catch (SQLException ex) {
+                    throw new Exception("Erro ao realizar rollback: " + ex.getMessage());
+                }
+            }
+            throw new Exception("Erro ao excluir equipamento: " + e.getMessage());
         } finally {
+            if (conn != null) {
+                try {
+                    conn.setAutoCommit(true); // Restaura autocommit
+                } catch (SQLException e) {
+                    // Log do erro, mas não lança exceção pois a operação principal já foi concluída
+                    e.printStackTrace();
+                }
+            }
             ConnectionFactory.closeConnection(conn, stmt);
         }
     }

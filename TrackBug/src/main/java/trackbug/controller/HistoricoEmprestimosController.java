@@ -1,7 +1,6 @@
 package trackbug.controller;
 
 import javafx.animation.FadeTransition;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -94,14 +93,9 @@ public class HistoricoEmprestimosController implements Initializable {
 
         colunaEfetiva.setCellValueFactory(data -> {
             LocalDateTime dataRetorno = data.getValue().getDataRetornoEfetiva();
-            String valor;
-            if (data.getValue().isUsoUnico()) {
-                // Para itens de uso único, mostra a data de saída como data efetiva
-                valor = DateUtils.formatarDataHora(data.getValue().getDataSaida());
-            } else {
-                valor = dataRetorno != null ? DateUtils.formatarDataHora(dataRetorno) : "Pendente";
-            }
-            return new SimpleStringProperty(valor);
+            return new javafx.beans.property.SimpleStringProperty(
+                    dataRetorno != null ? DateUtils.formatarDataHora(dataRetorno) : "Pendente"
+            );
         });
 
         colunaStatus.setCellValueFactory(data -> {
@@ -109,19 +103,10 @@ public class HistoricoEmprestimosController implements Initializable {
             if (!data.getValue().isAtivo()) {
                 LocalDateTime dataEfetiva = data.getValue().getDataRetornoEfetiva();
                 LocalDateTime dataPrevista = data.getValue().getDataRetornoPrevista();
-
-                // Verifica se é um item de uso único
-                if (data.getValue().isUsoUnico()) {
-                    status = "Baixado";
-                } else if (dataEfetiva != null && dataPrevista != null) {
-                    // Só compara as datas se ambas não forem nulas
-                    if (dataEfetiva.isAfter(dataPrevista)) {
-                        status = "Devolvido com atraso";
-                    } else {
-                        status = "Devolvido no prazo";
-                    }
+                if (dataEfetiva.isAfter(dataPrevista)) {
+                    status = "Devolvido com atraso";
                 } else {
-                    status = "Finalizado";
+                    status = "Devolvido no prazo";
                 }
             } else {
                 if (LocalDateTime.now().isAfter(data.getValue().getDataRetornoPrevista())) {
@@ -144,16 +129,23 @@ public class HistoricoEmprestimosController implements Initializable {
                 } else {
                     setText(item);
                     switch (item) {
-                        case "Devolvido no prazo" -> setStyle("-fx-text-fill: #2e7d32;"); // Verde
-                        case "Em andamento" -> setStyle("-fx-text-fill: #1976d2;"); // Azul
-                        case "Baixado" -> setStyle("-fx-text-fill: #757575;"); // Cinza
-                        case "Devolvido com atraso", "Em atraso" -> setStyle("-fx-text-fill: #d32f2f;"); // Vermelho
-                        default -> setStyle("");
+                        case "Devolvido no prazo":
+                            setStyle("-fx-text-fill: #2e7d32;"); // Verde
+                            break;
+                        case "Em andamento":
+                            setStyle("-fx-text-fill: #1976d2;"); // Azul
+                            break;
+                        case "Devolvido com atraso":
+                        case "Em atraso":
+                            setStyle("-fx-text-fill: #d32f2f;"); // Vermelho
+                            break;
+                        default:
+                            setStyle("");
+                            break;
                     }
                 }
             }
         });
-
     }
 
     private void configurarFiltros() {
@@ -219,14 +211,12 @@ public class HistoricoEmprestimosController implements Initializable {
     }
 
     private void atualizarEstatisticas(ObservableList<Emprestimo> lista) {
-        if (lista == null) return;
-
         // Total de empréstimos
         totalEmprestimosLabel.setText(String.valueOf(lista.size()));
 
-        // Média de atraso (excluindo itens de uso único)
+        // Média de atraso
         double mediaAtraso = lista.stream()
-                .filter(emp -> !emp.isUsoUnico() && emp.getDataRetornoEfetiva() != null &&
+                .filter(emp -> emp.getDataRetornoEfetiva() != null &&
                         emp.getDataRetornoEfetiva().isAfter(emp.getDataRetornoPrevista()))
                 .mapToLong(emp -> ChronoUnit.DAYS.between(
                         emp.getDataRetornoPrevista(),
@@ -235,18 +225,16 @@ public class HistoricoEmprestimosController implements Initializable {
                 .orElse(0.0);
         mediaAtrasoLabel.setText(String.format("%.1f", mediaAtraso));
 
-        // Taxa de devolução no prazo (apenas para itens reutilizáveis)
-        long devolucoesReutilizaveis = lista.stream()
-                .filter(emp -> !emp.isUsoUnico() && emp.getDataRetornoEfetiva() != null)
+        // Taxa de devolução no prazo
+        long devolvidos = lista.stream()
+                .filter(emp -> emp.getDataRetornoEfetiva() != null)
                 .count();
-
-        long devolucoesNoPrazo = lista.stream()
-                .filter(emp -> !emp.isUsoUnico() && emp.getDataRetornoEfetiva() != null &&
+        long devolvidosNoPrazo = lista.stream()
+                .filter(emp -> emp.getDataRetornoEfetiva() != null &&
                         !emp.getDataRetornoEfetiva().isAfter(emp.getDataRetornoPrevista()))
                 .count();
-
-        double taxaDevolucao = devolucoesReutilizaveis > 0 ?
-                (double) devolucoesNoPrazo / devolucoesReutilizaveis * 100 : 0;
+        double taxaDevolucao = devolvidos > 0 ?
+                (double) devolvidosNoPrazo / devolvidos * 100 : 0;
         taxaDevolucaoLabel.setText(String.format("%.1f%%", taxaDevolucao));
 
         // Item mais emprestado

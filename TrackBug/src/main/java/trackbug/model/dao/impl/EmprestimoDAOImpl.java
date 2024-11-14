@@ -21,28 +21,19 @@ public class EmprestimoDAOImpl implements EmprestimoDAO {
             conn.setAutoCommit(false);
 
             String sql = "INSERT INTO emprestimos (idFuncionario, idEquipamento, dataSaida, " +
-                    "dataRetornoPrevista, dataRetornoEfetiva, observacoes, ativo, quantidadeEmprestimo, " +
-                    "tipoOperacao, usoUnico) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    "dataRetornoPrevista, observacoes, ativo, quantidadeEmprestimo, " +
+                    "tipoOperacao, usoUnico) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, emprestimo.getIdFuncionario());
             stmt.setString(2, emprestimo.getIdEquipamento());
             stmt.setTimestamp(3, Timestamp.valueOf(emprestimo.getDataSaida()));
             stmt.setTimestamp(4, Timestamp.valueOf(emprestimo.getDataRetornoPrevista()));
-
-            // Para itens de uso único, a data de devolução efetiva é a mesma da saída
-            if (emprestimo.isUsoUnico()) {
-                stmt.setTimestamp(5, Timestamp.valueOf(emprestimo.getDataSaida()));
-            } else {
-                stmt.setTimestamp(5, emprestimo.getDataRetornoEfetiva() != null ?
-                        Timestamp.valueOf(emprestimo.getDataRetornoEfetiva()) : null);
-            }
-
-            stmt.setString(6, emprestimo.getObservacoes());
-            stmt.setBoolean(7, emprestimo.isAtivo());
-            stmt.setInt(8, emprestimo.getQuantidadeEmprestimo());
-            stmt.setString(9, emprestimo.getTipoOperacao());
-            stmt.setBoolean(10, emprestimo.isUsoUnico());
+            stmt.setString(5, emprestimo.getObservacoes());
+            stmt.setBoolean(6, emprestimo.isAtivo());
+            stmt.setInt(7, emprestimo.getQuantidadeEmprestimo());
+            stmt.setString(8, emprestimo.getTipoOperacao());
+            stmt.setBoolean(9, emprestimo.isUsoUnico());
 
             stmt.executeUpdate();
 
@@ -213,7 +204,6 @@ public class EmprestimoDAOImpl implements EmprestimoDAO {
         }
     }
 
-    @Override
     public List<Emprestimo> listarAtivos() throws Exception {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -222,13 +212,11 @@ public class EmprestimoDAOImpl implements EmprestimoDAO {
 
         try {
             conn = ConnectionFactory.getConnection();
-            // Modificar a query para não retornar empréstimos de itens de uso único
             String sql = "SELECT e.*, f.nome as nome_funcionario, eq.descricao as descricao_equipamento " +
                     "FROM emprestimos e " +
                     "JOIN funcionarios f ON e.idFuncionario = f.id " +
                     "JOIN equipamentos eq ON e.idEquipamento = eq.id " +
-                    "WHERE e.ativo = true " +
-                    "AND e.usoUnico = false " + // Adiciona condição para filtrar itens de uso único
+                    "WHERE e.ativo = true AND eq.tipo = false " +
                     "ORDER BY e.dataSaida DESC";
 
             stmt = conn.prepareStatement(sql);

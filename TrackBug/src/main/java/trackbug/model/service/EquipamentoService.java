@@ -135,22 +135,47 @@ public class EquipamentoService {
     }
 
     public void deletar(String id) throws Exception {
+        // Validar ID
         if (id == null || id.trim().isEmpty()) {
             throw new IllegalArgumentException("ID do equipamento é obrigatório");
         }
 
-        if (possuiEmprestimosAtivos(id)) {
-            throw new IllegalStateException("Não é possível excluir equipamento com empréstimos ativos");
+        try {
+            // Verificar se equipamento existe
+            Equipamento equipamento = equipamentoDAO.buscarPorId(id);
+            if (equipamento == null) {
+                throw new IllegalArgumentException("Equipamento não encontrado");
+            }
+
+            // Verificar se há empréstimos ativos
+            if (possuiEmprestimosAtivos(id)) {
+                throw new IllegalStateException("Não é possível excluir equipamento com empréstimos ativos");
+            }
+
+            // Registrar log antes da exclusão
+            LogEquipamento log = new LogEquipamento(
+                    id,
+                    "Equipamento excluído",
+                    "EXCLUSAO",
+                    String.format(
+                            "Descrição: %s\nQuantidade em estoque: %d\nTipo: %s",
+                            equipamento.getDescricao(),
+                            equipamento.getQuantidadeEstoque(),
+                            equipamento.isTipo() ? "Consumível" : "Emprestável"
+                    )
+            );
+
+            // Registrar o log
+            logEquipamentoDAO.registrar(log);
+
+            // Excluir o equipamento
+            equipamentoDAO.deletar(id);
+
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            throw e; // Re-lança exceções de validação
+        } catch (Exception e) {
+            throw new Exception("Erro ao excluir equipamento: " + e.getMessage());
         }
-
-        equipamentoDAO.deletar(id);
-
-        // Registrar log de exclusão
-        LogEquipamento log = new LogEquipamento();
-        log.setIdEquipamento(id);
-        log.setAcao("EXCLUSAO");
-        log.setDescricao("Equipamento excluído");
-        logEquipamentoDAO.registrar(log);
     }
 
     public void registrarAvaria(Equipamento equipamento, String descricao) throws Exception {

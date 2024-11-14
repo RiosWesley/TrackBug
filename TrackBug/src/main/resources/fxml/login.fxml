@@ -48,7 +48,7 @@
                             </DropShadow>
                         </effect>
                     </Label>
-                    <Label text="Sistema Inteligente de Gestão de Estoque" textFill="#94A3B8">
+                    <Label text="Sistema Inteligente de Gestão de Projetos" textFill="#94A3B8">
                         <font>
                             <Font name="Inter Medium" size="20.0" />
                         </font>
@@ -75,7 +75,7 @@
                                 <DropShadow color="#00000050" radius="18" spread="0.15" />
                             </effect>
                         </Label>
-                        <Label alignment="CENTER" text="Gerencie seus estoques com eficiência e precisão" textFill="#64748B" wrapText="true">
+                        <Label alignment="CENTER" text="Gerencie seus projetos com eficiência e precisão" textFill="#64748B" wrapText="true">
                             <font>
                                 <Font name="Inter SemiBold" size="18" />
                             </font>
