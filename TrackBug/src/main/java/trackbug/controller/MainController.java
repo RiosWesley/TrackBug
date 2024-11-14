@@ -28,6 +28,8 @@ public class MainController {
     @FXML private Button btnGerenciarUsuarios;
     @FXML private ScrollPane menuScrollPane;
     @FXML private HBox menuContainer;
+    @FXML private Label titleLabel;
+    @FXML private Label logoLabel;
 
     private static final double EXPANDED_WIDTH = 250;
     private static final double COLLAPSED_WIDTH = 50; // Aumentei um pouco para melhor visibilidade
@@ -92,6 +94,7 @@ public class MainController {
 
         timeline.play();
     }
+
 
     private void verificarPermissoes() {
         if (labelAdministracao != null && btnGerenciarUsuarios != null) {

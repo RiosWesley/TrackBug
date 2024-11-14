@@ -1,6 +1,7 @@
 package trackbug.controller;
 
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -9,6 +10,8 @@ import trackbug.Main;
 import trackbug.util.SessionManager;
 import trackbug.model.entity.Usuario;
 import trackbug.model.service.UsuarioService;
+
+import java.awt.event.MouseEvent;
 
 public class LoginController {
 
@@ -82,6 +85,7 @@ public class LoginController {
             e.printStackTrace();
         }
     }
+
 
     private void mostrarErro(String mensagem) {
         mensagemErro.setText(mensagem);

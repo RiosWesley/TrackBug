@@ -87,7 +87,7 @@ menu-scroll-pane > .viewport {
     -fx-managed: false;
 }
 .menu-collapsed .menu-icon {
-    -fx-font-size: 18px; /* Ligeiramente maior quando recolhido */
+    -fx-font-size: 15px; /* Ligeiramente maior quando recolhido */
 }
 /* O HBox dentro do botão */
 .menu-button .button-content {
@@ -598,4 +598,30 @@ menu-scroll-pane > .viewport {
 .menu-text {
     -fx-text-fill: white;
     -fx-font-size: 14px;
+}
+
+/* Estilos existentes do menu ... */
+
+.menu-title {
+    -fx-text-fill: white;
+    -fx-opacity: 1;
+    -fx-transition: opacity 0.3s ease-in-out;
+}
+
+.menu-logo {
+    -fx-text-fill: white;
+    -fx-opacity: 0;
+    -fx-transition: opacity 0.3s ease-in-out;
+}
+
+.menu-collapsed .menu-title {
+    -fx-opacity: 0;
+    -fx-visible: false;
+    -fx-managed: false;
+}
+
+.menu-collapsed .menu-logo {
+    -fx-opacity: 1;
+    -fx-visible: true;
+    -fx-managed: true;
 }

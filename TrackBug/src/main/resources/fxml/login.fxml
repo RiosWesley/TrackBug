@@ -3,112 +3,201 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.paint.*?>
 
-<BorderPane style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="trackbug.controller.LoginController">
-    <!-- Definindo padding geral do BorderPane -->
-    <padding>
-        <Insets bottom="1.0" left="20.0" right="20.0" top="5.0" />
-    </padding>
+<StackPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="trackbug.controller.LoginController">
 
-    <!-- Cabeçalho no topo -->
-    <top>
-        <VBox alignment="TOP_CENTER" spacing="10.0" style="-fx-background-color: #112f5e;" styleClass="form-container">
+    <!-- Background Pattern -->
+    <Rectangle width="1000" height="800">
+        <fill>
+            <LinearGradient endX="1.0" endY="1.0">
+                <stops>
+                    <Stop color="#1E3C72"/>
+                    <Stop color="#2A5298" offset="1.0"/>
+                </stops>
+            </LinearGradient>
+        </fill>
+    </Rectangle>
 
-            <Label alignment="CENTER" style="-fx-font-weight: bold; -fx-effect: dropshadow(three-pass-box, rgba(15, 94, 171, 0.4), 8, 0.8, 0, 0);" text="TrackBug " textFill="WHITE">
-                <font>
-                    <Font name="Roboto" size="48.0" />
-                </font>
-            </Label>
+    <!-- Main Content -->
+    <BorderPane>
+        <!-- Header -->
+        <top>
+            <VBox alignment="TOP_CENTER" spacing="15.0">
+                <padding>
+                    <Insets top="40" bottom="20"/>
+                </padding>
 
-            <Label alignment="CENTER" style="-fx-font-weight: bold;" text="Melhor que o de rafael" textFill="black">
-                <font>
-                    <Font size="14.0" />
-                </font>
-            </Label>
+                <StackPane>
+                    <!-- Logo Circle -->
+                    <Circle radius="45" centerX="0" centerY="0">
+                        <fill>
+                            <LinearGradient endX="1.0" endY="1.0">
+                                <stops>
+                                    <Stop color="#2196F3"/>
+                                    <Stop color="#1565C0" offset="1.0"/>
+                                </stops>
+                            </LinearGradient>
+                        </fill>
+                        <effect>
+                            <DropShadow color="#00000066" radius="15"/>
+                        </effect>
+                    </Circle>
 
-            <Separator prefWidth="1000" style="-fx-background-color: #112f5e; -fx-pref-height: 3; -fx-border-width: 0;" />
-        </VBox>
-    </top>
+                    <!-- Bug Icon -->
+                    <Label text="🐞" style="-fx-font-size: 32;"/>
+                </StackPane>
 
-    <!-- Mensagem de erro e campos de login no centro -->
-    <center>
-        <StackPane style="-fx-background-color: #112f5e;">
+                <Label text="TrackBug" textFill="WHITE">
+                    <font>
+                        <Font name="Segoe UI Black" size="46.0"/>
+                    </font>
+                    <effect>
+                        <DropShadow color="#00000066" radius="12"/>
+                    </effect>
+                </Label>
 
-            <padding>
-                <Insets bottom="1" top="40" />  <!-- Ajuste o valor 50 para o espaçamento que desejar -->
-            </padding>
+                <Label text="Sistema Avançado de Gerenciamento de Estoque" textFill="WHITE" opacity="0.9">
+                    <font>
+                        <Font name="Segoe UI Light" size="18.0"/>
+                    </font>
+                </Label>
+            </VBox>
+        </top>
 
-            <VBox alignment="CENTER" maxWidth="400">
-                <!-- VBox principal com espaçamento distribuído -->
-                <VBox alignment="TOP_CENTER" style="-fx-background-color: #1976D2; -fx-padding: 20; -fx-background-radius: 50; -fx-effect: dropshadow(three-pass-box, rgba(15, 94, 171, 0.2), 50, 0.8, 0, 0);">
+        <!-- Login Form -->
+        <center>
+            <VBox alignment="TOP_CENTER" maxWidth="500">
+                <!-- Card de Login -->
+                <VBox alignment="TOP_CENTER" spacing="35"
+                      style="-fx-background-color: white; -fx-padding: 45;
+                             -fx-background-radius: 20;
+                             -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 30, 0, 0, 15);">
 
-                    <!-- Seção superior -->
-                    <VBox alignment="TOP_CENTER">
-
-
-                        <Label style="-fx-font-weight: bold" text="Login" textFill="#FFFFFF">
+                    <!-- Welcome Section -->
+                    <VBox spacing="12" alignment="CENTER">
+                        <Label text="Bem-vindo ao TrackBug" textFill="#2C3E50">
                             <font>
-                                <Font name="Baloo Chettan" size="30" />
+                                <Font name="Segoe UI Bold" size="32"/>
                             </font>
-                            <VBox.margin>
-                                <Insets bottom="30.0" />
-                            </VBox.margin>
+                        </Label>
+                        <Label text="Gerencie seus projetos com eficiência e precisão"
+                               textFill="#7F8C8D" alignment="CENTER" wrapText="true">
+                            <font>
+                                <Font name="Segoe UI" size="15"/>
+                            </font>
                         </Label>
                     </VBox>
 
-                    <!-- Seção central -->
-                    <VBox alignment="CENTER" spacing="10">
-
-                        <Label fx:id="mensagemErro" style="-fx-font-weight: bold; -fx-border-width: 0;" textFill="#d60000" visible="false">
-                            <font>
-                                <Font name="Hind Guntur" size="14.0" />
-                            </font>
-                        </Label>
-                        <!-- Campo do Usuário -->
-                        <TextField fx:id="usernameField" maxWidth="300" promptText="Usuário                                                        👤" style="-fx-background-radius: 50; -fx-background-color: #0f5eab; -fx-prompt-text-fill: #FFFFFF; -fx-border-width: 0;" styleClass="login-field">
-                            <font>
-                                <Font name="Hind Guntur" size="14.0" />
-                            </font>
-                            <VBox.margin>
-                                <Insets bottom="15" top="0" />
-                            </VBox.margin>
-                        </TextField>
-                        <!-- Campo da Senha -->
-                        <PasswordField fx:id="passwordField" maxWidth="300" promptText="Senha                                                          🔒" style="-fx-background-radius: 50; -fx-background-color: #0f5eab; -fx-prompt-text-fill: #FFFFFF; -fx-border-width: 0;" styleClass="login-field">
-                            <!-- Configurações da fonte -->
-                            <font>
-                                <Font name="Hind Guntur" size="14.0" />
-                            </font>
-                            <!-- Margem da VBox -->
-                            <VBox.margin>
-                                <Insets bottom="40.0" />
-                            </VBox.margin>
-                        </PasswordField>
+                    <!-- Alert Messages -->
+                    <VBox fx:id="alertBox" visible="false" managed="false">
+                        <HBox spacing="10" alignment="CENTER_LEFT" style="-fx-background-color: #FFF5F5;
+                              -fx-padding: 15 20; -fx-background-radius: 12;">
+                            <Label text="⚠️" style="-fx-font-size: 16;"/>
+                            <Label fx:id="mensagemErro" textFill="#E53E3E" wrapText="true">
+                                <font>
+                                    <Font name="Segoe UI Semibold" size="14"/>
+                                </font>
+                            </Label>
+                        </HBox>
                     </VBox>
 
-                    <!-- Seção inferior -->
-                    <VBox alignment="BOTTOM_CENTER">
-                        <!-- Campo de botão e suas definições -->
-                        <Button fx:id="loginButton" maxHeight="80" maxWidth="300" mnemonicParsing="false" onAction="#realizarLogin" style="-fx-background-radius: 50; -fx-background-color: #112f5e; -fx-text-fill: #FFFFFF; -fx-border-width: 0;" styleClass="login-button" text="Entrar">
-                            <!-- Configurações da fonte -->
-                            <font>
-                                <Font name="Hind Guntur" size="18.75" />
-                            </font>
-                        </Button>
+                    <!-- Login Fields -->
+                    <VBox spacing="25">
+                        <!-- Username -->
+                        <VBox spacing="10">
+                            <Label text="Nome de Usuário" textFill="#34495E">
+                                <font>
+                                    <Font name="Segoe UI Semibold" size="14"/>
+                                </font>
+                            </Label>
+                            <TextField fx:id="usernameField" promptText="Digite seu usuário"
+                                       style="-fx-background-color: #F7FAFC; -fx-padding: 15 20;
+                                            -fx-background-radius: 12; -fx-prompt-text-fill: #A0AEC0;
+                                            -fx-border-color: #E2E8F0; -fx-border-radius: 12;">
+                                <font>
+                                    <Font name="Segoe UI" size="14"/>
+                                </font>
+                            </TextField>
+                        </VBox>
+
+                        <!-- Password -->
+                        <VBox spacing="10">
+                            <Label text="Senha" textFill="#34495E">
+                                <font>
+                                    <Font name="Segoe UI Semibold" size="14"/>
+                                </font>
+                            </Label>
+                            <PasswordField fx:id="passwordField" promptText="Digite sua senha"
+                                           style="-fx-background-color: #F7FAFC; -fx-padding: 15 20;
+                                                -fx-background-radius: 12; -fx-prompt-text-fill: #A0AEC0;
+                                                -fx-border-color: #E2E8F0; -fx-border-radius: 12;">
+                                <font>
+                                    <Font name="Segoe UI" size="14"/>
+                                </font>
+                            </PasswordField>
+                        </VBox>
                     </VBox>
+
+                    <!-- Login Button -->
+                    <Button fx:id="loginButton" defaultButton="true" onAction="#realizarLogin"
+                            style="-fx-background-color: linear-gradient(to right, #2196F3, #1976D2);
+                                   -fx-text-fill: white; -fx-background-radius: 12;
+                                   -fx-cursor: hand; -fx-padding: 15 30;"
+                            maxWidth="Infinity">
+                        <graphic>
+                            <HBox alignment="CENTER" spacing="10">
+                                <Label text="Entrar na Plataforma" textFill="WHITE">
+                                    <font>
+                                        <Font name="Segoe UI Bold" size="16"/>
+                                    </font>
+                                </Label>
+                            </HBox>
+                        </graphic>
+                        <effect>
+                            <DropShadow color="#2196F340" radius="15" spread="0.2"/>
+                        </effect>
+                    </Button>
                 </VBox>
             </VBox>
-        </StackPane>
-    </center>
+        </center>
 
-    <bottom>
-        <HBox alignment="BOTTOM_CENTER">
-
-            <Region style="-fx-background-color: #112f5e;" HBox.hgrow="ALWAYS" />
-        </HBox>
-    </bottom>
-
-
-
-</BorderPane>
+        <!-- Footer -->
+        <bottom>
+            <VBox alignment="CENTER" spacing="10">
+                <padding>
+                    <Insets top="30" bottom="30"/>
+                </padding>
+                <Label text="© 2024 TrackBug - Todos os direitos reservados" textFill="WHITE" opacity="0.8">
+                    <font>
+                        <Font name="Segoe UI" size="13"/>
+                    </font>
+                </Label>
+                <HBox alignment="CENTER" spacing="20">
+                    <Hyperlink text="Termos de Uso" style="-fx-text-fill: white; -fx-border-color: transparent;"
+                               opacity="0.8">
+                        <font>
+                            <Font name="Segoe UI" size="13"/>
+                        </font>
+                    </Hyperlink>
+                    <Hyperlink text="Política de Privacidade" style="-fx-text-fill: white; -fx-border-color: transparent;"
+                               opacity="0.8">
+                        <font>
+                            <Font name="Segoe UI" size="13"/>
+                        </font>
+                    </Hyperlink>
+                    <Hyperlink text="Suporte" style="-fx-text-fill: white; -fx-border-color: transparent;"
+                               opacity="0.8">
+                        <font>
+                            <Font name="Segoe UI" size="13"/>
+                        </font>
+                    </Hyperlink>
+                </HBox>
+            </VBox>
+        </bottom>
+    </BorderPane>
+</StackPane>
