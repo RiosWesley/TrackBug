@@ -30,6 +30,7 @@ public class ListarFuncionariosController implements Initializable {
     @FXML private TableView<Funcionario> tabelaFuncionarios;
     @FXML private TableColumn<Funcionario, String> colunaId;
     @FXML private TableColumn<Funcionario, String> colunaNome;
+    @FXML private TableColumn<Funcionario, String> colunaCpf;
     @FXML private TableColumn<Funcionario, String> colunaFuncao;
     @FXML private TableColumn<Funcionario, String> colunaData;
     @FXML private TableColumn<Funcionario, Void> colunaAcoes;
@@ -55,6 +56,9 @@ public class ListarFuncionariosController implements Initializable {
         // Configuração das colunas da tabela
         colunaId.setCellValueFactory(data ->
                 new javafx.beans.property.SimpleStringProperty(data.getValue().getId()));
+
+        colunaNome.setCellValueFactory(data ->
+                new javafx.beans.property.SimpleStringProperty(data.getValue().getNome()));
 
         colunaNome.setCellValueFactory(data ->
                 new javafx.beans.property.SimpleStringProperty(data.getValue().getNome()));

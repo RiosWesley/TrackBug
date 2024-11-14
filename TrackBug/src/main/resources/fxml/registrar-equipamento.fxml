@@ -38,7 +38,7 @@
                 <!-- Data de Compra -->
                 <Label text="Data de Compra:" styleClass="form-label"
                        GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-                <DatePicker fx:id="dataCompraField"
+                <DatePicker fx:id="dataCompraField" styleClass="form-date-picker"
                             GridPane.columnIndex="1" GridPane.rowIndex="2"/>
 
                 <!-- Tipo de Item -->

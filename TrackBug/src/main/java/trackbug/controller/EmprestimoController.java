@@ -25,6 +25,8 @@ public class EmprestimoController implements Initializable {
     @FXML private ComboBox<Equipamento> equipamentoCombo;
     @FXML private TextField quantidadeField;
     @FXML private DatePicker dataDevolucao;
+    @FXML ComboBox<Integer> horasPicker = new ComboBox<>();
+    @FXML ComboBox<Integer> minutosPicker = new ComboBox<>();
     @FXML private TextArea observacoes;
     @FXML private Label equipamentoInfoLabel;
 
@@ -70,6 +72,10 @@ public class EmprestimoController implements Initializable {
                 return null;
             }
         });
+
+        for (int i = 0; i < 24; i++) horasPicker.getItems().add(i);
+        for (int i = 0; i < 60; i++) minutosPicker.getItems().add(i);
+
     }
 
     private void carregarDados() {
@@ -110,8 +116,12 @@ public class EmprestimoController implements Initializable {
 
             // Desabilitar dataDevolucao para itens de uso único
             dataDevolucao.setDisable("Uso Único".equals(equipamento.getTipoUso()));
+            horasPicker.setDisable("Uso Único".equals(equipamento.getTipoUso()));
+            minutosPicker.setDisable("Uso Único".equals(equipamento.getTipoUso()));
             if (dataDevolucao.isDisabled()) {
                 dataDevolucao.setValue(LocalDate.now());
+                horasPicker.setValue(LocalTime.now().getHour());
+                minutosPicker.setValue(LocalTime.now().getMinute());
             }
         }
     }
@@ -141,7 +151,11 @@ public class EmprestimoController implements Initializable {
         emprestimo.setIdEquipamento(equipamentoCombo.getValue().getId());
         emprestimo.setQuantidadeEmprestimo(Integer.parseInt(quantidadeField.getText()));
 
-        LocalDateTime dataHoraDevolucao = dataDevolucao.getValue().atTime(LocalTime.now());
+        int horasSelecionadas = horasPicker.getValue();
+        int minutosSelecionados = minutosPicker.getValue();
+        LocalTime horarioUsuario = LocalTime.of(horasSelecionadas, minutosSelecionados);
+
+        LocalDateTime dataHoraDevolucao = dataDevolucao.getValue().atTime(horarioUsuario);
         emprestimo.setDataRetornoPrevista(dataHoraDevolucao);
 
         emprestimo.setObservacoes(observacoes.getText());
@@ -202,8 +216,6 @@ public class EmprestimoController implements Initializable {
 
         return true;
     }
-
-
 
     @FXML
     private void limparFormulario() {

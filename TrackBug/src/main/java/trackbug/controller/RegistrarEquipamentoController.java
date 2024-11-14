@@ -12,6 +12,7 @@ import trackbug.util.ValidationHelper;
 
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ResourceBundle;
 
 public class RegistrarEquipamentoController implements Initializable {
@@ -40,6 +41,7 @@ public class RegistrarEquipamentoController implements Initializable {
         configurarCampos();
         configurarValidacoes();
         configurarBindings();
+        configurarListeners();
     }
 
     @FXML
@@ -147,6 +149,23 @@ public class RegistrarEquipamentoController implements Initializable {
             return false;
         }
     }
+
+    private void configurarListeners() {
+        tipoItemCombo.setOnAction(e -> atualizarInfoEquipamento());
+    }
+
+    private void atualizarInfoEquipamento() {
+
+            // Desabilitar dataDevolucao para itens de uso único
+
+        tipoUsoCombo.setDisable("Emprestável".equals(tipoItemCombo.getValue()));
+            if (tipoUsoCombo.isDisabled()) {
+                tipoUsoCombo.setValue("Reutilizável");
+            }else {
+                tipoUsoCombo.setValue(null);
+            }
+    }
+
 
     private void configurarCampos() {
         tipoItemCombo.setItems(FXCollections.observableArrayList("Emprestável", "Consumível"));

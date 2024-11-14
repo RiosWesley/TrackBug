@@ -31,6 +31,7 @@
         <columns>
             <TableColumn fx:id="colunaId" text="Código"/>
             <TableColumn fx:id="colunaNome" text="Nome"/>
+            <TableColumn fx:id="colunaCpf" text="CPF"/>
             <TableColumn fx:id="colunaFuncao" text="Função"/>
             <TableColumn fx:id="colunaData" text="Data de Admissão"/>
             <TableColumn fx:id="colunaAcoes" text="Ações"/>

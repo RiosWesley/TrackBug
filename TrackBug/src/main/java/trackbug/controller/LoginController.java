@@ -17,6 +17,7 @@ public class LoginController {
     @FXML private Label mensagemErro;
     @FXML private Button loginButton;
     @FXML private ImageView leftImage;
+    @FXML private ImageView iconPicImage;
     @FXML private ImageView rightImage;
 
     private final UsuarioService usuarioService;
@@ -31,10 +32,12 @@ public class LoginController {
             // Carrega a imagem
             Image unifanImage = new Image(getClass().getResourceAsStream("/images/UNIFAN.png"));
             Image estadoImage = new Image(getClass().getResourceAsStream("/images/ESTADO.png"));
+            Image iconImage = new Image(getClass().getResourceAsStream("/images/icon-pic.png"));
 
             // Define a imagem para ambos os ImageViews
             leftImage.setImage(unifanImage);
             rightImage.setImage(estadoImage);
+            iconPicImage.setImage(iconImage);
         } catch (Exception e) {
             System.out.println("Erro ao carregar a imagem: " + e.getMessage());
             e.printStackTrace();

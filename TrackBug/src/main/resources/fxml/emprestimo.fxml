@@ -13,10 +13,10 @@
 <?import javafx.scene.layout.VBox?>
 
 <?import java.net.URL?>
-<VBox alignment="CENTER" spacing="30" styleClass="form-container" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="trackbug.controller.EmprestimoController">
+<VBox alignment="CENTER" style="-fx-spacing: 10; -fx-padding: 10 0 10 0;" styleClass="form-container" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="trackbug.controller.EmprestimoController">
 
     <!-- Cabeçalho -->
-    <VBox alignment="CENTER" styleClass="form-header">
+    <VBox alignment="CENTER" styleClass="form-header" style="-fx-padding: 0;">
         <Label styleClass="form-title" text="Registrar Novo Empréstimo" />
         <Label styleClass="form-subtitle" text="Preencha os dados do empréstimo abaixo" />
         <stylesheets>
@@ -25,32 +25,38 @@
     </VBox>
 
     <!-- Container principal -->
-    <VBox styleClass="form-content-container">
+    <VBox styleClass="form-content-container" style="-fx-effect: dropshadow(three-pass-box, rgba(80, 80, 80, 0.65), 1000, 0.5, 0, 50);">
         <!-- Grid para os campos -->
         <GridPane alignment="CENTER" hgap="15" vgap="15" VBox.vgrow="ALWAYS">
 
             <!-- Seleção de Funcionário -->
             <Label styleClass="form-label" text="Funcionário:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-            <ComboBox fx:id="funcionarioCombo" promptText="Selecione o funcionário" styleClass="form-combo" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+            <ComboBox fx:id="funcionarioCombo" promptText="Selecione o funcionário..." styleClass="form-combo" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
             <!-- Seleção de Equipamento -->
             <Label styleClass="form-label" text="Equipamento:" GridPane.columnIndex="0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
-            <ComboBox fx:id="equipamentoCombo" promptText="Selecione o equipamento" styleClass="form-combo" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <ComboBox fx:id="equipamentoCombo" promptText="Selecione o equipamento..." styleClass="form-combo" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
             <!-- Informações do Equipamento -->
             <Label fx:id="equipamentoInfoLabel" styleClass="info-label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
             <!-- Quantidade -->
             <Label styleClass="form-label" text="Quantidade:" GridPane.columnIndex="0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" />
-            <TextField fx:id="quantidadeField" promptText="Quantidade" styleClass="form-field" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <TextField fx:id="quantidadeField" promptText="Quantidade..." styleClass="form-field" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
             <!-- Data de Devolução -->
             <Label styleClass="form-label" text="Data de Devolução:" GridPane.columnIndex="0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" />
-            <DatePicker fx:id="dataDevolucao" promptText="Selecione a data" styleClass="form-date-picker" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <DatePicker fx:id="dataDevolucao" promptText="Selecione a data..." styleClass="form-date-picker" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+
+            <Label styleClass="form-label" text="Hora da Devolução:" GridPane.columnIndex="0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="5" />
+            <ComboBox fx:id="horasPicker" promptText="Selecione o horário..." styleClass="form-combo" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+
+            <Label styleClass="form-label" text="Minutos da Devolução:" GridPane.columnIndex="0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="6" />
+            <ComboBox fx:id="minutosPicker" promptText="Selecione os minutos..." styleClass="form-combo" GridPane.columnIndex="1" GridPane.rowIndex="6" />
 
             <!-- Observações -->
-            <Label styleClass="form-label" text="Observações:" GridPane.columnIndex="0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="5" />
-            <TextArea fx:id="observacoes" prefRowCount="3" promptText="Observações sobre o empréstimo" styleClass="form-text-area" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <Label styleClass="form-label" text="Observações:" GridPane.columnIndex="0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="7" />
+            <TextArea fx:id="observacoes" prefRowCount="3" promptText="Observações sobre o empréstimo" styleClass="form-text-area" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="7" />
          <columnConstraints>
             <ColumnConstraints hgrow="ALWAYS" maxWidth="1000.0" minWidth="190.0" prefWidth="200.0" />
             <ColumnConstraints />
@@ -66,7 +72,7 @@
         </GridPane>
 
         <!-- Botões -->
-        <HBox alignment="CENTER" spacing="15" styleClass="button-container">
+        <HBox alignment="CENTER" spacing="15" styleClass="button-container" style="-fx-padding: 5;">
             <Button onAction="#registrarEmprestimo" styleClass="btn-primary" text="Registrar Empréstimo" />
             <Button onAction="#limparFormulario" styleClass="btn-secondary" text="Limpar" />
         </HBox>
