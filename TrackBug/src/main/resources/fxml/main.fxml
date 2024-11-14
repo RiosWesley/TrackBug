@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<?import java.lang.String?>
-<?import java.net.URL?>
 <BorderPane style="-fx-background-color: #f4f4f4;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="trackbug.controller.MainController">
     <left>
         <HBox fx:id="menuContainer" minWidth="50">
@@ -21,47 +20,148 @@
                         <padding>
                             <Insets bottom="20.0" />
                         </padding>
-                        <Label text="TrackBug" textFill="WHITE">
+                        <Label styleClass="menu-title" text="TrackBug" textFill="WHITE">
                             <font>
                                 <Font name="Segoe UI Bold" size="28.0" />
                             </font>
-                            <styleClass>
-                                <String fx:value="menu-title"/>
-                            </styleClass>
                         </Label>
                     </VBox>
 
                     <!-- Menu Items -->
-                    <Label styleClass="menu-section" text="INÍCIO" textFill="WHITE" />
-                    <Button fx:id="btnDashboard" onAction="#mostrarDashboard" styleClass="menu-button" text="📈 Dashboard" />
+                    <Label style="-fx-effect: dropshadow(three-pass-box, rgba(15, 94, 171, 0.8), 15, 0.5, 0, 0);;" styleClass="menu-section" text="INÍCIO" />
+                    <Button fx:id="btnDashboard" onAction="#mostrarDashboard" styleClass="menu-button">
+                        <graphic>
+                            <HBox styleClass="button-content">
+                                <Label styleClass="menu-icon" text="📈" />
+                                <Label style="-fx-effect: dropshadow(three-pass-box, rgba(15, 94, 171, 0.8), 15, 0.5, 0, 0);;" styleClass="menu-text" text="Dashboard" />
+                            </HBox>
+                        </graphic>
+                    </Button>
 
-                    <Label styleClass="menu-section" text="EMPRÉSTIMOS" textFill="WHITE" />
-                    <Button fx:id="btnEmprestimos" onAction="#mostrarEmprestimos" styleClass="menu-button" text="➕ Empréstimos" />
-                    <Button fx:id="btnDevolucao" onAction="#mostrarDevolucao" styleClass="menu-button" text="↩ Registrar Devolução" />
-                    <Button fx:id="btnListarAtivos" onAction="#mostrarEmprestimosAtivos" styleClass="menu-button" text="📊 Empréstimos Ativos" />
-                    <Button fx:id="btnListarAtrasos" onAction="#mostrarEmprestimosAtraso" styleClass="menu-button" text="⚠ Empréstimos em Atraso" />
+                    <Label styleClass="menu-section" text="EMPRÉSTIMOS" />
+                    <Button fx:id="btnEmprestimos" onAction="#mostrarEmprestimos" styleClass="menu-button">
+                        <graphic>
+                            <HBox styleClass="button-content">
+                                <Label styleClass="menu-icon" text="➕" />
+                                <Label styleClass="menu-text" text="Empréstimos" />
+                            </HBox>
+                        </graphic>
+                    </Button>
+
+                    <Button fx:id="btnDevolucao" onAction="#mostrarDevolucao" styleClass="menu-button">
+                        <graphic>
+                            <HBox styleClass="button-content">
+                                <Label styleClass="menu-icon" text="↩" />
+                                <Label styleClass="menu-text" text="Registrar Devolução" />
+                            </HBox>
+                        </graphic>
+                    </Button>
+
+                    <Button fx:id="btnListarAtivos" onAction="#mostrarEmprestimosAtivos" styleClass="menu-button">
+                        <graphic>
+                            <HBox styleClass="button-content">
+                                <Label styleClass="menu-icon" text="📊" />
+                                <Label styleClass="menu-text" text="Empréstimos Ativos" />
+                            </HBox>
+                        </graphic>
+                    </Button>
+
+                    <Button fx:id="btnListarAtrasos" onAction="#mostrarEmprestimosAtraso" styleClass="menu-button">
+                        <graphic>
+                            <HBox alignment="CENTER_LEFT" spacing="10">
+                                <Label styleClass="menu-icon" text="⚠" />
+                                <Label styleClass="menu-text" text="Empréstimos em Atraso" />
+                            </HBox>
+                        </graphic>
+                    </Button>
 
                     <Label styleClass="menu-section" text="EQUIPAMENTOS" textFill="WHITE" />
-                    <Button fx:id="btnRegistrarEquip" onAction="#mostrarRegistroEquipamento" styleClass="menu-button" text="📦 Registrar Equipamento" />
-                    <Button fx:id="btnListarEquip" onAction="#mostrarListaEquipamentos" styleClass="menu-button" text="📑 Listar Equipamentos" />
+                    <Button fx:id="btnRegistrarEquip" onAction="#mostrarRegistroEquipamento" styleClass="menu-button">
+                        <graphic>
+                            <HBox alignment="CENTER_LEFT" spacing="10">
+                                <Label styleClass="menu-icon" text="📦" />
+                                <Label styleClass="menu-text" text="Registrar Equipamento" />
+                            </HBox>
+                        </graphic>
+                    </Button>
+
+                    <Button fx:id="btnListarEquip" onAction="#mostrarListaEquipamentos" styleClass="menu-button">
+                        <graphic>
+                            <HBox alignment="CENTER_LEFT" spacing="10">
+                                <Label styleClass="menu-icon" text="📑" />
+                                <Label styleClass="menu-text" text="Listar Equipamentos" />
+                            </HBox>
+                        </graphic>
+                    </Button>
 
                     <Label styleClass="menu-section" text="FUNCIONÁRIOS" textFill="WHITE" />
-                    <Button fx:id="btnCadastrarFunc" onAction="#mostrarCadastroFuncionario" styleClass="menu-button" text="👤 Cadastrar Funcionários" />
-                    <Button fx:id="btnListarFunc" onAction="#mostrarListaFuncionarios" styleClass="menu-button" text="👥 Listar Funcionários" />
+                    <Button fx:id="btnCadastrarFunc" onAction="#mostrarCadastroFuncionario" styleClass="menu-button">
+                        <graphic>
+                            <HBox alignment="CENTER_LEFT" spacing="10">
+                                <Label styleClass="menu-icon" text="👤" />
+                                <Label styleClass="menu-text" text="Cadastrar Funcionários" />
+                            </HBox>
+                        </graphic>
+                    </Button>
+
+                    <Button fx:id="btnListarFunc" onAction="#mostrarListaFuncionarios" styleClass="menu-button">
+                        <graphic>
+                            <HBox alignment="CENTER_LEFT" spacing="10">
+                                <Label styleClass="menu-icon" text="👥" />
+                                <Label styleClass="menu-text" text="Listar Funcionários" />
+                            </HBox>
+                        </graphic>
+                    </Button>
 
                     <Label styleClass="menu-section" text="RELATÓRIOS" textFill="WHITE" />
-                    <Button fx:id="btnHistorico" onAction="#mostrarHistorico" styleClass="menu-button" text="📅 Histórico" />
-                    <Button fx:id="btnHistoricoAlteracoes" onAction="#mostrarHistoricoAlteracoes" styleClass="menu-button" text="📝 Histórico de Alterações" />
-                    <Button fx:id="btnHistoricoAvarias" onAction="#mostrarHistoricoAvarias" styleClass="menu-button" text="🔧 Histórico de Avarias" />
+                    <Button fx:id="btnHistorico" onAction="#mostrarHistorico" styleClass="menu-button">
+                        <graphic>
+                            <HBox alignment="CENTER_LEFT" spacing="10">
+                                <Label styleClass="menu-icon" text="📅" />
+                                <Label styleClass="menu-text" text="Histórico" />
+                            </HBox>
+                        </graphic>
+                    </Button>
+
+                    <Button fx:id="btnHistoricoAlteracoes" onAction="#mostrarHistoricoAlteracoes" styleClass="menu-button">
+                        <graphic>
+                            <HBox alignment="CENTER_LEFT" spacing="10">
+                                <Label styleClass="menu-icon" text="📝" />
+                                <Label styleClass="menu-text" text="Histórico de Alterações" />
+                            </HBox>
+                        </graphic>
+                    </Button>
+
+                    <Button fx:id="btnHistoricoAvarias" onAction="#mostrarHistoricoAvarias" styleClass="menu-button">
+                        <graphic>
+                            <HBox alignment="CENTER_LEFT" spacing="10">
+                                <Label styleClass="menu-icon" text="🔧" />
+                                <Label styleClass="menu-text" text="Histórico de Avarias" />
+                            </HBox>
+                        </graphic>
+                    </Button>
 
                     <Label fx:id="labelAdministracao" styleClass="menu-section" text="ADMINISTRAÇÃO" textFill="WHITE" />
-                    <Button fx:id="btnGerenciarUsuarios" onAction="#mostrarGerenciamentoUsuarios" styleClass="menu-button" text="👥 Gerenciar Usuários" />
+                    <Button fx:id="btnGerenciarUsuarios" onAction="#mostrarGerenciamentoUsuarios" styleClass="menu-button">
+                        <graphic>
+                            <HBox alignment="CENTER_LEFT" spacing="10">
+                                <Label styleClass="menu-icon" text="👥" />
+                                <Label styleClass="menu-text" text="Gerenciar Usuários" />
+                            </HBox>
+                        </graphic>
+                    </Button>
 
                     <!-- Spacer -->
                     <Region VBox.vgrow="ALWAYS" />
 
                     <!-- Logout Button -->
-                    <Button fx:id="btnLogout" onAction="#logout" styleClass="menu-button, menu-button-logout" text="🚪 Sair">
+                    <Button fx:id="btnLogout" onAction="#logout" styleClass="menu-button, menu-button-logout">
+                        <graphic>
+                            <HBox alignment="CENTER_LEFT" spacing="10">
+                                <Label styleClass="menu-icon" text="🚪" />
+                                <Label styleClass="menu-text" text="Sair" />
+                            </HBox>
+                        </graphic>
                         <VBox.margin>
                             <Insets top="20.0" />
                         </VBox.margin>
@@ -77,7 +177,6 @@
                 <padding>
                     <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
                 </padding>
-                <VBox alignment="CENTER" spacing="15" />
             </VBox>
         </ScrollPane>
     </center>

@@ -49,6 +49,7 @@ menu-scroll-pane > .viewport {
     -fx-font-weight: bold;
     -fx-padding: 15 15 5 15;
     -fx-opacity: 0.9;
+    -fx-effect: dropshadow(three-pass-box, rgba(15, 94, 171, 0.8), 15, 0.5, 0, 0);
 }
 .menu-collapsed .menu-section {
     -fx-opacity: 0;
@@ -56,11 +57,10 @@ menu-scroll-pane > .viewport {
 .menu-button {
     -fx-background-color: transparent;
     -fx-text-fill: white;
-    -fx-alignment: CENTER_LEFT;
-    -fx-min-width: 50px;
-    -fx-pref-width: 250px;
     -fx-padding: 10 15;
     -fx-cursor: hand;
+    -fx-min-width: 50px;
+    -fx-transition: all 0.3s ease-in-out;
 }
 
 .menu-button:hover {
@@ -78,12 +78,24 @@ menu-scroll-pane > .viewport {
 
 .menu-collapsed .menu-button {
     -fx-alignment: CENTER;
-    -fx-pref-width: 50px;
+    -fx-padding: 10 5;
 }
 
-.menu-collapsed .menu-button .text {
+.menu-collapsed .menu-text {
     -fx-opacity: 0;
+    -fx-visible: false;
+    -fx-managed: false;
 }
+.menu-collapsed .menu-icon {
+    -fx-font-size: 18px; /* Ligeiramente maior quando recolhido */
+}
+/* O HBox dentro do botão */
+.menu-button .button-content {
+    -fx-alignment: CENTER_LEFT;
+    -fx-spacing: 10;
+}
+
+
 .content-area {
     -fx-background-color: white;
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0);
@@ -576,4 +588,14 @@ menu-scroll-pane > .viewport {
 /* Animação suave para a transição */
 .menu-item, .menu-item-collapsed {
     -fx-transition: all 0.3s ease-in-out;
+}
+.menu-icon {
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-min-width: 20px;
+    -fx-alignment: CENTER;
+}
+.menu-text {
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
 }
