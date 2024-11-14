@@ -2,7 +2,6 @@
 
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
@@ -14,27 +13,27 @@
 
     <!-- Cabeçalho no topo -->
     <top>
-        <VBox alignment="TOP_CENTER" spacing="10">
+        <VBox alignment="TOP_CENTER" spacing="10.0" style="-fx-background-color: #112f5e;" styleClass="form-container">
 
-            <Label style="-fx-font-weight: bold;" text="TrackBug Perfeito" textFill="black">
+            <Label alignment="CENTER" style="-fx-font-weight: bold; -fx-effect: dropshadow(three-pass-box, rgba(15, 94, 171, 0.4), 8, 0.8, 0, 0);" text="TrackBug " textFill="WHITE">
                 <font>
                     <Font name="Roboto" size="48.0" />
                 </font>
             </Label>
 
-            <Label style="-fx-font-weight: bold;" text="Melhor que o de rafael" textFill="black">
+            <Label alignment="CENTER" style="-fx-font-weight: bold;" text="Melhor que o de rafael" textFill="black">
                 <font>
                     <Font size="14.0" />
                 </font>
             </Label>
 
-            <Separator prefWidth="1000" style="-fx-background-color: #A09C9CD9; -fx-pref-height: 3; -fx-border-width: 0;" />
+            <Separator prefWidth="1000" style="-fx-background-color: #112f5e; -fx-pref-height: 3; -fx-border-width: 0;" />
         </VBox>
     </top>
 
     <!-- Mensagem de erro e campos de login no centro -->
     <center>
-        <StackPane>
+        <StackPane style="-fx-background-color: #112f5e;">
 
             <padding>
                 <Insets bottom="1" top="40" />  <!-- Ajuste o valor 50 para o espaçamento que desejar -->
@@ -91,7 +90,7 @@
                     <!-- Seção inferior -->
                     <VBox alignment="BOTTOM_CENTER">
                         <!-- Campo de botão e suas definições -->
-                        <Button fx:id="loginButton" maxHeight="80" maxWidth="300" mnemonicParsing="false" onAction="#realizarLogin" style="-fx-background-radius: 50;                                     -fx-background-color: #FFEBC5; -fx-text-fill: #FF6853;                                     -fx-border-width: 0;" styleClass="login-button" text="Entrar">
+                        <Button fx:id="loginButton" maxHeight="80" maxWidth="300" mnemonicParsing="false" onAction="#realizarLogin" style="-fx-background-radius: 50; -fx-background-color: #112f5e; -fx-text-fill: #FFFFFF; -fx-border-width: 0;" styleClass="login-button" text="Entrar">
                             <!-- Configurações da fonte -->
                             <font>
                                 <Font name="Hind Guntur" size="18.75" />
@@ -105,21 +104,8 @@
 
     <bottom>
         <HBox alignment="BOTTOM_CENTER">
-            <!-- Imagem da esquerda -->
-            <ImageView fx:id="leftImage" fitHeight="130" fitWidth="130" preserveRatio="true">
-                <VBox.margin>
-                    <Insets bottom="-50" />
-                </VBox.margin>
-            </ImageView>
 
-            <Region HBox.hgrow="ALWAYS" />
-
-            <!-- Imagem da direita -->
-            <ImageView fx:id="rightImage" fitHeight="150" fitWidth="150" preserveRatio="true">
-                <VBox.margin>
-                    <Insets bottom="-50" />
-                </VBox.margin>
-            </ImageView>
+            <Region style="-fx-background-color: #112f5e;" HBox.hgrow="ALWAYS" />
         </HBox>
     </bottom>
 

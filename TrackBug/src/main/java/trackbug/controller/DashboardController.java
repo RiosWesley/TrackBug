@@ -138,7 +138,7 @@ public class DashboardController implements Initializable {
             XYChart.Series<String, Number> series = new XYChart.Series<>();
 
             var dadosGrafico = dashboardService.getEmprestimosPorMes();
-            System.out.println("Dados do gráfico: " + dadosGrafico);
+
 
             // Mapeia os meses em inglês para os meses em português
             Map<String, String> mesesMap = Map.ofEntries(

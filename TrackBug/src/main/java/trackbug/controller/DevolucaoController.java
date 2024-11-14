@@ -1,11 +1,8 @@
 package trackbug.controller;
 
-import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.collections.FXCollections;
-import javafx.scene.layout.VBox;
-import javafx.util.Duration;
 import trackbug.model.entity.Emprestimo;
 import trackbug.model.service.EmprestimoService;
 import trackbug.model.service.FuncionarioService;
@@ -16,7 +13,7 @@ import java.util.List;
 
 public class DevolucaoController {
     @FXML
-    private ComboBox<Integer> emprestimoCombo;
+    private ComboBox<String> emprestimoCombo;
 
     @FXML
     private TextArea detalhesEmprestimo;
@@ -25,41 +22,41 @@ public class DevolucaoController {
     private final FuncionarioService funcionarioService;
     private final EquipamentoService equipamentoService;
     private final DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-    @FXML private VBox formContainer;
+
     public DevolucaoController() {
         this.emprestimoService = new EmprestimoService();
         this.funcionarioService = new FuncionarioService();
         this.equipamentoService = new EquipamentoService();
-        }
+    }
 
     @FXML
     private void initialize() {
         // Configurar listener para o ComboBox
         emprestimoCombo.setOnAction(e -> {
-            Integer selectedId = emprestimoCombo.getValue();
+            String selectedId = emprestimoCombo.getValue();
             if (selectedId != null) {
-                mostrarDetalhesEmprestimo(selectedId);
+                // Extrair apenas o número da String antes do " - "
+                String idParte = selectedId.split(" - ")[0].trim();
+                try {
+                    int emprestimoId = Integer.parseInt(idParte);
+                    mostrarDetalhesEmprestimo(emprestimoId);
+                } catch (NumberFormatException ex) {
+                    mostrarErro("Erro de Conversão", "O ID selecionado não é válido.");
+                }
             }
         });
 
         // Carregar empréstimos ativos
         carregarEmprestimosAtivos();
-        addFadeInAnimation();
     }
 
-    private void addFadeInAnimation() {
-        FadeTransition ft = new FadeTransition(Duration.millis(500), formContainer);
-        ft.setFromValue(0.0);
-        ft.setToValue(1.0);
-        ft.play();
-    }
 
     private void carregarEmprestimosAtivos() {
         try {
             List<Emprestimo> emprestimosAtivos = emprestimoService.listarEmprestimosAtivos();
             emprestimoCombo.setItems(FXCollections.observableArrayList(
                     emprestimosAtivos.stream()
-                            .map(Emprestimo::getId)
+                            .map(emprestimo -> String.valueOf(emprestimo.getId()) + " - " + emprestimo.getDescricaoEquipamento())
                             .toList()
             ));
         } catch (Exception e) {
@@ -101,22 +98,31 @@ public class DevolucaoController {
 
     @FXML
     private void confirmarDevolucao() {
-        Integer emprestimoId = emprestimoCombo.getValue();
-        if (emprestimoId == null) {
-            mostrarAlerta("Selecione um empréstimo",
-                    "Por favor, selecione um empréstimo para registrar a devolução.");
+        String selectedId = emprestimoCombo.getValue();
+        if (selectedId == null) {
+            mostrarAlerta("Selecione um empréstimo", "Por favor, selecione um empréstimo para registrar a devolução.");
             return;
         }
 
+        // Extrair apenas o número da String antes do " - "
+        String idParte = selectedId.split(" - ")[0].trim();
+
         try {
+            int emprestimoId = Integer.parseInt(idParte);
+
+            // Registrar a devolução usando o ID numérico extraído
             emprestimoService.registrarDevolucao(emprestimoId);
+
             mostrarSucesso("Devolução registrada com sucesso!");
             limparFormulario();
             carregarEmprestimosAtivos();
+        } catch (NumberFormatException e) {
+            mostrarErro("Erro ao registrar devolução", "ID inválido: " + selectedId);
         } catch (Exception e) {
             mostrarErro("Erro ao registrar devolução", e.getMessage());
         }
     }
+
 
     @FXML
     private void cancelar() {

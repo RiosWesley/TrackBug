@@ -27,19 +27,6 @@ public class LoginController {
 
     @FXML
     public void initialize() {
-        try {
-            // Carrega a imagem
-            Image unifanImage = new Image(getClass().getResourceAsStream("/images/UNIFAN.png"));
-            Image estadoImage = new Image(getClass().getResourceAsStream("/images/ESTADO.png"));
-
-            // Define a imagem para ambos os ImageViews
-            leftImage.setImage(unifanImage);
-            rightImage.setImage(estadoImage);
-        } catch (Exception e) {
-            System.out.println("Erro ao carregar a imagem: " + e.getMessage());
-            e.printStackTrace();
-        }
-
         // Configurar validações dos campos
         configurarValidacoes();
     }
