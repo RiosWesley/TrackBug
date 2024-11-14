@@ -12,6 +12,7 @@ import javafx.application.Platform;
 import trackbug.model.service.DashboardService;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.Timer;
@@ -137,20 +138,62 @@ public class DashboardController implements Initializable {
             XYChart.Series<String, Number> series = new XYChart.Series<>();
 
             var dadosGrafico = dashboardService.getEmprestimosPorMes();
-            for (var dado : dadosGrafico) {
-                series.getData().add(new XYChart.Data<>(
-                        dado.get("mes").toString(),
-                        ((Number) dado.get("quantidade")).intValue()
-                ));
+            System.out.println("Dados do gráfico: " + dadosGrafico);
+
+            // Mapeia os meses em inglês para os meses em português
+            Map<String, String> mesesMap = Map.ofEntries(
+                    Map.entry("January", "Janeiro"),
+                    Map.entry("February", "Fevereiro"),
+                    Map.entry("March", "Março"),
+                    Map.entry("April", "Abril"),
+                    Map.entry("May", "Maio"),
+                    Map.entry("June", "Junho"),
+                    Map.entry("July", "Julho"),
+                    Map.entry("August", "Agosto"),
+                    Map.entry("September", "Setembro"),
+                    Map.entry("October", "Outubro"),
+                    Map.entry("November", "Novembro"),
+                    Map.entry("December", "Dezembro")
+            );
+
+
+            // Lista com os meses em português para garantir a ordem correta
+            List<String> mesesEmPortugues = List.of(
+                    "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+                    "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+            );
+
+            // Ajusta a exibição dos dados para os meses de janeiro a dezembro
+            for (String mesPortugues : mesesEmPortugues) {
+                String mesInglesCorrespondente = mesesMap.entrySet().stream()
+                        .filter(entry -> entry.getValue().equals(mesPortugues))
+                        .map(Map.Entry::getKey)
+                        .findFirst()
+                        .orElse("");
+
+                Optional<Map<String, Object>> dadoOptional = dadosGrafico.stream()
+                        .filter(dado -> dado.get("mes").toString().equalsIgnoreCase(mesInglesCorrespondente))
+                        .findFirst();
+
+                int quantidadeEmprestimos = dadoOptional.map(dado -> ((Number) dado.get("quantidade")).intValue())
+                        .orElse(0);
+
+                series.getData().add(new XYChart.Data<>(mesPortugues, quantidadeEmprestimos));
             }
 
+            // Limpar dados anteriores e adicionar a nova série ao gráfico
             emprestimosPorMes.getData().clear();
             emprestimosPorMes.getData().add(series);
 
+            // Redimensionar o gráfico
+            emprestimosPorMes.setPrefHeight(300);
+            emprestimosPorMes.setPrefWidth(600);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+
 
     private void atualizarTabelaEmprestimos() {
         try {
