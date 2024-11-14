@@ -6,13 +6,12 @@
 <?import javafx.scene.text.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.Group?>
-<?import javafx.animation.*?>
 
-<StackPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
+<StackPane fx:id="rootPane" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
            fx:controller="trackbug.controller.LoginController"
            style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #0F172A, #1E293B, #334155);">
 
-    <!-- Animated Background Elements -->
+    <!-- Background Elements -->
     <Group>
         <Circle centerX="200" centerY="200" radius="300" opacity="0.15" fill="#3B82F6">
             <effect>
@@ -24,22 +23,6 @@
                 <GaussianBlur radius="150"/>
             </effect>
         </Circle>
-        <!-- Floating particles -->
-        <fx:define>
-            <Timeline fx:id="particleAnimation" cycleCount="INDEFINITE">
-                <keyframes>
-                    <KeyFrame>
-                        <keyValue>
-                            <Circle centerX="100" centerY="100" radius="4" opacity="0.2" fill="WHITE">
-                                <effect>
-                                    <Glow level="0.8"/>
-                                </effect>
-                            </Circle>
-                        </keyValue>
-                    </KeyFrame>
-                </keyframes>
-            </Timeline>
-        </fx:define>
     </Group>
 
     <BorderPane>
@@ -49,7 +32,7 @@
                     <Insets top="50" bottom="30"/>
                 </padding>
 
-                <!-- Enhanced Logo Animation -->
+                <!-- Logo -->
                 <StackPane>
                     <Group>
                         <Circle radius="60" fill="linear-gradient(to right, #3B82F6, #2563EB, #1D4ED8)">
@@ -69,7 +52,7 @@
                     </Group>
                 </StackPane>
 
-                <!-- Enhanced Title Section -->
+                <!-- Title Section -->
                 <VBox alignment="CENTER" spacing="12">
                     <Label text="TrackBug" textFill="WHITE">
                         <font>
@@ -97,7 +80,7 @@
 
         <center>
             <VBox alignment="TOP_CENTER" maxWidth="520" spacing="25">
-                <!-- Enhanced Login Card -->
+                <!-- Login Card -->
                 <VBox alignment="TOP_CENTER" spacing="40"
                       style="-fx-background-color: linear-gradient(to bottom right, #FFFFFF, #F8FAFC);
                              -fx-padding: 48 45;
@@ -122,7 +105,7 @@
                         </Label>
                     </VBox>
 
-                    <!-- Enhanced Alert Box -->
+                    <!-- Alert Box -->
                     <VBox fx:id="alertBox" visible="false" managed="false">
                         <HBox spacing="16" alignment="CENTER_LEFT"
                               style="-fx-background-color: linear-gradient(to right, #FEF2F2, #FFE4E4);
@@ -137,7 +120,7 @@
                         </HBox>
                     </VBox>
 
-                    <!-- Enhanced Input Fields -->
+                    <!-- Input Fields -->
                     <VBox spacing="32">
                         <!-- Username Field -->
                         <VBox spacing="14">
@@ -192,7 +175,7 @@
                         </VBox>
                     </VBox>
 
-                    <!-- Enhanced Login Button -->
+                    <!-- Login Button -->
                     <Button fx:id="loginButton" defaultButton="true" onAction="#realizarLogin"
                             style="-fx-background-color: linear-gradient(to right, #3B82F6, #2563EB, #1D4ED8);
                                    -fx-background-radius: 14;
