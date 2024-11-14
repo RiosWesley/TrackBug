@@ -48,7 +48,7 @@
                             </DropShadow>
                         </effect>
                     </Label>
-                    <Label text="Sistema Inteligente de Gestão de Projetos" textFill="#94A3B8">
+                    <Label text="Sistema Inteligente de Gestão de Estoque" textFill="#94A3B8">
                         <font>
                             <Font name="Inter Medium" size="20.0" />
                         </font>
