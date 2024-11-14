@@ -43,7 +43,7 @@
             <TableColumn fx:id="colunaAcoes" text="Ações" minWidth="220" maxWidth="300"/>
         </columns>
         <placeholder>
-            <Label text="Nenhum equipamento encontrado"/>
+            <Label text="Nenhum equipamento encontrado." style="-fx-font-size: 26;"/>
         </placeholder>
     </TableView>
 

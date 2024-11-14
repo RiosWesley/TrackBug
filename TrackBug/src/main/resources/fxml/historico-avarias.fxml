@@ -39,7 +39,7 @@
             <TableColumn fx:id="colunaDescricao" text="Descrição"/>
         </columns>
         <placeholder>
-            <Label text="Nenhuma avaria registrada"/>
+            <Label text="Nenhuma avaria registrada." style="-fx-font-size: 26;"/>
         </placeholder>
     </TableView>
 

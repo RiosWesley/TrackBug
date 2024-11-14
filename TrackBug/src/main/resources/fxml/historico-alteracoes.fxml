@@ -47,7 +47,7 @@
             <TableColumn fx:id="colunaDetalhes" text="Detalhes"/>
         </columns>
         <placeholder>
-            <Label text="Nenhuma alteração encontrada"/>
+            <Label text="Nenhuma alteração encontrada." style="-fx-font-size: 26;"/>
         </placeholder>
     </TableView>
 

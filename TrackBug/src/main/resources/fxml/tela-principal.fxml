@@ -138,7 +138,7 @@
                             <TableColumn fx:id="colunaDiasAtraso" text="Dias em Atraso"/>
                         </columns>
                         <placeholder>
-                            <Label text="Nenhum empréstimo em atraso encontrado" style="-fx-font-size: 20;"/>
+                            <Label text="Nenhum empréstimo em atraso encontrado." style="-fx-font-size: 20; "/>
                         </placeholder>
                     </TableView>
                 </VBox>
@@ -164,7 +164,7 @@
                             <TableColumn fx:id="colunaQuantidadeMinima" text="Qtd. Miníma"/>
                         </columns>
                         <placeholder>
-                            <Label text="Nenhum equipamento com quantidade baixa" style="-fx-font-size: 20;"/>
+                            <Label text="Nenhum equipamento com quantidade baixa." style="-fx-font-size: 16;"/>
                         </placeholder>
                     </TableView>
                 </VBox>
@@ -194,7 +194,7 @@
                         <TableColumn fx:id="colunaStatusDia" text="Status"/>
                     </columns>
                     <placeholder>
-                        <Label text="Nenhum equipamento com quantidade baixa" style="-fx-font-size: 20;"/>
+                        <Label text="Nenhum equipamento para ser devolvido hoje." style="-fx-font-size: 26;"/>
                     </placeholder>
                 </TableView>
                 <HBox maxHeight="5" minHeight="5" minWidth="5" maxWidth="5" />

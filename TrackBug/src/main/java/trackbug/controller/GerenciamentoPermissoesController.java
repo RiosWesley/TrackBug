@@ -90,7 +90,7 @@ public class GerenciamentoPermissoesController implements Initializable {
 
             {
                 btnEditar.getStyleClass().add("btn-edit");
-                btnAlterarStatus.getStyleClass().add("btn-status");
+                btnAlterarStatus.getStyleClass().add("btn-avaria");
 
                 btnEditar.setOnAction(event -> {
                     Usuario usuario = getTableRow().getItem();

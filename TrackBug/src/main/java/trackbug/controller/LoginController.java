@@ -31,7 +31,7 @@ public class LoginController {
         try {
             // Carrega a imagem
             Image unifanImage = new Image(getClass().getResourceAsStream("/images/UNIFAN.png"));
-            Image estadoImage = new Image(getClass().getResourceAsStream("/images/ESTADO.png"));
+            Image estadoImage = new Image(getClass().getResourceAsStream("/images/UNIFAN.png"));
             Image iconImage = new Image(getClass().getResourceAsStream("/images/icon-pic.png"));
 
             // Define a imagem para ambos os ImageViews

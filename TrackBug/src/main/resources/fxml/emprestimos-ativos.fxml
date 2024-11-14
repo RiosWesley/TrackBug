@@ -39,7 +39,7 @@
             <TableColumn fx:id="colunaStatus" text="Status"/>
         </columns>
         <placeholder>
-            <Label text="Nenhum empréstimo ativo encontrado"/>
+            <Label text="Nenhum empréstimo ativo encontrado." style="-fx-font-size: 26;"/>
         </placeholder>
     </TableView>
 

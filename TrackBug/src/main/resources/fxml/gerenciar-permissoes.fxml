@@ -38,7 +38,7 @@
             <TableColumn fx:id="colunaAcoes" text="Ações"/>
         </columns>
         <placeholder>
-            <Label text="Nenhum usuário encontrado"/>
+            <Label text="Nenhum usuário encontrado." style="-fx-font-size: 26;"/>
         </placeholder>
     </TableView>
 

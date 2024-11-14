@@ -41,7 +41,7 @@
             <TableColumn fx:id="colunaDiasAtraso" text="Dias em Atraso"/>
         </columns>
         <placeholder>
-            <Label text="Nenhum empréstimo em atraso encontrado"/>
+            <Label text="Nenhum empréstimo em atraso encontrado." style="-fx-font-size: 26;"/>
         </placeholder>
     </TableView>
 
