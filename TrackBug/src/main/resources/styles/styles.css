@@ -5,14 +5,20 @@
 }
 
 /* Menu Lateral */
-.menu-scroll-pane {
-    -fx-background-color: #00B393;
-    -fx-background: #00B393;
-    -fx-border-color: transparent;
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 10, 0, 0, 0);
+#menuContainer {
+    -fx-background-color: #1976D2;
+    -fx-min-width: 50px;
+    -fx-transition-duration: 0.3s;
 }
 
-.menu-scroll-pane > .viewport {
+.menu-scroll-pane {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+    -fx-border-color: transparent;
+}
+
+
+menu-scroll-pane > .viewport {
     -fx-background-color: transparent;
 }
 
@@ -38,21 +44,23 @@
 }
 
 .menu-section {
-    -fx-text-fill: black;
+    -fx-text-fill: white;
     -fx-font-size: 12px;
     -fx-font-weight: bold;
     -fx-padding: 15 15 5 15;
     -fx-opacity: 0.9;
 }
-
+.menu-collapsed .menu-section {
+    -fx-opacity: 0;
+}
 .menu-button {
     -fx-background-color: transparent;
     -fx-text-fill: white;
-    -fx-font-size: 14px;
     -fx-alignment: CENTER_LEFT;
-    -fx-padding: 10 15 10 15;
+    -fx-min-width: 50px;
+    -fx-pref-width: 250px;
+    -fx-padding: 10 15;
     -fx-cursor: hand;
-    -fx-max-width: infinity;
 }
 
 .menu-button:hover {
@@ -62,14 +70,31 @@
 .menu-button:pressed {
     -fx-background-color: rgba(255, 255, 255, 0.2);
 }
+.menu-button .button-icon {
+    -fx-opacity: 1;
+    -fx-transition: all 0.3s ease-in-out;
+}
+
+
+.menu-collapsed .menu-button {
+    -fx-alignment: CENTER;
+    -fx-pref-width: 50px;
+}
+
+.menu-collapsed .menu-button .text {
+    -fx-opacity: 0;
+}
+.content-area {
+    -fx-background-color: white;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0);
+    -fx-padding: 30;
+    -fx-transition: -fx-padding 0.3s ease-in-out;
+}
 
 /* Formulários */
 .form-container {
+    -fx-padding: 20px;
     -fx-background-color: white;
-    -fx-padding: 30px;
-    -fx-spacing: 20px;
-    -fx-background-radius: 10px;
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0);
 }
 
 .form-combo{
@@ -531,8 +556,9 @@
     -fx-background-color: #E3F2FD;
 }
 .menu-item-collapsed {
-    -fx-padding: 10 15 10 15;
+    -fx-padding: 10 5 10 5;
     -fx-alignment: CENTER;
+    -fx-min-width: 50px;
 }
 
 .menu-item-collapsed .label {
@@ -541,4 +567,13 @@
 
 .menu-item-collapsed .button-icon {
     -fx-font-size: 18px;
+}
+/* Ajuste para o texto dos itens quando recolhido */
+.menu-item-collapsed .text {
+    -fx-opacity: 0;
+}
+
+/* Animação suave para a transição */
+.menu-item, .menu-item-collapsed {
+    -fx-transition: all 0.3s ease-in-out;
 }

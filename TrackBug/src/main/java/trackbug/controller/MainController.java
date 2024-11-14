@@ -1,5 +1,8 @@
 package trackbug.controller;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -8,6 +11,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import trackbug.model.NivelAcesso;
@@ -23,63 +27,78 @@ public class MainController {
     @FXML private Label labelAdministracao;
     @FXML private Button btnGerenciarUsuarios;
     @FXML private ScrollPane menuScrollPane;
+    @FXML private HBox menuContainer;
+
     private static final double EXPANDED_WIDTH = 250;
-    private static final double COLLAPSED_WIDTH = 30;
-    private double currentMenuWidth = EXPANDED_WIDTH;
-    private List<Node> menuItems;
+    private static final double COLLAPSED_WIDTH = 50; // Aumentei um pouco para melhor visibilidade
+    private double currentWidth = EXPANDED_WIDTH;
+
 
     @FXML
     private void initialize() {
         verificarPermissoes();
-        addMenuSlideInAnimation();
-        menuScrollPane.setOnMouseEntered(event -> expandMenu());
-        menuScrollPane.setOnMouseExited(event -> collapseMenu());
-        addMenuSlideInAnimation();
-        menuItems = menuScrollPane.getChildrenUnmodifiable().stream()
-                .filter(node -> node instanceof Button)
-                .collect(Collectors.toList());
-        mostrarDashboard();
-    }
-    private void addMenuSlideInAnimation() {
-        TranslateTransition tt = new TranslateTransition(Duration.millis(400), menuScrollPane);
-        tt.setFromX(-200);
-        tt.setToX(0);
-        tt.play();
-    }
-    private void expandMenu() {
-        TranslateTransition tt = new TranslateTransition(Duration.millis(1000), menuScrollPane);
-        tt.setToX(0);
-        tt.play();
 
-        currentMenuWidth = EXPANDED_WIDTH;
-        menuScrollPane.setPrefWidth(currentMenuWidth);
+        // Configuração inicial do menu
+        menuContainer.setPrefWidth(EXPANDED_WIDTH);
+        menuContainer.setMinWidth(COLLAPSED_WIDTH);
 
-        // Remover a classe de menu retraído
-        menuItems.forEach(item -> {
-            item.getStyleClass().remove("menu-item-collapsed");
-            item.getStyleClass().add("menu-item");
+        menuScrollPane.setOnMouseEntered(e -> {
+            if (currentWidth <= COLLAPSED_WIDTH) {
+                expandMenu();
+            }
         });
+
+        menuScrollPane.setOnMouseExited(e -> collapseMenu());
+
+        mostrarDashboard();
     }
 
     private void collapseMenu() {
-        TranslateTransition tt = new TranslateTransition(Duration.millis(300), menuScrollPane);
-        tt.setToX(-COLLAPSED_WIDTH + 50);
-        tt.play();
+        Timeline timeline = new Timeline();
 
-        currentMenuWidth = COLLAPSED_WIDTH;
-        menuScrollPane.setPrefWidth(currentMenuWidth);
+        // Animar a largura do container
+        KeyValue kvContainer = new KeyValue(menuContainer.prefWidthProperty(), COLLAPSED_WIDTH);
 
-        // Adicionar a classe de menu retraído
-        menuItems.forEach(item -> {
-            item.getStyleClass().add("menu-item-collapsed");
-            item.getStyleClass().remove("menu-item");
+        // Animar a translação do ScrollPane
+        KeyValue kvTranslate = new KeyValue(menuScrollPane.translateXProperty(), 0);
+
+        KeyFrame kf = new KeyFrame(Duration.millis(300), kvContainer, kvTranslate);
+        timeline.getKeyFrames().add(kf);
+
+        timeline.setOnFinished(e -> {
+            currentWidth = COLLAPSED_WIDTH;
+            menuContainer.getStyleClass().add("menu-collapsed");
         });
+
+        timeline.play();
     }
+
+    private void expandMenu() {
+        Timeline timeline = new Timeline();
+
+        // Animar a largura do container
+        KeyValue kvContainer = new KeyValue(menuContainer.prefWidthProperty(), EXPANDED_WIDTH);
+
+        // Animar a translação do ScrollPane
+        KeyValue kvTranslate = new KeyValue(menuScrollPane.translateXProperty(), 0);
+
+        KeyFrame kf = new KeyFrame(Duration.millis(300), kvContainer, kvTranslate);
+        timeline.getKeyFrames().add(kf);
+
+        timeline.setOnFinished(e -> {
+            currentWidth = EXPANDED_WIDTH;
+            menuContainer.getStyleClass().remove("menu-collapsed");
+        });
+
+        timeline.play();
+    }
+
     private void verificarPermissoes() {
-        boolean isAdmin = SessionManager.getUsuarioLogado().getNivelAcesso() ==
-                NivelAcesso.ADMIN.getNivel();
-        labelAdministracao.setVisible(isAdmin);
-        btnGerenciarUsuarios.setVisible(isAdmin);
+        if (labelAdministracao != null && btnGerenciarUsuarios != null) {
+            boolean isAdmin = SessionManager.getUsuarioLogado().getNivelAcesso() == NivelAcesso.ADMIN.getNivel();
+            labelAdministracao.setVisible(isAdmin);
+            btnGerenciarUsuarios.setVisible(isAdmin);
+        }
     }
 
     private void carregarFXML(String fxmlPath) {
