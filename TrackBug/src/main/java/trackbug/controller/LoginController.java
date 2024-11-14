@@ -40,6 +40,8 @@ public class LoginController {
 
         createAnimatedParticles();
         configurarValidacoes();
+        loginButton.setOnMouseEntered(event -> loginButton.setStyle("-fx-background-color: #1D4ED8;"));
+        loginButton.setOnMouseExited(event -> loginButton.setStyle("-fx-background-color: linear-gradient(to right, #3B82F6, #2563EB, #1D4ED8);"));
     }
 
     private void configurarValidacoes() {
