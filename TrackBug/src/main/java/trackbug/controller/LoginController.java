@@ -1,7 +1,6 @@
 package trackbug.controller;
 
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -10,8 +9,6 @@ import trackbug.Main;
 import trackbug.util.SessionManager;
 import trackbug.model.entity.Usuario;
 import trackbug.model.service.UsuarioService;
-
-import java.awt.event.MouseEvent;
 
 public class LoginController {
 
@@ -30,16 +27,14 @@ public class LoginController {
 
     @FXML
     public void initialize() {
-        // Configurar validações dos campos
+
+
         configurarValidacoes();
     }
 
     private void configurarValidacoes() {
-        // Adicionar listener para limpar mensagem de erro quando o usuário começa a digitar
         usernameField.textProperty().addListener((obs, old, novo) -> mensagemErro.setVisible(false));
         passwordField.textProperty().addListener((obs, old, novo) -> mensagemErro.setVisible(false));
-
-        // Configurar ação de enter nos campos
         passwordField.setOnAction(event -> realizarLogin());
     }
 
@@ -54,25 +49,19 @@ public class LoginController {
         }
 
         try {
-            // Tenta autenticar o usuário
             if (usuarioService.autenticar(username, password)) {
                 Usuario usuario = usuarioService.buscarPorUsername(username);
                 if (usuario != null) {
-                    // Verifica se o usuário está ativo
                     if (!usuario.isAtivo()) {
                         mostrarErro("Usuário está inativo. Contate o administrador.");
                         return;
                     }
 
-                    // Login bem sucedido
                     SessionManager.setUsuarioLogado(usuario);
 
-                    // Fecha a tela de login
-                    Stage loginStage = (Stage) loginButton.getScene().getWindow();
-                    loginStage.close();
+                    // Ao invés de criar nova Stage, chama o método sem parâmetros
+                    Main.carregarTelaPrincipal();
 
-                    // Abre a tela principal
-                    Main.carregarTelaPrincipal(new Stage());
                 } else {
                     mostrarErro("Erro ao carregar dados do usuário");
                 }
@@ -86,10 +75,9 @@ public class LoginController {
         }
     }
 
-
     private void mostrarErro(String mensagem) {
         mensagemErro.setText(mensagem);
         mensagemErro.setVisible(true);
-        passwordField.clear(); // Limpa a senha por segurança
+        passwordField.clear();
     }
 }

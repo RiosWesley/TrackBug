@@ -8,7 +8,6 @@ module trackbug {
     requires javafx.swt;
     requires javafx.web;
     requires jdk.jsobject;
-    requires java.desktop;
 
     opens trackbug to javafx.fxml;
     opens trackbug.controller to javafx.fxml;
