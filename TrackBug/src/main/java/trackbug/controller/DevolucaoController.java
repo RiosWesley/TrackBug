@@ -103,7 +103,7 @@ public class DevolucaoController {
         }
 
         try {
-            emprestimoService.registrarDevolucao(Integer.valueOf(emprestimoId));
+            emprestimoService.registrarDevolucao(idEmprestimoSelecionado);
             mostrarSucesso("Devolução registrada com sucesso!");
             limparFormulario();
             carregarEmprestimosAtivos();
