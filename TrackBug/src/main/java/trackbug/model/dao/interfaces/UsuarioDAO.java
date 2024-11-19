@@ -9,6 +9,7 @@ public interface UsuarioDAO {
     Usuario buscarPorUsername(String username) throws Exception;
     List<Usuario> listarTodos() throws Exception;
     void atualizar(Usuario usuario) throws Exception;
+    void atualizarSenha(Usuario usuario) throws Exception;
     void atualizarStatus(Usuario usuario) throws Exception;
     boolean autenticar(String username, String password) throws Exception;
 }

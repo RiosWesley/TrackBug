@@ -109,6 +109,22 @@ public class UsuarioDAOImpl implements UsuarioDAO {
     }
 
     @Override
+    public void atualizarSenha(Usuario usuario) throws Exception {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        try {
+            conn = ConnectionFactory.getConnection();
+            String sql = "UPDATE usuarios SET password = ? WHERE id = ?";
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, usuario.getPassword());
+            stmt.setInt(2, usuario.getId());
+            stmt.executeUpdate();
+        } finally {
+            ConnectionFactory.closeConnection(conn, stmt);
+        }
+    }
+
+    @Override
     public void atualizarStatus(Usuario usuario) throws Exception {
         Connection conn = null;
         PreparedStatement stmt = null;

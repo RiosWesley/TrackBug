@@ -85,6 +85,7 @@ public class CadastrarUsuarioController implements Initializable {
                 usuario.setNome(nomeField.getText());
                 usuario.setEmail(emailField.getText());
                 usuario.setNivelAcesso(nivelAcessoCombo.getValue());
+                usuario.setAtivo(true);
 
                 if (!passwordField.getText().isEmpty()) {
                     usuario.setPassword(passwordField.getText());

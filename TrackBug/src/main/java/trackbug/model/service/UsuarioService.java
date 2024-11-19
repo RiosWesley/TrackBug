@@ -55,6 +55,7 @@ public class UsuarioService {
             throw new IllegalArgumentException("Usuário não encontrado");
         }
         usuarioDAO.atualizar(usuario);
+        usuarioDAO.atualizarSenha(usuario);
     }
 
     public void atualizarStatus(Usuario usuario) throws Exception {
