@@ -25,6 +25,7 @@ CREATE TABLE funcionarios (
     id VARCHAR(200) PRIMARY KEY,
     nome VARCHAR(200),
     funcao VARCHAR(200),
+    cpf VARCHAR(11),
     dt DATE
 );
 
