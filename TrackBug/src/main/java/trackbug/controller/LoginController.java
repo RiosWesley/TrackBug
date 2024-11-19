@@ -48,9 +48,6 @@ public class LoginController {
     }
 
     private void configurarValidacoes() {
-        // Adicionar listener para limpar mensagem de erro quando o usuário começa a digitar
-        usernameField.textProperty().addListener((obs, old, novo) -> mensagemErro.setVisible(false));
-        passwordField.textProperty().addListener((obs, old, novo) -> mensagemErro.setVisible(false));
 
         // Configurar ação de enter nos campos
         passwordField.setOnAction(event -> realizarLogin());
@@ -67,32 +64,35 @@ public class LoginController {
         }
 
         try {
+
+
             // Tenta autenticar o usuário
-            if (usuarioService.autenticar(username, password)) {
-                Usuario usuario = usuarioService.buscarPorUsername(username);
-                if (usuario != null) {
-                    // Verifica se o usuário está ativo
-                    if (!usuario.isAtivo()) {
-                        mostrarErro("Usuário está inativo. Contate o administrador.");
-                        return;
-                    }
-
-                    // Login bem sucedido
-                    SessionManager.setUsuarioLogado(usuario);
-
-                    // Fecha a tela de login
-                    Stage loginStage = (Stage) loginButton.getScene().getWindow();
-                    loginStage.close();
-
-                    // Abre a tela principal
-                    Main.carregarTelaPrincipal(new Stage());
-                } else {
-                    mostrarErro("Erro ao carregar dados do usuário");
-                }
-            } else {
-                mostrarErro("Usuário ou senha inválidos");
+            if (!usuarioService.autenticar(username, password)) {
+                mostrarErro("Usuário ou senha inválidos.");
                 passwordField.clear();
+                return;
             }
+
+            Usuario usuario = usuarioService.buscarPorUsername(username);
+            // Verifica se há algum usuário com o username digitado.
+            if (usuario != null) {
+                // Verifica se o usuário está ativo.
+                if (!usuario.isAtivo()) {
+                    mostrarErro("Usuário está inativo. Contate o administrador.");
+                    return;
+                }
+
+                // Login bem sucedido
+                SessionManager.setUsuarioLogado(usuario);
+
+                // Fecha a tela de login
+                Stage loginStage = (Stage) loginButton.getScene().getWindow();
+                loginStage.close();
+
+                // Abre a tela principal
+                Main.carregarTelaPrincipal(new Stage());
+            }
+
         } catch (Exception e) {
             mostrarErro("Erro ao realizar login: " + e.getMessage());
             e.printStackTrace();
