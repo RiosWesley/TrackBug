@@ -52,7 +52,7 @@ public class EmprestimoController implements Initializable {
         funcionarioCombo.setConverter(new StringConverter<Funcionario>() {
             @Override
             public String toString(Funcionario f) {
-                return f != null ? f.getNome() : "";
+                return f != null ? f.getId() + " - " + f.getNome() : "";
             }
 
             @Override
@@ -64,7 +64,7 @@ public class EmprestimoController implements Initializable {
         equipamentoCombo.setConverter(new StringConverter<Equipamento>() {
             @Override
             public String toString(Equipamento e) {
-                return e != null ? e.getDescricao() : "";
+                return e != null ? e.getId() + " - " + e.getDescricao() : "";
             }
 
             @Override

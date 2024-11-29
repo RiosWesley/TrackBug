@@ -60,8 +60,8 @@ public class ListarFuncionariosController implements Initializable {
         colunaNome.setCellValueFactory(data ->
                 new javafx.beans.property.SimpleStringProperty(data.getValue().getNome()));
 
-        colunaNome.setCellValueFactory(data ->
-                new javafx.beans.property.SimpleStringProperty(data.getValue().getNome()));
+        colunaCpf.setCellValueFactory(data ->
+                new javafx.beans.property.SimpleStringProperty(data.getValue().getCpf()));
 
         colunaFuncao.setCellValueFactory(data ->
                 new javafx.beans.property.SimpleStringProperty(data.getValue().getFuncao()));

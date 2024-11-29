@@ -58,60 +58,6 @@
     -fx-background-color: rgba(255,255,255,0.1);
 }
 
-/* Estilos dos Formulários */
-
-
-.form-title {
-    -fx-font-size: 80px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #1a237e;
-}
-
-.form-subtitle {
-    -fx-font-size: 14px;
-    -fx-text-fill: #757575;
-}
-
-.form-field {
-    -fx-font-size: 14px;
-    -fx-background-color: white;
-    -fx-border-color: #e0e0e0;
-    -fx-border-radius: 4px;
-    -fx-padding: 8px;
-}
-
-.form-label {
-    -fx-font-size: 14px;
-    -fx-text-fill: #424242;
-}
-
-/* Estilos dos Botões */
-.primary-button {
-    -fx-background-color: #1a237e;
-    -fx-text-fill: white;
-    -fx-font-size: 14px;
-    -fx-padding: 10px 20px;
-    -fx-font-weight: bold;
-    -fx-cursor: hand;
-}
-
-.primary-button:hover {
-    -fx-background-color: #283593;
-}
-
-.secondary-button {
-    -fx-background-color: #e0e0e0;
-    -fx-text-fill: #424242;
-    -fx-font-size: 14px;
-    -fx-padding: 10px 20px;
-    -fx-font-weight: bold;
-    -fx-cursor: hand;
-}
-
-.secondary-button:hover {
-    -fx-background-color: #bdbdbd;
-}
-
 /* Estilos das Tabelas */
 .table-view {
     -fx-background-color: rgba(4, 180, 148, 0.2);
@@ -212,6 +158,19 @@
     -fx-background-color: transparent; /* Cor dos botões de incremento e decremento */
 }
 
+/* Estilização específica da tabela de avarias */
+.table-view .table-cell.quantidade {
+    -fx-alignment: CENTER;
+}
+
+.table-view .table-cell.data {
+    -fx-alignment: CENTER;
+}
+
+.table-info{
+    -fx-effect: dropshadow(three-pass-box, rgba(120, 120, 120, 1), 1, 0.65, 0, 1);
+}
+
 
 
 /* Estilo para a ScrollPane do menu */
@@ -268,7 +227,6 @@ tela-principal{
     -fx-background-color: transparent;
     -fx-padding: 0;
     -fx-border-color: transparent;
-
 }
 
 /* Estilo para a barra de rolagem horizontal do TableView */
@@ -319,42 +277,6 @@ tela-principal{
     -fx-background-color: transparent; /* Cor dos botões de incremento e decremento */
 }
 
-.form-container {
-    -fx-background-color: white;
-    -fx-padding: 20px;
-}
-
-.form-header {
-    -fx-padding: 0 0 20px 0;
-}
-
-.form-title {
-    -fx-font-size: 24px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #1a237e;
-}
-
-.form-subtitle {
-    -fx-font-size: 14px;
-    -fx-text-fill: #757575;
-}
-
-.form-field {
-    -fx-pref-width: 300px;
-    -fx-max-width: infinity;
-    -fx-min-width: 200px;
-    -fx-font-size: 14px;
-    -fx-background-color: white;
-    -fx-border-color: #e0e0e0;
-    -fx-border-radius: 4px;
-}
-
-.form-label {
-    -fx-font-family: 'Segoe UI';
-    -fx-font-size: 14px;
-    -fx-text-fill: #2c3e50;
-}
-
 .form-checkbox {
     -fx-font-family: 'Segoe UI';
     -fx-font-size: 14px;
@@ -381,12 +303,12 @@ tela-principal{
         -fx-pref-width: 250px;
     }
 
-    .form-title {
-        -fx-font-size: 20px;
-    }
-
     .form-container {
         -fx-padding: 15px;
+    }
+
+    .search-field {
+        -fx-pref-width: 400px;
     }
 }
 
@@ -399,9 +321,6 @@ tela-principal{
         -fx-padding: 10px;
     }
 
-    .form-label {
-        -fx-font-size: 12px;
-    }
     /* Estilos para ComboBox */
     .combo-box-popup > .list-view {
         -fx-pref-height: 100px;
@@ -445,28 +364,6 @@ tela-principal{
 
     .combo-box-popup > .list-view > .virtual-flow > .scroll-bar:vertical > .thumb:hover {
         -fx-background-color: #757575;
-    }
-
-    /* Títulos e subtítulos */
-    .titulo {
-        -fx-font-size: 24px;
-        -fx-font-weight: bold;
-        -fx-text-fill: #1a237e;
-        -fx-font-family: 'Segoe UI';
-    }
-
-    .subtitulo {
-        -fx-font-size: 14px;
-        -fx-text-fill: #757575;
-        -fx-font-family: 'Segoe UI';
-    }
-
-    /* Container do formulário */
-    .form-container {
-        -fx-background-color: #04b494;;
-        -fx-padding: 20px;
-        -fx-background-radius: 5px;
-        -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0);
     }
 
     /* Campos do formulário */
@@ -978,28 +875,10 @@ tela-principal{
         -fx-wrap-text: true;
     }
 
-    /* Estilização específica da tabela de avarias */
-    .table-view .table-cell.quantidade {
-        -fx-alignment: CENTER;
-    }
-
-    .table-view .table-cell.data {
-        -fx-alignment: CENTER;
-    }
-
-    .table-info{
-        -fx-effect: dropshadow(three-pass-box, rgba(120, 120, 120, 1), 1, 0.65, 0, 1);
-    }
+}
 
 
     /* Ajustes de responsividade */
-    @media screen and (max-width: 800px) {
-        .form-container {
-            -fx-padding: 15px;
-        }
+@media screen and (max-width: 800px) {
 
-        .search-field {
-            -fx-pref-width: 400px;
-        }
-    }
 }

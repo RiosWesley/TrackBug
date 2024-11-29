@@ -20,25 +20,25 @@
         <GridPane hgap="15" vgap="10">
             <!-- Período -->
             <Label text="Período:" GridPane.columnIndex="0" GridPane.rowIndex="0"
-                   styleClass="form-label" style="-fx-text-fill: #696969;"/>
+                   styleClass="form-label" style="-fx-text-fill: white;"/>
             <DatePicker fx:id="dataInicio" promptText="Data inicial"
                         GridPane.columnIndex="1" GridPane.rowIndex="0"
                         styleClass="form-date-picker"/>
             <Label text="até" GridPane.columnIndex="2" GridPane.rowIndex="0"
-                   styleClass="form-label" style="-fx-text-fill: #696969;"/>
+                   styleClass="form-label" style="-fx-text-fill: white;"/>
             <DatePicker fx:id="dataFim" promptText="Data final"
                         GridPane.columnIndex="3" GridPane.rowIndex="0"
                         styleClass="form-date-picker"/>
 
             <!-- Funcionário e Equipamento -->
             <Label text="Funcionário:" GridPane.columnIndex="0" GridPane.rowIndex="1"
-                   styleClass="form-label" style="-fx-text-fill: #696969;"/>
+                   styleClass="form-label" style="-fx-text-fill: white;"/>
             <TextField fx:id="funcionarioField" promptText="Nome do funcionário"
                        GridPane.columnIndex="1" GridPane.rowIndex="1"
                        styleClass="form-field" style="-fx-background-color: #c2c2c2; -fx-prompt-text-fill: #f4f4f4"/>
 
             <Label text="Equipamento:" GridPane.columnIndex="2" GridPane.rowIndex="1"
-                   styleClass="form-label" style="-fx-text-fill: #696969;"/>
+                   styleClass="form-label" style="-fx-text-fill: white;"/>
             <TextField fx:id="equipamentoField" promptText="Descrição do equipamento"
                        GridPane.columnIndex="3" GridPane.rowIndex="1"
                        styleClass="form-field" style="-fx-background-color: #c2c2c2; -fx-prompt-text-fill: #f4f4f4"/>
