@@ -5,6 +5,8 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import trackbug.model.entity.Funcionario;
 import trackbug.model.service.FuncionarioService;
+import trackbug.util.ConnectionFactory;
+
 import java.time.LocalDate;
 
 public class CadastrarFuncionarioController {
@@ -62,7 +64,7 @@ public class CadastrarFuncionarioController {
             funcionario.setDataAdmissao(dataAdmissaoField.getValue()); // Agora passa o LocalDate diretamente
 
             funcionarioService.cadastrarFuncionario(funcionario);
-
+            ConnectionFactory.exportarBancoDeDados("BACKUP.2024");
             mostrarMensagem("Sucesso", "Funcionário cadastrado com sucesso!", Alert.AlertType.INFORMATION);
             limparFormulario();
         } catch (IllegalArgumentException e) {

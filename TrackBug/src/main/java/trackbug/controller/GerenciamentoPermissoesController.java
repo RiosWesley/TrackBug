@@ -14,6 +14,7 @@ import javafx.collections.transformation.FilteredList;
 import trackbug.model.entity.Usuario;
 import trackbug.model.service.UsuarioService;
 import trackbug.util.AlertHelper;
+import trackbug.util.ConnectionFactory;
 
 import java.io.IOException;
 import java.net.URL;
@@ -211,6 +212,7 @@ public class GerenciamentoPermissoesController implements Initializable {
             try {
                 usuario.setAtivo(!usuario.isAtivo());
                 usuarioService.atualizarStatus(usuario);
+                ConnectionFactory.exportarBancoDeDados("BACKUP.2024");
                 carregarUsuarios();
                 AlertHelper.showSuccess("Status do usuário alterado com sucesso!");
             } catch (Exception e) {

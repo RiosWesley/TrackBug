@@ -11,6 +11,7 @@ import trackbug.model.entity.LogEquipamento;
 import trackbug.model.service.EquipamentoService;
 import trackbug.model.service.LogEquipamentoService;
 import trackbug.util.AlertHelper;
+import trackbug.util.ConnectionFactory;
 import trackbug.util.ValidationHelper;
 import trackbug.util.SessionManager;
 
@@ -131,7 +132,7 @@ public class EditarEquipamentoController implements Initializable {
             Equipamento equipamentoAtualizado = criarEquipamentoAtualizado();
             equipamentoService.editar(equipamentoAtualizado);
             registrarLogAlteracoes(equipamentoAtualizado);
-
+            ConnectionFactory.exportarBancoDeDados("BACKUP.2024");
             AlertHelper.showSuccess("Equipamento atualizado com sucesso!");
             fecharJanela();
 

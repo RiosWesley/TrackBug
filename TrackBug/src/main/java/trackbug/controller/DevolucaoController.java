@@ -7,6 +7,7 @@ import trackbug.model.entity.Emprestimo;
 import trackbug.model.service.EmprestimoService;
 import trackbug.model.service.FuncionarioService;
 import trackbug.model.service.EquipamentoService;
+import trackbug.util.ConnectionFactory;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -105,6 +106,7 @@ public class DevolucaoController {
         try {
             emprestimoService.registrarDevolucao(idEmprestimoSelecionado);
             mostrarSucesso("Devolução registrada com sucesso!");
+            ConnectionFactory.exportarBancoDeDados("BACKUP.2024");
             limparFormulario();
             carregarEmprestimosAtivos();
         } catch (Exception e) {

@@ -7,6 +7,7 @@ import javafx.stage.Stage;
 import trackbug.model.entity.Usuario;
 import trackbug.model.service.UsuarioService;
 import trackbug.util.AlertHelper;
+import trackbug.util.ConnectionFactory;
 import trackbug.util.ValidationHelper;
 
 import java.net.URL;
@@ -98,6 +99,7 @@ public class CadastrarUsuarioController implements Initializable {
                     usuarioService.cadastrar(usuario);
                     AlertHelper.showSuccess("Usuário cadastrado com sucesso!");
                 }
+                ConnectionFactory.exportarBancoDeDados("BACKUP.2024");
                 fecharJanela();
             }
         } catch (Exception e) {

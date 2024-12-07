@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import trackbug.util.ConnectionFactory;
 
 public class Main extends Application {
     @Override
@@ -24,10 +25,12 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         primaryStage.setMaximized(true); // Abre maximizado
         primaryStage.show();
+
     }
 
     public static void carregarTelaPrincipal(Stage stage) {
         try {
+            ConnectionFactory.importarBancoDeDados("BACKUP.2024");
             Image icon = new Image(Main.class.getResourceAsStream("/images/icon.png"));
             Parent root = FXMLLoader.load(Main.class.getResource("/fxml/main.fxml"));
             Scene scene = new Scene(root, 1200, 800);

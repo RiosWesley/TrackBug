@@ -17,6 +17,7 @@ import trackbug.model.entity.Funcionario;
 import trackbug.model.service.FuncionarioService;
 import trackbug.model.service.EmprestimoService;
 import trackbug.util.AlertHelper;
+import trackbug.util.ConnectionFactory;
 import trackbug.util.DateUtils;
 
 import java.io.IOException;
@@ -186,6 +187,7 @@ public class ListarFuncionariosController implements Initializable {
 
                 if (result.isPresent() && result.get() == ButtonType.OK) {
                     funcionarioService.excluirFuncionario(funcionario.getId());
+                    ConnectionFactory.exportarBancoDeDados("BACKUP.2024");
                     carregarFuncionarios();
                     AlertHelper.showSuccess("Funcionário excluído com sucesso!");
                 }

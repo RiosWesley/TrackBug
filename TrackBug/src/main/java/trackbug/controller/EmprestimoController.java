@@ -13,6 +13,8 @@ import trackbug.model.service.EmprestimoService;
 import trackbug.model.service.EquipamentoService;
 import trackbug.model.service.FuncionarioService;
 import trackbug.util.AlertHelper;
+import trackbug.util.ConnectionFactory;
+
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -135,7 +137,7 @@ public class EmprestimoController implements Initializable {
         try {
             Emprestimo emprestimo = criarEmprestimo();
             emprestimoService.realizarEmprestimo(emprestimo);
-
+            ConnectionFactory.exportarBancoDeDados("BACKUP.2024");
             AlertHelper.showSuccess("Empréstimo registrado com sucesso!");
             limparFormulario();
             carregarDados(); // Recarrega os dados para atualizar as quantidades

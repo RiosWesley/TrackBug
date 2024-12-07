@@ -9,6 +9,7 @@ import trackbug.model.entity.Avaria;
 import trackbug.model.entity.Equipamento;
 import trackbug.model.service.AvariaService;
 import trackbug.util.AlertHelper;
+import trackbug.util.ConnectionFactory;
 import trackbug.util.ValidationHelper;
 
 import java.net.URL;
@@ -93,6 +94,7 @@ public class RegistrarAvariaController implements Initializable {
             avaria.setDescricao(descricaoArea.getText().trim());
 
             avariaService.registrarAvaria(avaria);
+            ConnectionFactory.exportarBancoDeDados("BACKUP.2024");
 
             AlertHelper.showSuccess("Avaria registrada com sucesso!");
             fecharJanela();

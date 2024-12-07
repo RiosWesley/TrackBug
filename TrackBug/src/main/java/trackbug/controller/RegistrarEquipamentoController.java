@@ -8,6 +8,7 @@ import javafx.collections.FXCollections;
 import trackbug.model.entity.Equipamento;
 import trackbug.model.service.EquipamentoService;
 import trackbug.util.AlertHelper;
+import trackbug.util.ConnectionFactory;
 import trackbug.util.ValidationHelper;
 
 import java.net.URL;
@@ -50,6 +51,7 @@ public class RegistrarEquipamentoController implements Initializable {
             if (validarCampos()) {
                 Equipamento equipamento = criarEquipamento();
                 equipamentoService.salvar(equipamento);
+                ConnectionFactory.exportarBancoDeDados("BACKUP.2024");
 
                 AlertHelper.showSuccess("Equipamento registrado com sucesso!");
                 limparFormulario();

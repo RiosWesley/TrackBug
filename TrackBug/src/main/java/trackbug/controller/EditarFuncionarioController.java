@@ -7,6 +7,7 @@ import javafx.stage.Stage;
 import trackbug.model.entity.Funcionario;
 import trackbug.model.service.FuncionarioService;
 import trackbug.util.AlertHelper;
+import trackbug.util.ConnectionFactory;
 import trackbug.util.ValidationHelper;
 
 import java.net.URL;
@@ -58,7 +59,7 @@ public class EditarFuncionarioController implements Initializable {
                     funcionarioService.criar(func);
                     AlertHelper.showSuccess("Funcionário cadastrado com sucesso!");
                 }
-
+                ConnectionFactory.exportarBancoDeDados("BACKUP.2024");
                 fecharJanela();
             }
         } catch (Exception e) {

@@ -17,6 +17,7 @@ import trackbug.Main;
 import trackbug.model.entity.Equipamento;
 import trackbug.model.service.EquipamentoService;
 import trackbug.util.AlertHelper;
+import trackbug.util.ConnectionFactory;
 import trackbug.util.DateUtils;
 
 import java.io.IOException;
@@ -271,6 +272,7 @@ public class ListarEquipamentosController implements Initializable {
 
             if (result.isPresent() && result.get() == ButtonType.OK) {
                 equipamentoService.deletar(equipamento.getId());
+                ConnectionFactory.exportarBancoDeDados("BACKUP.2024");
                 carregarEquipamentos();
                 AlertHelper.showSuccess("Equipamento excluído com sucesso!");
             }
