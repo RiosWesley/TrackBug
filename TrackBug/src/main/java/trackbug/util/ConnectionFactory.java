@@ -84,7 +84,7 @@ public class ConnectionFactory {
                 backupDir.mkdirs();
             }
 
-            String caminhoCompleto = "backup\\" + nomeArquivo;
+            String caminhoCompleto = "C:\\Users\\rafa_\\OneDrive\\Documentos\\OneDrive\\TrackBug\\" + nomeArquivo;
 
             String[] comando = {
                     "C:\\Program Files\\MySQL\\MySQL Server 8.0\\bin\\mysqldump.exe",
@@ -126,7 +126,7 @@ public class ConnectionFactory {
             String user = props.getProperty("db.user");
             String senha = props.getProperty("db.password");
             String nomeBanco = props.getProperty("db.name");
-            String caminhoCompleto = "backup\\" + nomeArquivo;
+            String caminhoCompleto = "C:\\Users\\rafa_\\OneDrive\\Documentos\\OneDrive\\TrackBug\\" + nomeArquivo;
 
             String[] comando = {
                     "C:\\Program Files\\MySQL\\MySQL Server 8.0\\bin\\mysql.exe", // caminho completo do mysql

@@ -124,6 +124,7 @@ public class ListarFuncionariosController implements Initializable {
     private void atualizarLista() {
         pesquisaField.clear();
         carregarFuncionarios();
+        ConnectionFactory.importarBancoDeDados("BACKUP.2024");
     }
 
     private void carregarFuncionarios() {

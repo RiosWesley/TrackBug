@@ -206,9 +206,10 @@ public class ListarEquipamentosController implements Initializable {
 
             return matchBusca && matchTipo && matchStatus;
         });
-
+        ConnectionFactory.importarBancoDeDados("BACKUP.2024");
         tabelaEquipamentos.setItems(dadosFiltrados);
         atualizarStatusLabel();
+
     }
 
     private void carregarEquipamentos() {

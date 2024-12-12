@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import trackbug.model.NivelAcesso;
+import trackbug.util.ConnectionFactory;
 import trackbug.util.SessionManager;
 import trackbug.util.AlertHelper;
 
@@ -31,6 +32,7 @@ public class MainController {
 
     private void carregarFXML(String fxmlPath) {
         try {
+            ConnectionFactory.importarBancoDeDados("BACKUP.2024");
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             areaPrincipal.getChildren().clear();
             areaPrincipal.getChildren().add(loader.load());
